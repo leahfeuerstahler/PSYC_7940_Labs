@@ -1,0 +1,20 @@
+---
+title: "Lab 8: Model Comparison"
+author: "PSYC 7940"
+date: March 18, 2026
+date-format: long
+format: 
+  revealjs:
+    theme: sky
+    scrollable: true
+    smaller: true
+    embed-resources: false
+    slide-number: true
+    chalkboard: true
+    highlight-style: arrow
+    link-external-icon: true
+    html-math-method: mathjax
+execute: 
+  echo: true
+  freeze: auto
+---
