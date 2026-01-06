@@ -1,0 +1,20 @@
+author: "PSYC 7940"
+date-format: long
+format: 
+  revealjs:
+    title-slide-attributes: 
+      data-background-image: logo.png
+      data-background-size: contain
+      data-background-opacity: "0.5"
+    theme: [default, styles.scss]
+    scrollable: true
+    smaller: true
+    embed-resources: false
+    slide-number: true
+    chalkboard: true
+    highlight-style: arrow
+    link-external-icon: true
+    html-math-method: mathjax
+execute: 
+  echo: true
+  freeze: auto
