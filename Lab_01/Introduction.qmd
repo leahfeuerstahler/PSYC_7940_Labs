@@ -1,21 +1,182 @@
 ---
 title: "Lab 1: Introduction"
-author: "PSYC 7940"
 date: January 14, 2026
-date-format: long
-format: 
-  revealjs:
-    theme: sky
-    scrollable: true
-    smaller: true
-    embed-resources: false
-    slide-number: true
-    chalkboard: true
-    highlight-style: arrow
-    link-external-icon: true
-    html-math-method: mathjax
-execute: 
-  echo: true
-  freeze: auto
 ---
 
+## Introduction
+
+-   Review syllabus and course policies
+
+-   Installing/update `R` and `RStudio`
+
+-   Verify that you can compile Quarto or Markdown files to PDF or Word
+
+-   Install `ggplot2`
+
+-   Install `rstan` and `brms`
+
+## Syllabus and Lab Policies
+
+-   Labs
+
+    -   Computation/programming is a critical part of modern Bayesian statistics.
+    -   Lab attendance is required for students registered for the class.
+
+-   Lab activity
+
+    -   Each lab has one activity which is due at the end of the lab.
+    -   Lab activities are for participation credit.
+    -   If you cannot attend the lab, contact me as soon as possible
+    -   In the event of an excused absence, due dates for lab activities can be negotiated.
+
+-   Office hour
+
+    -   My office hours are on Zoom by appointment (link in syllabus)
+    -   Contact me at xchen358@fordham.edu
+
+## Download/Update R and RStudio
+
+-   Installation
+
+    -   For R: <https://cran.r-project.org/>
+
+    -   For RStudio: <https://posit.co/download/rstudio-desktop/>
+
+-   To make sure everything works properly in this class, it is best to regularly update R and R packages to latest version.
+
+-   As of early January 2026, the current R version is 4.5.2 and current RStudio version is 2026.01.0+392
+
+## Prepare R and RStudio
+
+-   Open RStudio
+
+-   You may also want to install a TeX distribution if you want to compile your homework assignments as pdfs (instead of Word documents). To do so, you can run this code:
+
+```{r eval = FALSE}
+install.packages("tinytex")
+tinytex::install_tinytex()
+```
+
+You may be prompted to install "git" using command line developer tools or Rtools. If so, follow the instructions printed on your screen.
+
+## Compile to PDF or Word
+
+::: panel-tabset
+
+## Quarto
+
+Use Quarto if it works on your computer.
+
+1.  Open a file: File $\rightarrow$ New File $\rightarrow$ Quarto Document
+
+2.  Select “Document” in the leftmost panel.
+
+3.  Select "PDF" or "Word" as the output format and click "Create".
+
+4.  A template Quarto document will be opened in RStudio. Click "Render" or File $\rightarrow$ Render Document. Save the file first.
+
+5.  If successful, a Word or PDF file should appear in the same folder in which you saved the file.
+
+## R Markdown
+
+R Markdown is older than Quarto. Only use this option if Quarto gives errors (e.g., Quarto files don't render on Windows computers with ARM processors).
+
+1.  Open a new file: File $\rightarrow$ New File $\rightarrow$ R Markdown
+
+2.  Select “Document” in the leftmost panel.
+
+3.  Select "PDF" or "Word" as the output format and click "OK".
+
+4.  A template R Markdown document will be opened in RStudio. Click "Knit" or File $\rightarrow$ Knit Document. Save the file first.
+
+5.  If successful, a Word or PDF file should appear in the same folder in which you saved the file.
+:::
+
+## Introduction to `ggplot2`
+
+Plotting is an essential component in this class. We will use 
+
+-   `ggplot2` is a R package which is part of the `tidyverse`.
+
+-   If you have already installed `tidyverse`, you can use `ggplot2`.
+
+```{r eval = FALSE}
+# install.packages("tidyverse")
+library(tidyverse)
+```
+
+-   In this lab, we will focus on plotting with `ggplot2`. Even though it is not always the best solution, it is well-integrated with the other packages that we will us for Bayesian statistics and it is user-friendly. If you prefer, you may instead use basic R tools to make plots in the assignments.
+
+## `stan` and `brms`
+
+-   `stan` is a command-line program for statistical modeling that is currently the best for general-purpose Bayesian computation.
+
+-   Most users interact with `stan` through integrations with programming languages like `R` or `python`. 
+
+-   In this class, we will primarily interact with `stan` through the `brms` package in `R`. A major advantage of `brms` is that its syntax is similar to `lm()`.
+
+```{r eval = FALSE}
+# Ordinary regression:
+lm(outcome ~ predictor1 + predictor2)
+
+# Bayesian regression with brms:
+brm(outcome ~ predictor1 + predictor2)
+```
+
+`brms` calls another `R` integration to `stan`: `rstan`.
+
+## `rstan`
+
+To install, follow the instructions [here](https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started)
+
+To verify your installation:
+
+```{r eval = FALSE}
+example(stan_model, package = "rstan", run.dontrun = TRUE)
+```
+
+You might see a long list of scary messages and it may take a long time. If successful, the last few lines should look like this:
+
+```
+Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 4:
+Chain 4:  Elapsed Time: 0.003 seconds (Warm-up)
+Chain 4:                0.003 seconds (Sampling)
+Chain 4:                0.006 seconds (Total)
+Chain 4:
+```
+
+## `brms`
+
+Remember: `brms` references `rstan` but is more user-friendly.
+
+Run the following code to install `brms`. You may be prompted to install additional build tools (do this!). 
+
+```{r eval = FALSE}
+install.packages("brms")
+```
+
+Run the following code. If your `brms` installation was successful, the output should end with something similar to what is shown on the previous slide.
+
+```{r eval = FALSE, cache = TRUE}
+library(brms)
+brm(zAge ~ zBase, data = epilepsy)
+```
+
+## Today's Activity
+
+-   Install R, ggplot2 and `brms`.
+
+-   Use the examples in this lab to verify correct installation.
+
+-   To receive participation credit for today, verify with lab instructor that `brms` works successfully on your computer and that you can compile a document to Word or PDF using RStudio.
+
+    - If needed, you can arrange to resolve installation issues during office hours.
+
+-   It is extremely important that you successfully complete these steps to be able to participate in the rest of the semester. If you run into problems, reach out for help right away!
