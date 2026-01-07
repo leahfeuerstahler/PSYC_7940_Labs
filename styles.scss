@@ -7,35 +7,35 @@ $link-color: #984EA3;
 $code-color: #4DAF4A;
 $code-block-bg:#ededed;
 $headingFontWeight: bold;
-$code-block-font-size: .45em;
+$code-block-font-size: 24pt;
 
-$heading1Size: 2.5em;
-$heading2Size: 1.6em;
-$heading3Size: 1.3em;
-$heading4Size: 1.0em;
+$heading1Size: 48pt;
+$heading2Size: 32pt;
+$heading3Size: 28pt;
+$heading4Size: 18pt;
 
 .reveal section h1 {
   color: #1C1C2B;
 }
 
 .reveal .panel-tabset .tab-content{
-    font-size: .55em !important;
+    font-size: 24pt !important;
 }
 
 .reveal section p {
-    font-size: 1.2em !important;
+    font-size: 24pt !important;
 }
 
 .reveal p {
-    font-size: 1.2em !important;
+    font-size: 24pt !important;
 }
 
 .reveal section div {
-    font-size: 1.2em !important;
+    font-size: 24pt !important;
 }
 
 .reveal section pre code {
-    font-size: 1.2em !important;
+    font-size: 18pt !important;
     background-color: #ededed;
 }
 
