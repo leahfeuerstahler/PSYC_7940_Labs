@@ -14,6 +14,7 @@ format:
     chalkboard: true
     highlight-style: arrow
     link-external-icon: true
+    link-external-newwindow: true
     html-math-method: mathjax
 execute: 
   echo: true

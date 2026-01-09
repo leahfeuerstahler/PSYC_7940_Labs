@@ -314,6 +314,7 @@ PSYC 7940
 <li><p><code>stan</code> is a command-line program for statistical modeling that is currently the best for general-purpose Bayesian computation.</p></li>
 <li><p>Most users interact with <code>stan</code> through integrations with programming languages like <code>R</code> or <code>python</code>.</p></li>
 <li><p>In this class, we will primarily interact with <code>stan</code> through the <code>brms</code> package in <code>R</code>. A major advantage of <code>brms</code> is that its syntax is similar to <code>lm()</code>.</p></li>
+<li><p>For example:</p></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="co"># Ordinary regression:</span></span>
@@ -327,6 +328,10 @@ PSYC 7940
 <section id="rstan" class="slide level2">
 <h2><code>rstan</code></h2>
 <p>To install, follow the instructions <a href="https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started">here</a></p>
+<ul>
+<li><p>Windows users: with latest version of <code>R</code>, make sure that you install <strong>RTools 4.5</strong> instead of an earlier version.</p></li>
+<li><p>Close and re-open your RStudio session before verifying the installation.</p></li>
+</ul>
 <p>To verify your installation:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">example</span>(stan_model, <span class="at">package =</span> <span class="st">"rstan"</span>, <span class="at">run.dontrun =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -348,7 +353,7 @@ Chain 4:</code></pre>
 <section id="brms" class="slide level2">
 <h2><code>brms</code></h2>
 <p>Remember: <code>brms</code> references <code>rstan</code> but is more user-friendly.</p>
-<p>Run the following code to install <code>brms</code>. You may be prompted to install additional build tools (do this!).</p>
+<p>Run the following code to install <code>brms</code>. You may be prompted to install additional build tools.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">install.packages</span>(<span class="st">"brms"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -709,6 +714,11 @@ Chain 4:</code></pre>
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
                 // default icon
                 link.classList.add("external");
             }

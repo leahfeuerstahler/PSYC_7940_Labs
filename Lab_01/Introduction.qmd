@@ -115,6 +115,8 @@ library(tidyverse)
 
 -   In this class, we will primarily interact with `stan` through the `brms` package in `R`. A major advantage of `brms` is that its syntax is similar to `lm()`.
 
+- For example: 
+
 ```{r eval = FALSE}
 # Ordinary regression:
 lm(outcome ~ predictor1 + predictor2)
@@ -128,6 +130,10 @@ brm(outcome ~ predictor1 + predictor2)
 ## `rstan`
 
 To install, follow the instructions [here](https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started)
+
+* Windows users: with latest version of `R`, make sure that you install **RTools 4.5** instead of an earlier version.
+
+* Close and re-open your RStudio session before verifying the installation.
 
 To verify your installation:
 
@@ -156,7 +162,7 @@ Chain 4:
 
 Remember: `brms` references `rstan` but is more user-friendly.
 
-Run the following code to install `brms`. You may be prompted to install additional build tools (do this!). 
+Run the following code to install `brms`. You may be prompted to install additional build tools. 
 
 ```{r eval = FALSE}
 install.packages("brms")
