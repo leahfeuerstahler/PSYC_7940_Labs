@@ -1,0 +1,88 @@
+---
+title: "Lab 1 Activity"
+format: pdf
+---
+
+## Code summary
+```{r}
+library(ggplot2)
+```
+
+```{r}
+data <- iris
+
+data2 <- read.csv("Titanic_Survival.csv")
+```
+
+```{r}
+ggplot(data, aes(x = Sepal.Length, y = Sepal.Width))+
+  geom_point()
+```
+
+```{r}
+ggplot(data, aes(Species))+
+  geom_bar()
+```
+
+```{r}
+set.seed(8785)
+
+samples <- sample(x = c(0,1), 
+size = 1e4,
+replace = TRUE, 
+prob = c(5/6, 1/6))
+
+samples<-as.data.frame(samples)
+
+ggplot(samples, aes(x=samples))+
+  geom_bar()
+```
+
+```{r}
+samples2<-rbinom(1e4, size = 1, prob = 1/6)
+samples2<-data.frame(samples2)
+ggplot(samples2, aes(x=samples2))+
+  geom_bar()
+```
+
+```{r}
+samples_pois<-rpois(1e5, lambda = 5) #Simulate dataset
+
+samples_pois<-data.frame(samples_pois)
+
+ggplot(samples_pois, aes(x=samples_pois))+
+  geom_bar()
+```
+
+## Activity
+
+-   Take the multinomial for example
+
+```{r}
+samples_activity<-rmultinom(1e4, size = 3, prob = c(2,4,7))
+
+#I can sum each row and visulize the summation value in one figure.
+
+act_sum<-rowSums(samples_activity)
+samples_activity_1<-data.frame(x = c(1:3),
+                               y = act_sum)
+
+ggplot(samples_activity_1, aes(x=x, y=y))+
+  geom_col()
+
+#Or I can visualize each event using three figures.
+
+#ggplot does not handle rows well, please put the data you want to visualize on columns using command `t`.
+
+samples_activity_2<-as.data.frame(t(samples_activity))
+
+ggplot(samples_activity_2, aes(x = samples_activity_2[,1]))+
+  geom_bar()
+
+ggplot(samples_activity_2, aes(x = samples_activity_2[,2]))+
+  geom_bar()
+
+ggplot(samples_activity_2, aes(x = samples_activity_2[,3]))+
+  geom_bar()
+
+```
