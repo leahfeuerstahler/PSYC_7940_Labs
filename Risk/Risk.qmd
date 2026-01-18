@@ -1,0 +1,306 @@
+---
+title: "RISK"
+date: "January 21, 2025"
+---
+
+## Gameplay
+
+To gain territory, attack adjacent territories
+
+-   Each have some number of **armies** on a territory
+
+**Attacker** uses red dice, **defender** uses white dice
+
+-   Compare the highest value of each dice, ties go to the defender
+
+## 1 v. 1
+
+Attacker and defender each roll 1 dice.
+
+**What are some strategies to answer the following questions?**
+
+::: callout-tip
+## What is the probability of a tie?
+
+<details>
+
+<summary>Answer</summary>
+
+$1/6$
+
+</details>
+:::
+
+:::: fragment
+::: callout-tip
+## What is the probability that the attacker wins?
+
+<details>
+
+<summary>Answer</summary>
+
+$15/36 = 42\%$
+
+</details>
+:::
+::::
+
+:::: fragment
+::: callout-tip
+## What is the probability that the defender wins?
+
+<details>
+
+<summary>Answer</summary>
+
+$21/36 = 58\%$
+
+</details>
+:::
+::::
+
+## 2 v. 1
+
+Attacker rolls 2, defender rolls 1.
+
+Compare the highest value that the attacker rolls to the defender's roll.
+
+**How to apply our strategies to answer these questions?**
+
+:::: fragment
+::: callout-tip
+## What is the probability that the attacker wins?
+
+<details>
+
+<summary>Answer</summary>
+
+$125 / 216 = 58\%$
+
+</details>
+:::
+::::
+
+:::: fragment
+::: callout-tip
+## What is the probability that the defender wins?
+
+<details>
+
+<summary>Answer</summary>
+
+$91 / 216 = 42\%$
+
+</details>
+:::
+::::
+
+## 3 v. 2
+
+Attacker rolls 3, defender rolls 2.
+
+Now, 2 armies will be lost, 3 possible outcomes.
+
+1.  Compare highest dice
+
+2.  Compare second-highest dice
+
+:::: fragment
+::: callout-tip
+## What are the possible outcomes?
+
+<details>
+
+<summary>Answer</summary>
+
+1.  Attacker loses 2 armies
+2.  Attacker and defender each lose 1 army
+3.  Defender loses 2 armies
+
+</details>
+:::
+::::
+
+:::: fragment
+::: callout-tip
+## How can we find the probability of each outcome?
+
+<details>
+
+<summary>Answer</summary>
+
+1.  Attacker loses 2 armies: $2275 / 7776 = 29\%$
+2.  Attacker and defender each lose 1 army: $2611 / 7776 = 34\%$
+3.  Defender loses 2 armies: $2890 / 7776 = 37\%$
+
+</details>
+:::
+::::
+
+## Summary of Probabilities {.smaller}
+
+
+**One army lost**
+
+| Attacker \# dice | Defender \# dice | Prob. attacker loses 1 | Prob. defender loses 1 |
+|----|----|----|----|
+| 1 | 1 | 58\% | 42\% |
+| 1 | 2 | 75\% | 25\% |
+| 2 | 1 | 42\% | 58\% |
+| 3 | 1 | 34\% | 64\% |
+
+**Two armies lost**
+
+| Attacker \# dice | Defender \# dice | Prob. attacker loses 2 | Prob. each lose 1 | Prob. defender loses 2 |
+|----|----|----|----|----|
+| 2 | 2 | 45\% | 32\%  | 23\% |
+| 3 | 2 | 29\% | 34\% | 37\% |
+
+```{r eval=FALSE, echo = FALSE}
+library(tidyverse)
+# 1 red, 1 white
+combos <- expand_grid(red = 1:6, white = 1:6)
+sum(with(combos, white >= red)) # the defender wins
+# 21
+nrow(combos)
+# 36
+
+# 21 / 36 = 7 / 12
+
+# defender wins 58%
+
+
+
+# 2 red, 1 white
+combos <- expand_grid(red_1 = 1:6, red_2 = 1:6, white = 1:6)
+sum(with(combos, (white >= red_1) & (white >= red_2)))
+# 91
+nrow(combos)
+# 216
+
+# defender wins 42%
+
+
+# 3 red, 1, white
+combos <- expand_grid(red_1 = 1:6, red_2 = 1:6, 
+                      red_3 = 1:6, white = 1:6)
+sum(with(combos, (white >= red_1) & (white >= red_2) & (white >= red_3)))
+# 441
+nrow(combos)
+# 1296
+
+# defender wins 34%
+
+
+
+# 1 red, 2 white
+combos <- expand_grid(red = 1:6, white_1 = 1:6, white_2 = 1:6)
+
+sum(with(combos, (white_1 >= red) | (white_2 >= red) ))
+# 161
+
+nrow(combos)
+# 216
+
+# defender wins 75%
+
+
+# 2 red, 2 white
+combos <- expand_grid(red_1 = 1:6, red_2 = 1:6, white_1 = 1:6, white_2 = 1:6)
+compare2vs2 <- function(dicerolls){
+red <- rev(sort(dicerolls[1:2]))
+white <- rev(sort(dicerolls[3:4]))
+outcome <- white >= red[1:2] # TRUE if defender wins
+sum(outcome)
+}
+combos$outcome <- apply(combos, 1, compare2vs2)
+table(combos$outcome) 
+#   0   1   2 
+# 295 420 581 
+
+nrow(combos)
+# 1296
+
+# Defender loses 2: 23%
+# Each lose 1: 32%
+# Attacker loses 2: 45%
+
+
+combos <- expand_grid(red_1 = 1:6, red_2 = 1:6, red_3 = 1:6, white_1 = 1:6, white_2 = 1:6)
+
+compare3vs2 <- function(dicerolls){
+red <- rev(sort(dicerolls[1:3]))
+white <- rev(sort(dicerolls[4:5]))
+outcome <- white >= red[1:2] # TRUE if defender wins
+sum(outcome)
+}
+
+combos$outcome <- apply(combos, 1, compare3vs2)
+table(combos$outcome) 
+#    0    1    2 
+# 2890 2611 2275 
+
+nrow(combos)
+# 7776
+
+
+# Defender loses 2: 37%
+# Each lose 1: 34%
+# Attacker loses 2: 29%
+
+```
+
+
+## Western vs. Eastern U.S.
+
+5 armies on each territory
+
+Eastern U.S. attacks, Western U.S. defends
+
+How many dice to roll?
+
+::: columns
+:::: column
+**Attacker**:
+
+| \# Armies | \# Dice      |
+|-----------|--------------|
+| 1         | can't attack |
+| 2         | 1            |
+| 3         | 2            |
+| 4+        | 3            |
+::::
+
+:::: column
+**Defender**:
+
+| \# Armies | \# Dice |
+|-----------|---------|
+| 1         | 1       |
+| 2+        | 2       |
+::::
+:::
+
+## Mini-Game in Asia
+
+::: panel-tabset
+## Setup
+
+1.  Randomly assign countries to 3 teams.
+
+2.  Each team places 12 armies across their territories, each occupied territory needs at least 1 army.
+
+3.  Roll to choose which team goes first.
+
+## Gameplay
+
+On each turn, your team is the attacker:
+
+1.  Choose to attack a territory from an adjacent territory you occupy with 2+ armies.
+
+2.  You can attack as many times as you want/can. At end of turn, you can move your armies across adjacent territories
+
+3.  A new team's attacking turn begins. On each new turn, place new armies:
+
+    -   \# New armies = \# occupied territories + the value on a dice roll
+:::
