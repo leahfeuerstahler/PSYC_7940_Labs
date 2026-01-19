@@ -214,15 +214,15 @@ PSYC 7940
 <p>This week, we will use <code>ggplot</code> to visualize data:</p>
 <ul>
 <li><p>Visualize descriptive statistics</p></li>
-<li><p>Simulation</p></li>
+<li><p>Simple simulation studies</p></li>
 <li><p>Visualize simulated data</p></li>
-<li><p>Introduction of several discrete distributions in R</p></li>
+<li><p>Discrete distributions in R</p></li>
 </ul>
 </section>
 <section id="ggplot-introduction" class="slide level2">
 <h2><code>ggplot</code> Introduction</h2>
 <ul>
-<li>Let’s load the <code>tidyverse</code> package, which will load the <code>ggplot2</code> and other packages</li>
+<li>Load the <code>tidyverse</code> package, which will load the <code>ggplot2</code> and other packages.</li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -230,59 +230,60 @@ PSYC 7940
 <ul>
 <li><p>Read Data into <code>R</code></p>
 <ul>
-<li>If the dataset is installed within Rstudio or a specific package, we can load the dataset by its name</li>
-<li>If the dataset (.csv file) is from local folder, we should input the dataset by code</li>
+<li>Some datasets are including in R packages, such as the <code>iris</code> data:</li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>data <span class="ot">&lt;-</span> iris</span>
-<span id="cb2-2"><a href=""></a><span class="co">#data &lt;- ("[dataset name]", package = "[name of package]")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>data <span class="ot">&lt;-</span> iris</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<pre><code>-   Also download the `Titanic_Survival.csv` file from Blackboard and load it into your `R` session:</code></pre>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>data2 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Titanic_Survival.csv"</span>)</span>
-<span id="cb3-2"><a href=""></a><span class="co">#data2 &lt;- read.delim("[file name]") </span></span>
-<span id="cb3-3"><a href=""></a><span class="co">#Use this code if the dataset is .txt file</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>data2 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Titanic_Survival.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="descriptive-statistics" class="slide level2">
 <h2>Descriptive Statistics</h2>
 <ul>
-<li><p>Once we have a dataset and want to understand features of it, visualization is essential.</p></li>
-<li><p>To use <code>ggplot</code> to visualize, we need to specify dataset, <span class="math inline">\(x\)</span>-axis and <span class="math inline">\(y\)</span>-axis</p></li>
+<li><p>Visualization is an essential tool to understand your data.</p></li>
+<li><p>To use <code>ggplot</code> to create a scatterplot , we need to specify dataset, <span class="math inline">\(x\)</span>-axis and <span class="math inline">\(y\)</span>-axis</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Sepal.Length, <span class="at">y =</span> Sepal.Width))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Sepal.Length, <span class="at">y =</span> Sepal.Width))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
 </div>
+<img data-src="Discrete_Probability_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"><p>An empty plot!</p>
+</section>
+<section id="descriptive-statistics-1" class="slide level2">
+<h2>Descriptive Statistics</h2>
 <ul>
 <li><strong>Add</strong> types of plot we want, for example:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Sepal.Length, <span class="at">y =</span> Sepal.Width))<span class="sc">+</span></span>
-<span id="cb5-2"><a href=""></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Sepal.Length, <span class="at">y =</span> Sepal.Width))<span class="sc">+</span></span>
+<span id="cb6-2"><a href=""></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Discrete_Probability_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
-<section id="descriptive-statistics-1" class="slide level2">
+<section id="descriptive-statistics-2" class="slide level2">
 <h2>Descriptive Statistics</h2>
 <ul>
-<li>To make a barplot:</li>
+<li>To make a barplot, only <code>x</code> aesthetic is needed:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(Species))<span class="sc">+</span></span>
-<span id="cb6-2"><a href=""></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Species))<span class="sc">+</span> <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Discrete_Probability_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
-<section id="descriptive-statistics-2" class="slide level2">
+<section id="descriptive-statistics-3" class="slide level2">
 <h2>Descriptive Statistics</h2>
 <ul>
 <li>To learn more about different methods, we can check the help page by:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>?ggplot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>?ggplot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>If you have any question on any command, looking at the help page (<code>?</code>) is a good start</li>
+<li>If you have any question on any command, looking at the help page (<code>?</code>) is a good start.</li>
 </ul>
 </section>
 <section id="simulation-and-visualizing-pmfs" class="slide level2">
@@ -290,11 +291,11 @@ PSYC 7940
 <ul>
 <li>This section covers topics below:
 <ul>
-<li>Bernoulli Distribution</li>
-<li>Binomial Distribution</li>
-<li>Multinomial Distribution</li>
+<li>Bernoulli distribution</li>
+<li>Binomial distribution</li>
+<li>Multinomial distribution</li>
 </ul></li>
-<li>In this section, we will talk about how to visualize discrete distributions using probability mess functions</li>
+<li>In this section, we will talk about how to visualize discrete distributions using probability mass functions (PMFs).</li>
 </ul>
 </section>
 <section id="functions-in-r" class="slide level2">
@@ -303,16 +304,16 @@ PSYC 7940
 <li>In R, many stats functions have already been installed:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">rbinom</span>() <span class="co">#Binomial function</span></span>
-<span id="cb8-2"><a href=""></a><span class="fu">rmultinom</span>() <span class="co">#Multibinomial function</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">rbinom</span>() <span class="co">#Generate random binomial data</span></span>
+<span id="cb9-2"><a href=""></a><span class="fu">rmultinom</span>() <span class="co"># Generate random multinomial data</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><p>In R, the command names are usually defined by <code>r</code>, <code>d</code>, <code>q</code> plus simplified function name like <code>binom</code>, <code>norm</code> or <code>lnorm</code>.</p>
 <ul>
-<li><code>r</code> means “randomly sample from the function”. This function can be used to generate large hypothetical datasets.</li>
-<li><code>d</code> means “density”. It gives the probability when we use a discrete function</li>
-<li><code>q</code> means “quantile”. It gives the quantile associated with a given probability</li>
-<li><code>p</code> cumulative distribution function, This is the inverse function of <code>q</code></li>
+<li><code>r</code> means “randomly sample from the function”. This function can be used to generate data from a specific distribution.</li>
+<li><code>d</code> means “density”. It gives the probability of an outcome (discrete functions only).</li>
+<li><code>q</code> means “quantile”. It gives the quantile associated with a given probability.</li>
+<li><code>p</code> cumulative distribution function. It gives the probability of an outcome at or below a quantile. This is the inverse function of <code>q</code>.</li>
 </ul></li>
 </ul>
 </section>
@@ -322,75 +323,76 @@ PSYC 7940
 <li>Still, if you have any questions, use…</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>?rlnorm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>?rbinom</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>You can find the information of <code>rlnorm</code>, <code>dlnorm</code>. <code>plnorm</code> and <code>qlnorm</code> in the help page.</li>
+<li>You can find the information for <code>rbinom</code>, <code>pbinom</code>. <code>qbinom</code> and <code>rbinom</code> in the same help page.</li>
 </ul>
 </section>
 <section id="simulation" class="slide level2">
 <h2>Simulation</h2>
 <ul>
-<li><p>There are two ways to generate large datasets from <code>R</code>:</p>
+<li><p>There are two ways to generate large discrete datasets from <code>R</code>:</p>
 <ul>
 <li><code>sample</code></li>
-<li>Installed functions like <code>rbinom</code></li>
+<li>Distribution-specific functions like <code>rbinom</code></li>
 </ul></li>
 </ul>
 </section>
 <section id="simulation-with-sample" class="slide level2">
 <h2>Simulation with <code>sample</code></h2>
+<p>The following code generates 10,000 0’s and 1’s where 1 is drawn with probability 1/6. We can imagine this as the probability of rolling a 6 on a die.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>samples <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="co"># values to sample</span></span>
-<span id="cb10-2"><a href=""></a>                  <span class="at">size =</span> <span class="fl">1e4</span>, <span class="co"># how many samples to draw</span></span>
-<span id="cb10-3"><a href=""></a>                  <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="co"># sample WITH replacement (allow repeats)</span></span>
-<span id="cb10-4"><a href=""></a>                  <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">5</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)) <span class="co"># probability for each outcome</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>samples <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="co"># values to sample</span></span>
+<span id="cb11-2"><a href=""></a>            <span class="at">size =</span> <span class="fl">1e4</span>, <span class="co"># how many samples to draw</span></span>
+<span id="cb11-3"><a href=""></a>            <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="co"># sample WITH replacement (allow repeats)</span></span>
+<span id="cb11-4"><a href=""></a>            <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">5</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)) <span class="co"># probability for each outcome</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Because this is a random sampling process, we may get different results every time we run the code. If we want to perfectly replicate a simulation process, we can use <code>set.seed</code> before generating data</p>
+<p>Because this is a random sampling process, we may get different results every time we run the code. If we want to perfectly replicate a simulation process, we can use <code>set.seed</code> before generating data.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">8765</span>)</span>
-<span id="cb11-2"><a href=""></a></span>
-<span id="cb11-3"><a href=""></a>samples <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), </span>
-<span id="cb11-4"><a href=""></a>                  <span class="at">size =</span> <span class="fl">1e4</span>, </span>
-<span id="cb11-5"><a href=""></a>                  <span class="at">replace =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb11-6"><a href=""></a>                  <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">5</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">8765</span>)</span>
+<span id="cb12-2"><a href=""></a></span>
+<span id="cb12-3"><a href=""></a>samples <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), </span>
+<span id="cb12-4"><a href=""></a>                  <span class="at">size =</span> <span class="fl">1e4</span>, </span>
+<span id="cb12-5"><a href=""></a>                  <span class="at">replace =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb12-6"><a href=""></a>                  <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">5</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="visualize-the-result" class="slide level2">
 <h2>Visualize the Result</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>samples<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(samples)</span>
-<span id="cb12-2"><a href=""></a><span class="fu">ggplot</span>(samples, <span class="fu">aes</span>(<span class="at">x=</span>samples))<span class="sc">+</span></span>
-<span id="cb12-3"><a href=""></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>samples<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(samples)</span>
+<span id="cb13-2"><a href=""></a><span class="fu">ggplot</span>(samples, <span class="fu">aes</span>(<span class="at">x=</span>samples))<span class="sc">+</span> <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Discrete_Probability_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch"></section>
-<section id="another-method-to-simulate-data" class="slide level2">
-<h2>Another Method to Simulate Data</h2>
+<section id="an-equivalent-method-to-simulate-data" class="slide level2">
+<h2>An Equivalent Method to Simulate Data</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>samples2<span class="ot">&lt;-</span><span class="fu">rbinom</span>(<span class="fl">1e4</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span>
-<span id="cb13-2"><a href=""></a>samples2<span class="ot">&lt;-</span><span class="fu">data.frame</span>(samples2)</span>
-<span id="cb13-3"><a href=""></a><span class="fu">ggplot</span>(samples2, <span class="fu">aes</span>(<span class="at">x=</span>samples2))<span class="sc">+</span></span>
-<span id="cb13-4"><a href=""></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>samples2<span class="ot">&lt;-</span><span class="fu">rbinom</span>(<span class="fl">1e4</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span>
+<span id="cb14-2"><a href=""></a>samples2<span class="ot">&lt;-</span><span class="fu">data.frame</span>(samples2)</span>
+<span id="cb14-3"><a href=""></a><span class="fu">ggplot</span>(samples2, <span class="fu">aes</span>(<span class="at">x=</span>samples2))<span class="sc">+</span> <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Discrete_Probability_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section>
 <section id="other-discrete-distributions" class="slide level2">
 <h2>Other Discrete Distributions</h2>
+<p>The previous example sampled from the Bernoulli distribution, which describe an event with dichotomous (0/1) outcome.</p>
 <ul>
-<li>The example we used in previous slides focus on bernoulli distribution which describe an event with dichotomous (0/1) result. In command <code>dbinom</code>, <code>size = 1</code> represents one observation, <code>prob</code> is the fixed probability of “event = 1”.</li>
+<li><code>size = 1</code> indicates 1 observation, <code>prob</code> is the fixed probability of “event =1”.</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">dbinom</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">dbinom</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8333333 0.1666667</code></pre>
 </div>
 </div>
 <ul>
-<li>The result shows probability of “event = 0” and probability of “event = 1”. We can see the probability of “event = 2” is 0, although it makes no sense theoretically. Because we have only one observation:</li>
+<li><p>The result shows probability of “event =0” and probability of “event =1”. The probability of “event =2” is 0, because it is not one of the possible outcomes.</p></li>
+<li><p>If you roll 1 die, you cannot observe 2 6’s.</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">dbinom</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">dbinom</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8333333 0.1666667 0.0000000</code></pre>
 </div>
@@ -398,93 +400,81 @@ PSYC 7940
 </section>
 <section id="other-discrete-distributions-1" class="slide level2">
 <h2>Other Discrete Distributions</h2>
-<ul>
-<li>Once we free the value of <code>size</code>, which means we have more than one observation, we have a binomial distribution:</li>
-</ul>
+<p>The binomial distribution is a generalization of the Bernoulli distribution that allows for greater values of <code>size</code> (e.g., rolling more dice).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">dbinom</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">prob =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">dbinom</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">prob =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.69444444 0.27777778 0.02777778</code></pre>
 </div>
 </div>
+<p>The result shows if the probability of 0, 1, or 2 independent events if the probability of a single event is 1/6.</p>
 <ul>
-<li><p>The result shows if the probability of “event = 1” is fixed to 1/6, what the probability of 0, 1 or 2 times “event = 1” will be if we have 2 independent observations.</p></li>
-<li><p>We can change the parameter as we want. But it makes no sense if <code>x</code> &gt; <code>size</code>.</p></li>
+<li>For example, above represents the number of 6’s if you roll 2 dice.</li>
 </ul>
 </section>
 <section id="other-discrete-distributions-2" class="slide level2">
 <h2>Other Discrete Distributions</h2>
 <ul>
-<li><p>We can generalize the Binomial distribution to multinomial distribution. In binomial distribution, we have several observations of dichotomized events (0/1). However, in the multinomial distribution, the range of event extended to <span class="math inline">\(n\)</span> categories, “event = <span class="math inline">\(1, 2, ..., n\)</span>”.</p></li>
-<li><p>The sum of probability for each event is 1.</p></li>
+<li><p>The binomial distribution generalized to the multinomial distribution. In the binomial distribution, we have several observations of dichotomous events (0/1). However, in the multinomial distribution, the range of events extends to <span class="math inline">\(n\)</span> categories, “event =(1, 2, …, <span class="math inline">\(n\)</span>)”.</p></li>
+<li><p>The sum of probabilities for individual events equals 1.</p></li>
 <li><p>Each event is independent to each other.</p></li>
-<li><p>For example, if the event has three categories (<span class="math inline">\(1, 2, 3\)</span>), the probability of each event is <span class="math inline">\(1/3\)</span>, and we only observe 1 time, what is the probability of the observation of “event = <span class="math inline">\(2\)</span>”:</p></li>
+<li><p>For example, if the event has three categories (1, 2, 3), the probability of each event is 1/3, and we make 1 observation, what is the probability of observing the first event twice?</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">dmultinom</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>,<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>,<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">dmultinom</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.3333333</code></pre>
+<pre><code>[1] 0.1111111</code></pre>
 </div>
 </div>
 </section>
 <section id="other-discrete-distributions-3" class="slide level2">
 <h2>Other Discrete Distributions</h2>
-<p>It is noteworthy that the argument <code>prob</code> is not true probability but <strong>support</strong> or <strong>likelihood</strong>. For example, if the values of <code>prob</code> do not sum up to 1, we can still get the proportional result:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">dmultinom</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.3333333</code></pre>
-</div>
-</div>
-</section>
-<section id="other-discrete-distributions-4" class="slide level2">
-<h2>Other Discrete Distributions</h2>
 <ul>
-<li>We can generalize it to a complicated condition, for example in the lecture</li>
+<li>We can generalize the multinomial distribution to more complicated conditions. For example in lecture:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="fu">dmultinom</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">size =</span> <span class="dv">5</span>,</span>
-<span id="cb24-2"><a href=""></a><span class="at">prob =</span> <span class="fu">c</span>(.<span class="dv">3716564</span>, .<span class="dv">3357767</span>, .<span class="dv">2925669</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">dmultinom</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">size =</span> <span class="dv">5</span>,</span>
+<span id="cb23-2"><a href=""></a>          <span class="at">prob =</span> <span class="fu">c</span>(.<span class="dv">3716564</span>, .<span class="dv">3357767</span>, .<span class="dv">2925669</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.00709101</code></pre>
 </div>
 </div>
-<p><strong>How to interpret the code of multinomial distribution?</strong></p>
+<p><strong>How to interpret this result?</strong></p>
 </section>
-<section id="other-discrete-distributions-5" class="slide level2">
+<section id="other-discrete-distributions-4" class="slide level2">
 <h2>Other Discrete Distributions</h2>
 <ul>
 <li><p>Negative Binomial Distribution</p>
 <ul>
-<li>It means with a series of Bernoulli trials with certain probability of “event = 1”, what is the probability of <code>size</code> times “event = 1” before x times “event = 0”.</li>
+<li>For a series of Bernoulli trials with a certain probability of “event = 1”, what is the probability that “event = 1” occurs <code>size</code> number of times before we observe “event = 0” <code>x</code> times?</li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">dnbinom</span>(<span class="at">x=</span><span class="dv">2</span>, <span class="at">size=</span><span class="dv">1</span>, <span class="at">prob=</span><span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">dnbinom</span>(<span class="at">x=</span><span class="dv">2</span>, <span class="at">size=</span><span class="dv">1</span>, <span class="at">prob=</span><span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.147</code></pre>
 </div>
 </div>
-<p>Of course, you can use <code>mu</code> to code the <code>dnbinom</code>, as we learned:</p>
+<p>You can also use <code>mu</code> to code the <code>dnbinom</code>, as we learned:</p>
 <p><span class="math display">\[\mu = (1-prob) * size/prob\]</span></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>mu<span class="ot">&lt;-</span> (<span class="dv">1</span><span class="fl">-0.3</span>)<span class="sc">*</span><span class="dv">1</span><span class="sc">/</span><span class="fl">0.3</span></span>
-<span id="cb28-2"><a href=""></a><span class="fu">dnbinom</span>(<span class="at">x=</span><span class="dv">2</span>, <span class="at">size=</span><span class="dv">1</span>, <span class="at">mu =</span> mu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a>mu<span class="ot">&lt;-</span> (<span class="dv">1</span><span class="fl">-0.3</span>)<span class="sc">*</span><span class="dv">1</span><span class="sc">/</span><span class="fl">0.3</span></span>
+<span id="cb27-2"><a href=""></a><span class="fu">dnbinom</span>(<span class="at">x=</span><span class="dv">2</span>, <span class="at">size=</span><span class="dv">1</span>, <span class="at">mu =</span> mu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.147</code></pre>
 </div>
 </div>
 </section>
-<section id="other-discrete-distributions-6" class="slide level2">
+<section id="other-discrete-distributions-5" class="slide level2">
 <h2>Other Discrete Distributions</h2>
 <ul>
 <li><p>Poisson Distribution</p>
 <ul>
-<li>It represents the number of “event = 1” occured in a certain time interval, if the average rate of “event = 1” is a constant <span class="math inline">\(\lambda\)</span>.</li>
+<li>The Poisson represents how many times “event = 1” occured in a certain time interval, if the average rate of “event = 1” is a constant <span class="math inline">\(\lambda\)</span>.</li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">dpois</span>(<span class="dv">1</span>, <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">dpois</span>(<span class="at">x =</span> <span class="dv">1</span>, <span class="at">lambda =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.03368973</code></pre>
 </div>
@@ -493,59 +483,71 @@ PSYC 7940
 <section id="simulation-from-poisson-distribution" class="slide level2">
 <h2>Simulation from Poisson Distribution</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">8656</span>)</span>
-<span id="cb32-2"><a href=""></a></span>
-<span id="cb32-3"><a href=""></a>samples_pois<span class="ot">&lt;-</span><span class="fu">rpois</span>(<span class="fl">1e5</span>, <span class="at">lambda =</span> <span class="dv">5</span>) <span class="co">#Simulate dataset</span></span>
-<span id="cb32-4"><a href=""></a></span>
-<span id="cb32-5"><a href=""></a>samples_pois<span class="ot">&lt;-</span><span class="fu">data.frame</span>(samples_pois) <span class="co">#Make it a data.frame</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">8656</span>)</span>
+<span id="cb31-2"><a href=""></a></span>
+<span id="cb31-3"><a href=""></a>samples_pois<span class="ot">&lt;-</span><span class="fu">rpois</span>(<span class="at">n =</span> <span class="fl">1e5</span>, <span class="at">lambda =</span> <span class="dv">5</span>) <span class="co">#Simulate dataset</span></span>
+<span id="cb31-4"><a href=""></a></span>
+<span id="cb31-5"><a href=""></a>samples_pois<span class="ot">&lt;-</span><span class="fu">data.frame</span>(samples_pois) <span class="co">#Make it a data.frame</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">ggplot</span>(samples_pois, <span class="fu">aes</span>(<span class="at">x=</span>samples_pois))<span class="sc">+</span></span>
-<span id="cb33-2"><a href=""></a>  <span class="fu">geom_bar</span>() <span class="co">#Get the plot</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="fu">ggplot</span>(samples_pois, <span class="fu">aes</span>(<span class="at">x=</span>samples_pois))<span class="sc">+</span></span>
+<span id="cb32-2"><a href=""></a>  <span class="fu">geom_bar</span>() <span class="co">#Get the plot</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="Discrete_Probability_files/figure-revealjs/unnamed-chunk-24-1.png" width="960" class="r-stretch"></section>
+<img data-src="Discrete_Probability_files/figure-revealjs/unnamed-chunk-23-1.png" width="960" class="r-stretch"></section>
 <section id="simulation-from-poisson-distribution-1" class="slide level2">
 <h2>Simulation from Poisson Distribution</h2>
 <p>We can verify the probability using:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="fu">mean</span>(samples_pois<span class="sc">==</span><span class="dv">1</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">mean</span>(samples_pois<span class="sc">==</span><span class="dv">1</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.03453</code></pre>
 </div>
 </div>
 </section>
-<section id="activity" class="slide level2">
-<h2>Activity</h2>
+<section id="activity-part-1" class="slide level2">
+<h2>Activity Part 1</h2>
 <ul>
-<li><p>Pick one distribution of interest below, simulate 10000 random data with any parameters set, and visualize your simulated dataset.</p>
+<li><p>Pick one distribution of interest below, simulate 10,000 observations with parameters (e.g., probability) of your choice. Visualize your simulated dataset.</p>
 <ul>
 <li><p>Bernoulli distribution</p></li>
 <li><p>Binomial distribution</p></li>
+<li><p>Negative binomial distribution</p></li>
+<li><p>Poisson distribution</p></li>
 <li><p>Multinomial distribution (Difficult)</p>
 <ul>
-<li>If you simulate data from multinomial distribution, you will get a matrix instead of a vector. How will you visualize the matrix using ggplot2?</li>
+<li>If you simulate data from multinomial distribution, you will get a matrix instead of a vector. How can you visualize the matrix using ggplot2?</li>
 <li>It needs command not covered in the lab. Feel free to use help page and google. Find your own way out!</li>
 </ul></li>
 </ul></li>
-<li><p>What do the <span class="math inline">\(x\)</span>-axis and <span class="math inline">\(y\)</span>-axis represent in the figure?</p></li>
 </ul>
 </section>
-<section id="activity-1" class="slide level2">
-<h2>Activity</h2>
+<section id="activity-part-1-1" class="slide level2">
+<h2>Activity Part 1</h2>
 <p><strong>Tips</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="co">#Sum rows or columns value</span></span>
-<span id="cb36-2"><a href=""></a><span class="fu">rowSums</span>()</span>
-<span id="cb36-3"><a href=""></a><span class="fu">colSums</span>()</span>
-<span id="cb36-4"><a href=""></a></span>
-<span id="cb36-5"><a href=""></a><span class="co">#Transpose matrix</span></span>
-<span id="cb36-6"><a href=""></a><span class="fu">t</span>()</span>
-<span id="cb36-7"><a href=""></a></span>
-<span id="cb36-8"><a href=""></a><span class="co">#Making data.frame</span></span>
-<span id="cb36-9"><a href=""></a><span class="fu">data.frame</span>()</span>
-<span id="cb36-10"><a href=""></a><span class="fu">as.data.frame</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="co">#Sum rows or columns value</span></span>
+<span id="cb35-2"><a href=""></a><span class="fu">rowSums</span>()</span>
+<span id="cb35-3"><a href=""></a><span class="fu">colSums</span>()</span>
+<span id="cb35-4"><a href=""></a></span>
+<span id="cb35-5"><a href=""></a><span class="co">#Transpose matrix</span></span>
+<span id="cb35-6"><a href=""></a><span class="fu">t</span>()</span>
+<span id="cb35-7"><a href=""></a></span>
+<span id="cb35-8"><a href=""></a><span class="co">#Making data.frame</span></span>
+<span id="cb35-9"><a href=""></a><span class="fu">data.frame</span>()</span>
+<span id="cb35-10"><a href=""></a><span class="fu">as.data.frame</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</section>
+<section id="activity-part-2" class="slide level2">
+<h2>Activity Part 2</h2>
+<p>Consider the following variables in the Titanic data (<code>data2</code> that you imported earlier).</p>
+<ul>
+<li><code>pclass</code>: 1 = 1st class, 2 = 2nd class, 3 = 3rd class</li>
+<li><code>survived</code>: 1 = yes, 0 = no</li>
+<li><code>sex</code>: female, male</li>
+<li><code>age</code>: in years</li>
+</ul>
+<p>Test out ways to visualize these data. Feel free to consider types of plots that we did not explicitly learn about in this class!</p>
 
 </section>
     </div>
