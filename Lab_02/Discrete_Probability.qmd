@@ -188,13 +188,13 @@ The result shows if the probability of 0, 1, or 2 independent events if the prob
 
 ## Other Discrete Distributions
 
--  The binomial distribution generalized to the multinomial distribution. In the binomial distribution, we have several observations of dichotomous events (0/1). However, in the multinomial distribution, the range of events extends to $n$ categories, "event =(1, 2, ..., $n$)".
+-  The binomial distribution can be generalized to the multinomial distribution. In the binomial distribution, we have several observations of dichotomous events (0/1). However, in the multinomial distribution, the range of events extends to $n$ categories, "event =(1, 2, ..., $n$)".
 
 -   The sum of probabilities for individual events equals 1.
 
 -   Each event is independent to each other.
 
--   For example, if the event has three categories (1, 2, 3), the probability of each event is 1/3, and we make 1 observation, what is the probability of observing the first event twice?
+-   For example, if the event has three categories (1, 2, 3), the probability of each event is 1/3, and we make 2 observations, what is the probability of observing the first event twice?
 
 ```{r}
 dmultinom(c(2,0,0), size = 2, prob = c(1/3, 1/3, 1/3))
@@ -215,7 +215,8 @@ dmultinom(x = c(5, 0, 0), size = 5,
 
 -   Negative Binomial Distribution
 
-    -   For a series of Bernoulli trials with a certain probability of "event = 1", what is the probability that "event = 1" occurs `size` number of times before we observe "event = 0" `x` times?
+    -   For a series of Bernoulli trials with a certain probability of "event = 1", what is the probability that "event = 0" occurs `x` number of times before we observe "event = 1" `size` times?
+    - It models the number of failures (0) before we observe a certain number of success (1).
     
 ```{r}
 dnbinom(x=2, size=1, prob=0.3)
