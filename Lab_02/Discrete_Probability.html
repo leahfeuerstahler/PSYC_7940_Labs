@@ -415,10 +415,10 @@ PSYC 7940
 <section id="other-discrete-distributions-2" class="slide level2">
 <h2>Other Discrete Distributions</h2>
 <ul>
-<li><p>The binomial distribution generalized to the multinomial distribution. In the binomial distribution, we have several observations of dichotomous events (0/1). However, in the multinomial distribution, the range of events extends to <span class="math inline">\(n\)</span> categories, “event =(1, 2, …, <span class="math inline">\(n\)</span>)”.</p></li>
+<li><p>The binomial distribution can be generalized to the multinomial distribution. In the binomial distribution, we have several observations of dichotomous events (0/1). However, in the multinomial distribution, the range of events extends to <span class="math inline">\(n\)</span> categories, “event =(1, 2, …, <span class="math inline">\(n\)</span>)”.</p></li>
 <li><p>The sum of probabilities for individual events equals 1.</p></li>
 <li><p>Each event is independent to each other.</p></li>
-<li><p>For example, if the event has three categories (1, 2, 3), the probability of each event is 1/3, and we make 1 observation, what is the probability of observing the first event twice?</p></li>
+<li><p>For example, if the event has three categories (1, 2, 3), the probability of each event is 1/3, and we make 2 observations, what is the probability of observing the first event twice?</p></li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">dmultinom</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -446,7 +446,8 @@ PSYC 7940
 <ul>
 <li><p>Negative Binomial Distribution</p>
 <ul>
-<li>For a series of Bernoulli trials with a certain probability of “event = 1”, what is the probability that “event = 1” occurs <code>size</code> number of times before we observe “event = 0” <code>x</code> times?</li>
+<li>For a series of Bernoulli trials with a certain probability of “event = 1”, what is the probability that “event = 0” occurs <code>x</code> number of times before we observe “event = 1” <code>size</code> times?</li>
+<li>It models the number of failures (0) before we observe a certain number of success (1).</li>
 </ul></li>
 </ul>
 <div class="cell">
