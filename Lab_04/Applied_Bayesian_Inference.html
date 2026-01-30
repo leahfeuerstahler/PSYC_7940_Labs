@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="Applied_Bayesian_Inference_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Applied_Bayesian_Inference_files/libs/quarto-html/tabby.min.js"></script>
+<script src="Applied_Bayesian_Inference_files/libs/quarto-html/popper.min.js"></script>
+<script src="Applied_Bayesian_Inference_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="Applied_Bayesian_Inference_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Applied_Bayesian_Inference_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="Applied_Bayesian_Inference_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <meta name="author" content="PSYC 7940">
+  <meta name="dcterms.date" content="2026-02-11">
+  <title>Lab 4: Applied Bayesian Inference</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="Applied_Bayesian_Inference_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="Applied_Bayesian_Inference_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="Applied_Bayesian_Inference_files/libs/revealjs/dist/theme/quarto-2e5c1077c6a04196786595800d368178.css">
+  <link href="Applied_Bayesian_Inference_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="Applied_Bayesian_Inference_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="Applied_Bayesian_Inference_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="Applied_Bayesian_Inference_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="Applied_Bayesian_Inference_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="Applied_Bayesian_Inference_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-background-image="../logo.png" data-background-opacity="0.5" data-background-size="contain" class="quarto-title-block center">
+  <h1 class="title">Lab 4: Applied Bayesian Inference</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+PSYC 7940 
+</div>
+</div>
+</div>
+
+  <p class="date">February 11, 2026</p>
+</section>
+<section id="goals" class="slide level2">
+<h2>Goals</h2>
+<ul>
+<li><p>Fit and evaluate simple linear regression models with <code>brms</code></p></li>
+<li><p>Prior predictive simulation</p></li>
+</ul>
+<p>R packages for today (install if needed):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href=""></a><span class="fu">library</span>(brms)</span>
+<span id="cb1-3"><a href=""></a><span class="fu">library</span>(bayesplot)</span>
+<span id="cb1-4"><a href=""></a><span class="fu">library</span>(tidybayes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="model-setup" class="slide level2">
+<h2>Model Setup</h2>
+<p>In the Tour-de-France example from lecture, we predicted rider weight in kilograms <span class="math inline">\(w_i\)</span> from height <span class="math inline">\(h_i\)</span> in centimeters</p>
+<p><span class="math display">\[\omega_i \sim Normal (\mu_i, \sigma)\]</span></p>
+<p><span class="math display">\[\mu_i = a + b (h_i - \bar{h})\]</span> The priors we chose in lecture are:</p>
+<ul>
+<li><p>Intercept <span class="math inline">\(a \sim N(66.5, 2)\)</span></p></li>
+<li><p>Slope <span class="math inline">\(b \sim N(1, .5)\)</span></p></li>
+<li><p>Standard error <span class="math inline">\(\sigma \sim Exp(.25)\)</span></p></li>
+</ul>
+</section>
+<section id="model-setup-1" class="slide level2">
+<h2>Model Setup</h2>
+<p>If you want to follow along, you can download the <code>TDF.csv</code> data from Blackboard.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href=""></a>TDF <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"TDF.csv"</span>) <span class="co"># Read in the data</span></span>
+<span id="cb2-3"><a href=""></a>TDF<span class="ot">&lt;-</span>TDF <span class="sc">%&gt;%</span> </span>
+<span id="cb2-4"><a href=""></a>  <span class="co"># mean-center height and convert to cm</span></span>
+<span id="cb2-5"><a href=""></a>  <span class="fu">mutate</span> (<span class="at">HeightC =</span> (Height <span class="sc">-</span> <span class="fu">mean</span>(Height))<span class="sc">*</span><span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The formula in <code>brms</code> is:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">library</span>(brms)</span>
+<span id="cb3-2"><a href=""></a>brms_form <span class="ot">&lt;-</span> Weight <span class="sc">~</span> HeightC</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="model-setup-2" class="slide level2">
+<h2>Model Setup</h2>
+<p>Use <code>get_prior</code> to see which <code>class</code> to set when specifying priors.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">get_prior</span>(brms_form, <span class="at">data =</span> TDF, </span>
+<span id="cb4-2"><a href=""></a>          <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource nowrap-code number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a href=""></a>                 prior     class    coef group resp dpar nlpar lb ub tag</span>
+<span id="cb5-2"><a href=""></a>                (flat)         b                                        </span>
+<span id="cb5-3"><a href=""></a>                (flat)         b HeightC                                </span>
+<span id="cb5-4"><a href=""></a> student_t(3, 70, 7.4) Intercept                                        </span>
+<span id="cb5-5"><a href=""></a>  student_t(3, 0, 7.4)     sigma                                0       </span>
+<span id="cb5-6"><a href=""></a>       source</span>
+<span id="cb5-7"><a href=""></a>      default</span>
+<span id="cb5-8"><a href=""></a> (vectorized)</span>
+<span id="cb5-9"><a href=""></a>      default</span>
+<span id="cb5-10"><a href=""></a>      default</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>In <code>brms</code>, the <code>prior()</code> function with the <code>class</code> argument.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>brms_prior<span class="ot">&lt;-</span><span class="fu">prior</span>(<span class="fu">normal</span>(<span class="fl">66.5</span>, <span class="dv">2</span>), <span class="at">class =</span> <span class="st">"Intercept"</span>)<span class="sc">+</span></span>
+<span id="cb6-2"><a href=""></a>            <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">1</span>, .<span class="dv">5</span>), <span class="at">class =</span> <span class="st">"b"</span>)<span class="sc">+</span></span>
+<span id="cb6-3"><a href=""></a>            <span class="fu">prior</span>(<span class="fu">exponential</span>(.<span class="dv">25</span>), <span class="at">class =</span> <span class="st">"sigma"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="model-fitting" class="slide level2">
+<h2>Model Fitting</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>mod <span class="ot">&lt;-</span> <span class="fu">brm</span>(brms_form, <span class="at">data =</span> TDF, </span>
+<span id="cb7-2"><a href=""></a>           <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>),</span>
+<span id="cb7-3"><a href=""></a>           <span class="at">prior =</span> brms_prior)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
+using C compiler: ‘Apple clang version 17.0.0 (clang-1700.6.3.2)’
+using SDK: ‘MacOSX26.2.sdk’
+clang -arch arm64 -std=gnu2x -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/opt/R/arm64/include    -fPIC  -falign-functions=64 -Wall -g -O2  -c foo.c -o foo.o
+In file included from &lt;built-in&gt;:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
+In file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/Dense:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/Core:19:
+/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:679:10: fatal error: 'cmath' file not found
+  679 | #include &lt;cmath&gt;
+      |          ^~~~~~~
+1 error generated.
+make: *** [foo.o] Error 1
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 3e-05 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.3 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 0.011 seconds (Warm-up)
+Chain 1:                0.008 seconds (Sampling)
+Chain 1:                0.019 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 1e-06 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.01 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 0.01 seconds (Warm-up)
+Chain 2:                0.007 seconds (Sampling)
+Chain 2:                0.017 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 1e-06 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.01 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 0.011 seconds (Warm-up)
+Chain 3:                0.008 seconds (Sampling)
+Chain 3:                0.019 seconds (Total)
+Chain 3: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
+Chain 4: 
+Chain 4: Gradient evaluation took 1e-06 seconds
+Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.01 seconds.
+Chain 4: Adjust your expectations accordingly!
+Chain 4: 
+Chain 4: 
+Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 4: 
+Chain 4:  Elapsed Time: 0.011 seconds (Warm-up)
+Chain 4:                0.008 seconds (Sampling)
+Chain 4:                0.019 seconds (Total)
+Chain 4: </code></pre>
+</div>
+</div>
+</section>
+<section id="model-evaluation" class="slide level2">
+<h2>Model Evaluation</h2>
+<p>To view a summary of the posterior distribution for each parameter, we can use <code>print()</code></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">print</span>(mod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Family: gaussian 
+  Links: mu = identity 
+Formula: Weight ~ HeightC 
+   Data: TDF (Number of observations: 179) 
+  Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+         total post-warmup draws = 4000
+
+Regression Coefficients:
+          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+Intercept    69.32      0.36    68.59    70.03 1.00     3876     2778
+HeightC       0.78      0.05     0.67     0.89 1.00     4199     3089
+
+Further Distributional Parameters:
+      Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sigma     4.81      0.25     4.34     5.34 1.00     3747     2750
+
+Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+and Tail_ESS are effective sample size measures, and Rhat is the potential
+scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+</div>
+</div>
+</section>
+<section id="model-evaluation-1" class="slide level2">
+<h2>Model Evaluation</h2>
+<p>The results shown by <code>print()</code> are summaries of a <strong>Monte Carlo sample</strong> from the posterior of each parameters’ distribution.</p>
+<p>To see the draws themselves:</p>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Way 1</a></li><li><a href="#tabset-1-2">Way 2</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<p>From the <code>brms</code> package:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">as_draws_df</span>(mod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A draws_df: 1000 iterations, 4 chains, and 6 variables
+   b_Intercept b_HeightC sigma Intercept lprior lp__
+1           70      0.88   4.6        70   -7.7 -544
+2           70      0.85   4.6        70   -7.7 -543
+3           69      0.72   4.4        69   -7.3 -543
+4           69      0.85   5.2        69   -8.2 -543
+5           69      0.73   4.4        69   -7.3 -543
+6           70      0.69   4.9        70   -8.2 -544
+7           69      0.88   4.8        69   -7.4 -543
+8           69      0.74   4.9        69   -7.6 -542
+9           69      0.86   4.6        69   -7.2 -543
+10          70      0.80   5.0        70   -8.4 -543
+# ... with 3990 more draws
+# ... hidden reserved variables {'.chain', '.iteration', '.draw'}</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2">
+<p>From the <code>tidybayes</code> package:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>mod <span class="sc">%&gt;%</span> <span class="fu">gather_draws</span>(b_Intercept, b_HeightC, sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12,000 × 5
+# Groups:   .variable [3]
+   .chain .iteration .draw .variable   .value
+    &lt;int&gt;      &lt;int&gt; &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;
+ 1      1          1     1 b_Intercept   69.6
+ 2      1          2     2 b_Intercept   69.6
+ 3      1          3     3 b_Intercept   69.2
+ 4      1          4     4 b_Intercept   69.4
+ 5      1          5     5 b_Intercept   69.1
+ 6      1          6     6 b_Intercept   69.6
+ 7      1          7     7 b_Intercept   68.9
+ 8      1          8     8 b_Intercept   68.9
+ 9      1          9     9 b_Intercept   68.9
+10      1         10    10 b_Intercept   70.0
+# ℹ 11,990 more rows</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="model-evaluation-2" class="slide level2">
+<h2>Model Evaluation</h2>
+<p>Compare the means and standard deviations to the results of <code>print(mod)</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>mod <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href=""></a>  <span class="fu">gather_draws</span>(b_Intercept, b_HeightC, sigma) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href=""></a>  <span class="fu">mean_qi</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 7
+  .variable   .value .lower .upper .width .point .interval
+  &lt;chr&gt;        &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    
+1 b_HeightC    0.783  0.674  0.890   0.95 mean   qi       
+2 b_Intercept 69.3   68.6   70.0     0.95 mean   qi       
+3 sigma        4.81   4.34   5.34    0.95 mean   qi       </code></pre>
+</div>
+</div>
+</section>
+<section id="model-evaluation-3" class="slide level2">
+<h2>Model Evaluation</h2>
+<p>To plot the posterior mean for <span class="math inline">\(\mu\)</span> (best-fit line) with a 95% interval, we can use the <code>conditional_effects</code> function in <code>brms</code>.</p>
+<ul>
+<li>Use the argument <code>method = "posterior_linpred"</code> to plot the best-fit line.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(mod, <span class="at">method =</span> <span class="st">"posterior_linpred"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="Applied_Bayesian_Inference_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch"></section>
+<section id="model-evaluation-4" class="slide level2">
+<h2>Model Evaluation</h2>
+<p>We may also wish to reference the raw data by adding <code>points = TRUE</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(mod, <span class="at">method =</span> <span class="st">"posterior_linpred"</span>),</span>
+<span id="cb18-2"><a href=""></a>     <span class="at">points =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="Applied_Bayesian_Inference_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"><p>Note: the best-fit line seems to do a good job of describing the average predictions. The 95% error band is close to the line, indicating high certainty.</p>
+</section>
+<section id="model-evaluation-5" class="slide level2">
+<h2>Model Evaluation</h2>
+<p>We can use a similar plot to see the model-predicted range of observations.</p>
+<ul>
+<li>Use <code>method = "posterior_predict"</code> for the 95% predicted range of observations.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(mod, <span class="at">method =</span> <span class="st">"posterior_predict"</span>),</span>
+<span id="cb19-2"><a href=""></a>     <span class="at">points =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="Applied_Bayesian_Inference_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"><p>We want approximately `95% of observations to be in the error band. Not bad!</p>
+</section>
+<section id="prior-predictive-simulation" class="slide level2">
+<h2>Prior Predictive Simulation</h2>
+<p>How to choose priors?!?</p>
+<p>Although commonly used, flat or noninformative priors are not usually the best choice. We often know <em>something</em> about what our results should look like.</p>
+<ul>
+<li><p>What are the ranges of the predictor and criterion variables?</p></li>
+<li><p>Do you expect the relationship to be positive or negative? Strong or weak?</p></li>
+<li><p>What are the allowable ranges of the parameters?</p>
+<ul>
+<li>e.g., the standard error <span class="math inline">\(\sigma\)</span> must be positive</li>
+</ul></li>
+</ul>
+</section>
+<section id="prior-predictive-simulation-1" class="slide level2">
+<h2>Prior Predictive Simulation</h2>
+<p>Don’t worry too much about being “correct”. Worry instead about encoding your level of preknowledge/uncertainty into your priors. If your guesses are far away from truth, the data will suggest something different than your priors. Ultimately, your results may be a little less certain (have higher credible intervals), but appropriately so!</p>
+<p>Visualization is very useful for prior predictive simulation.</p>
+</section>
+<section id="prior-predictive-simulation-2" class="slide level2">
+<h2>Prior Predictive Simulation</h2>
+<p>New Example: How has the weather in NYC changed over time?</p>
+<p>The following dataset includes the average January daily high temperature (Fahrenheit) in NYC from 1918 to 2024.</p>
+<ul>
+<li>You just survived January in NYC, so you should have some familiarity with the topic ;)</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>temps <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"weather.csv"</span>)</span>
+<span id="cb20-2"><a href=""></a>temps <span class="sc">%&gt;%</span> glimpse</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource nowrap-code number-lines code-with-copy"><code class="sourceCode"><span id="cb21-1"><a href=""></a>Rows: 107</span>
+<span id="cb21-2"><a href=""></a>Columns: 2</span>
+<span id="cb21-3"><a href=""></a>$ YEAR          &lt;dbl&gt; 1918, 1919, 1920, 1921, 1922, 1923, 1924, 1925, 1926, 19…</span>
+<span id="cb21-4"><a href=""></a>$ Avg_High_Temp &lt;dbl&gt; 45.54839, 36.67742, 43.09677, 39.45161, 39.45161, 47.387…</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="prior-predictive-simulation-3" class="slide level2">
+<h2>Prior Predictive Simulation</h2>
+<p>Model setup:</p>
+<p><span class="math display">\[t_i \sim Normal (\mu_i, \sigma)\]</span> <span class="math display">\[\mu_i = a + b (y_i - \bar{y})\]</span> Parameters:</p>
+<ul>
+<li><span class="math inline">\(a\)</span>: average predicted temperature in average year 1971</li>
+<li><span class="math inline">\(b\)</span>: predicted change in average temperature each year</li>
+<li><span class="math inline">\(\sigma\)</span>: standard deviation of how much observed temperatures are expected to change from the prediction</li>
+</ul>
+</section>
+<section id="prior-predictive-simulation-4" class="slide level2">
+<h2>Prior Predictive Simulation</h2>
+<p>From experience, I may guess (you may guess differently):</p>
+<ul>
+<li><p>that the average high temperature in 1971 was around 35 degrees</p>
+<ul>
+<li><p>I think that this is within 5 degrees or so of being correct</p></li>
+<li><p>Translated to a prior: <span class="math inline">\(a \sim N(35, 5)\)</span></p></li>
+</ul></li>
+<li><p>that temperatures have increased over time, but not too much</p>
+<ul>
+<li><p>Perhaps 1/10 of a degree each year</p></li>
+<li><p>I am not too certain, maybe this prediction is off by about .5 degrees</p></li>
+<li><p>Translated to a prior: <span class="math inline">\(b \sim N(.1, .5)\)</span></p></li>
+</ul></li>
+<li><p>that there are noticeable year-to-year fluctuations in January temperatures</p>
+<ul>
+<li><p>Perhaps up to 10 degrees</p></li>
+<li><p>Translated to a prior: <span class="math inline">\(\sigma \sim Exp(0.1)\)</span> (such that <span class="math inline">\(E(\sigma) = 10\)</span>)</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="prior-predictive-simulation-5" class="slide level2">
+<h2>Prior Predictive Simulation</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>temps_prior <span class="ot">&lt;-</span> <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">35</span>, <span class="dv">5</span>), <span class="at">class =</span> <span class="st">"Intercept"</span>) <span class="sc">+</span> </span>
+<span id="cb22-2"><a href=""></a>               <span class="fu">prior</span>(<span class="fu">normal</span>(.<span class="dv">1</span>, .<span class="dv">5</span>), <span class="at">class =</span> <span class="st">"b"</span>) <span class="sc">+</span></span>
+<span id="cb22-3"><a href=""></a>               <span class="fu">prior</span>(<span class="fu">exponential</span>(.<span class="dv">1</span>), <span class="at">class =</span> <span class="st">"sigma"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>It is convenient to run the model with these priors but with the argument <code>sample_prior = "only"</code>. This will give you samples from the <strong>prior distributions</strong> rather than the posterior distributions.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>prior_samps <span class="ot">&lt;-</span> <span class="fu">brm</span>(Avg_High_Temp <span class="sc">~</span> YEAR, temps, </span>
+<span id="cb23-2"><a href=""></a>                   <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>),</span>
+<span id="cb23-3"><a href=""></a>                   <span class="at">prior =</span> temps_prior,</span>
+<span id="cb23-4"><a href=""></a>                   <span class="at">sample_prior =</span> <span class="st">"only"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Because we use <code>brms</code> to generate samples from the prior, we can use similar functions to analyze the prior as we used to analyze the posterior.</p>
+</section>
+<section id="prior-predictive-simulation-6" class="slide level2">
+<h2>Prior Predictive Simulation</h2>
+<p>The argument <code>spaghetti = TRUE</code> draws predictions of the best-fit line.</p>
+<ul>
+<li>For spaghetti plots, set <code>ndraws = #</code>, otherwise the code may take a long time to run.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(prior_samps, <span class="at">method =</span> <span class="st">"posterior_linpred"</span>, </span>
+<span id="cb24-2"><a href=""></a>                         <span class="at">spaghetti =</span> <span class="cn">TRUE</span>, <span class="at">ndraws =</span> <span class="dv">500</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="Applied_Bayesian_Inference_files/figure-revealjs/unnamed-chunk-18-1.png" width="960" class="r-stretch"></section>
+<section id="prior-predictive-simulation-7" class="slide level2">
+<h2>Prior Predictive Simulation</h2>
+<p>We might decide that the plot on the last slide allows too many negative slopes. Let’s update our prior by reducing the variability of the slopes:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>temps_prior2 <span class="ot">&lt;-</span> <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">35</span>, <span class="dv">5</span>), <span class="at">class =</span> <span class="st">"Intercept"</span>) <span class="sc">+</span> </span>
+<span id="cb25-2"><a href=""></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(.<span class="dv">1</span>, .<span class="dv">1</span>), <span class="at">class =</span> <span class="st">"b"</span>) <span class="sc">+</span></span>
+<span id="cb25-3"><a href=""></a>                <span class="fu">prior</span>(<span class="fu">exponential</span>(.<span class="dv">1</span>), <span class="at">class =</span> <span class="st">"sigma"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a>prior_samps2 <span class="ot">&lt;-</span> <span class="fu">brm</span>(Avg_High_Temp <span class="sc">~</span> YEAR, temps, </span>
+<span id="cb26-2"><a href=""></a>                    <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>),</span>
+<span id="cb26-3"><a href=""></a>                    <span class="at">prior =</span> temps_prior2,</span>
+<span id="cb26-4"><a href=""></a>                    <span class="at">sample_prior =</span> <span class="st">"only"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="prior-predictive-simulation-8" class="slide level2">
+<h2>Prior Predictive Simulation</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(prior_samps2, <span class="at">method =</span> <span class="st">"posterior_linpred"</span>, </span>
+<span id="cb27-2"><a href=""></a>                         <span class="at">spaghetti =</span> <span class="cn">TRUE</span>, <span class="at">ndraws =</span> <span class="dv">500</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="Applied_Bayesian_Inference_files/figure-revealjs/unnamed-chunk-21-1.png" width="960" class="r-stretch"><p>Remember that this is the prediction for the mean regression line, not for individual observations. Are you satisfied with this prior? Why or why not?</p>
+</section>
+<section id="prior-predictive-simulation-9" class="slide level2">
+<h2>Prior Predictive Simulation</h2>
+<p>We also need to evaluate our prior on <span class="math inline">\(\sigma\)</span>. This controls where we expect our <strong>actual observations</strong> to be.</p>
+<ul>
+<li>With <code>conditional_effects</code> use <code>method = "posterior_predict"</code> to plot a 95% credible interval band.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(prior_samps2, <span class="at">method =</span> <span class="st">"posterior_predict"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="Applied_Bayesian_Inference_files/figure-revealjs/unnamed-chunk-22-1.png" width="960" class="r-stretch"></section>
+<section id="group-activity" class="slide level2">
+<h2>Group Activity</h2>
+<p>As a class, let’s decide whether to make any further adjustments to our priors.</p>
+<p>On your own computer, read in the data (download from Blackboard):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb29-2"><a href=""></a><span class="fu">library</span>(brms)</span>
+<span id="cb29-3"><a href=""></a>temps <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"weather.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Set the priors (replace <code>...</code> with your priors):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a>temps_prior <span class="ot">&lt;-</span> <span class="fu">prior</span>(..., <span class="at">class =</span> <span class="st">"Intercept"</span>) <span class="sc">+</span> </span>
+<span id="cb30-2"><a href=""></a>               <span class="fu">prior</span>(..., <span class="at">class =</span> <span class="st">"b"</span>) <span class="sc">+</span></span>
+<span id="cb30-3"><a href=""></a>               <span class="fu">prior</span>(..., <span class="at">class =</span> <span class="st">"sigma"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Fit the model:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>temps_mod <span class="ot">&lt;-</span> <span class="fu">brm</span>(Avg_High_Temp <span class="sc">~</span> YEAR, temps, </span>
+<span id="cb31-2"><a href=""></a>                 <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>),</span>
+<span id="cb31-3"><a href=""></a>                 <span class="at">prior =</span> temps_prior)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="group-activity-1" class="slide level2">
+<h2>Group Activity</h2>
+<p>Evaluate the model using the following code. Let’s discuss the results as a group.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="fu">print</span>(temps_mod)</span>
+<span id="cb32-2"><a href=""></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(temps_mod, <span class="at">method =</span> <span class="st">"posterior_linpred"</span>, <span class="at">prob =</span> .<span class="dv">95</span>),</span>
+<span id="cb32-3"><a href=""></a>     <span class="at">points =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb32-4"><a href=""></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(temps_mod, <span class="at">method =</span> <span class="st">"posterior_predict"</span>, <span class="at">prob =</span> .<span class="dv">95</span>),</span>
+<span id="cb32-5"><a href=""></a>     <span class="at">points =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="independent-activity" class="slide level2 scrollable">
+<h2>Independent Activity</h2>
+<p>Suppose that you wish you predict Life Expectancy (in years) from the Percent (0-100) of a population that has graduated high school in the U.S. in the 1970s using simple linear regression.</p>
+<ol type="1">
+<li><p>Write down the model form using <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(\sigma\)</span> as the symbols for the intercept, slope, and standard error that you will estimate.</p></li>
+<li><p>Based on the above information and your own knowledge, conduct prior predictive simulation for <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(\sigma\)</span>.</p>
+<ul>
+<li>Your knowledge: what is a reasonable range of life expectancies? What type of relationship do you expect between these variables, and how strong do you think that relationship might be?</li>
+</ul></li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">data</span>(state)</span>
+<span id="cb33-2"><a href=""></a>brms_form <span class="ot">&lt;-</span> <span class="st">`</span><span class="at">Life Exp</span><span class="st">`</span> <span class="sc">~</span> <span class="st">`</span><span class="at">HS Grad</span><span class="st">`</span></span>
+<span id="cb33-3"><a href=""></a>data <span class="ot">&lt;-</span> state.x77</span>
+<span id="cb33-4"><a href=""></a></span>
+<span id="cb33-5"><a href=""></a>priors <span class="ot">&lt;-</span> <span class="do">## add your chosen priors here!</span></span>
+<span id="cb33-6"><a href=""></a></span>
+<span id="cb33-7"><a href=""></a>prior_samps <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">formula =</span> brms_form, <span class="at">data =</span> data, </span>
+<span id="cb33-8"><a href=""></a>                   <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>),</span>
+<span id="cb33-9"><a href=""></a>                   <span class="at">prior =</span> priors, <span class="at">sample_prior =</span> <span class="st">"only"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="independent-activity-1" class="slide level2 scrollable">
+<h2>Independent Activity</h2>
+<ol start="3" type="1">
+<li><p>Compare your choices to your classmate’s. Remember to <strong>not</strong> peek at the actual data during this step.</p></li>
+<li><p>If time allows, fit the model using <code>brms</code> with your choice of priors and evaluate the output.</p></li>
+</ol>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="Applied_Bayesian_Inference_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="Applied_Bayesian_Inference_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="Applied_Bayesian_Inference_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="Applied_Bayesian_Inference_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="Applied_Bayesian_Inference_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="Applied_Bayesian_Inference_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="Applied_Bayesian_Inference_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="Applied_Bayesian_Inference_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="Applied_Bayesian_Inference_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="Applied_Bayesian_Inference_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="Applied_Bayesian_Inference_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': true,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
+                // default icon
+                link.classList.add("external");
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

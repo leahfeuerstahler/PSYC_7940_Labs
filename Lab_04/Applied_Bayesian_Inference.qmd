@@ -2,3 +2,369 @@
 title: "Lab 4: Applied Bayesian Inference"
 date: February 11, 2026
 ---
+
+## Goals
+
+```{r echo = FALSE, eval = FALSE}
+library(knitr)
+opts_chunk$set(options(width=200))
+```
+
+* Fit and evaluate simple linear regression models with `brms`
+
+* Prior predictive simulation
+
+R packages for today (install if needed):
+
+```{r}
+library(tidyverse)
+library(brms)
+library(bayesplot)
+library(tidybayes)
+```
+
+## Model Setup
+
+In the Tour-de-France example from lecture, we predicted rider weight in kilograms $w_i$ from height $h_i$ in centimeters
+
+
+$$\omega_i \sim Normal (\mu_i, \sigma)$$
+
+$$\mu_i = a + b (h_i - \bar{h})$$
+The priors we chose in lecture are:
+
+* Intercept $a \sim N(66.5, 2)$
+
+* Slope $b \sim N(1, .5)$
+
+* Standard error $\sigma \sim Exp(.25)$
+
+
+## Model Setup
+
+If you want to follow along, you can download the `TDF.csv` data from Blackboard.
+
+```{r echo=T, message=FALSE, warning=FALSE, include=T}
+library(tidyverse)
+TDF <- read_csv("TDF.csv") # Read in the data
+TDF<-TDF %>% 
+  # mean-center height and convert to cm
+  mutate (HeightC = (Height - mean(Height))*100)
+```
+
+The formula in `brms` is:
+
+```{r echo=T}
+library(brms)
+brms_form <- Weight ~ HeightC
+```
+
+## Model Setup
+
+Use `get_prior` to see which `class` to set when specifying priors.
+
+```{r}
+#| class-output: "nowrap-code"
+get_prior(brms_form, data = TDF, 
+          family = gaussian(link = "identity"))
+```
+
+In `brms`, the `prior()` function with the `class` argument.
+
+```{r}
+brms_prior<-prior(normal(66.5, 2), class = "Intercept")+
+            prior(normal(1, .5), class = "b")+
+            prior(exponential(.25), class = "sigma")
+```
+
+## Model Fitting
+
+```{r results = 'hold', cache = TRUE}
+mod <- brm(brms_form, data = TDF, 
+           family = gaussian(link = "identity"),
+           prior = brms_prior)
+```
+
+## Model Evaluation
+
+To view a summary of the posterior distribution for each parameter, we can use `print()`
+
+```{r}
+print(mod)
+```
+
+## Model Evaluation
+
+The results shown by `print()` are summaries of a **Monte Carlo sample** from the posterior of each parameters' distribution. 
+
+To see the draws themselves:
+
+::: panel-tabset
+
+## Way 1
+
+From the `brms` package:
+
+```{r}
+as_draws_df(mod)
+```
+
+## Way 2
+
+From the `tidybayes` package:
+
+```{r}
+mod %>% gather_draws(b_Intercept, b_HeightC, sigma)
+```
+
+:::
+
+
+## Model Evaluation
+
+Compare the means and standard deviations to the results of `print(mod)`:
+
+```{r cache = TRUE}
+mod %>% 
+  gather_draws(b_Intercept, b_HeightC, sigma) %>% 
+  mean_qi()
+```
+
+
+## Model Evaluation
+
+To plot the posterior mean for $\mu$ (best-fit line) with a 95% interval, we can use the `conditional_effects` function in `brms`.
+
+* Use the argument `method = "posterior_linpred"` to plot the best-fit line.
+
+```{r}
+plot(conditional_effects(mod, method = "posterior_linpred"))
+```
+
+## Model Evaluation
+
+We may also wish to reference the raw data by adding `points = TRUE`:
+
+```{r}
+plot(conditional_effects(mod, method = "posterior_linpred"),
+     points = TRUE)
+```
+
+Note: the best-fit line seems to do a good job of describing the average predictions. The 95% error band is close to the line, indicating high certainty.
+
+## Model Evaluation
+
+We can use a similar plot to see the model-predicted range of observations.
+
+* Use `method = "posterior_predict"` for the 95% predicted range of observations.
+
+```{r}
+plot(conditional_effects(mod, method = "posterior_predict"),
+     points = TRUE)
+```
+
+We want approximately `95% of observations to be in the error band. Not bad!
+
+## Prior Predictive Simulation
+
+How to choose priors?!?
+
+Although commonly used, flat or noninformative priors are not usually the best choice. We often know *something* about what our results should look like.
+
+* What are the ranges of the predictor and criterion variables?
+
+* Do you expect the relationship to be positive or negative? Strong or weak?
+
+* What are the allowable ranges of the parameters?
+
+  - e.g., the standard error $\sigma$ must be positive 
+
+## Prior Predictive Simulation
+
+Don't worry too much about being "correct". Worry instead about encoding your level of preknowledge/uncertainty into your priors. If your guesses are far away from truth, the data will suggest something different than your priors. Ultimately, your results may be a little less certain (have higher credible intervals), but appropriately so!
+
+Visualization is very useful for prior predictive simulation.
+
+## Prior Predictive Simulation
+
+New Example: How has the weather in NYC changed over time?
+
+The following dataset includes the average January daily high temperature (Fahrenheit) in NYC from 1918 to 2024.
+
+* You just survived January in NYC, so you should have some familiarity with the topic ;)
+
+```{r}
+#| class-output: "nowrap-code"
+temps <- read_csv("weather.csv")
+temps %>% glimpse
+```
+
+## Prior Predictive Simulation
+
+Model setup:
+
+$$t_i \sim Normal (\mu_i, \sigma)$$
+$$\mu_i = a + b (y_i - \bar{y})$$
+Parameters:
+
+* $a$: average predicted temperature in average year 1971
+* $b$: predicted change in average temperature each year
+* $\sigma$: standard deviation of how much observed temperatures are expected to change from the prediction
+
+## Prior Predictive Simulation
+
+From experience, I may guess (you may guess differently):
+
+* that the average high temperature in 1971 was around 35 degrees
+  
+  - I think that this is within 5 degrees or so of being correct
+  
+  - Translated to a prior: $a \sim N(35, 5)$
+  
+* that temperatures have increased over time, but not too much
+
+  - Perhaps 1/10 of a degree each year
+  
+  - I am not too certain, maybe this prediction is off by about .5 degrees
+  
+  - Translated to a prior: $b \sim N(.1, .5)$
+  
+* that there are noticeable year-to-year fluctuations in January temperatures
+  
+  - Perhaps up to 10 degrees
+  
+  - Translated to a prior: $\sigma \sim Exp(0.1)$ (such that $E(\sigma) = 10$)
+
+## Prior Predictive Simulation
+
+```{r cache = TRUE}
+temps_prior <- prior(normal(35, 5), class = "Intercept") + 
+               prior(normal(.1, .5), class = "b") +
+               prior(exponential(.1), class = "sigma")
+```
+
+It is convenient to run the model with these priors but with the argument `sample_prior = "only"`. This will give you samples from the **prior distributions** rather than the posterior distributions.
+
+```{r cache = TRUE, results = "hide"}
+prior_samps <- brm(Avg_High_Temp ~ YEAR, temps, 
+                   family = gaussian(link = "identity"),
+                   prior = temps_prior,
+                   sample_prior = "only")
+```
+
+Because we use `brms` to generate samples from the prior, we can use similar functions to analyze the prior as we used to analyze the posterior.
+
+## Prior Predictive Simulation
+
+The argument `spaghetti = TRUE` draws predictions of the best-fit line.
+
+* For spaghetti plots, set `ndraws = #`, otherwise the code may take a long time to run.
+
+```{r}
+plot(conditional_effects(prior_samps, method = "posterior_linpred", 
+                         spaghetti = TRUE, ndraws = 500))
+```
+
+## Prior Predictive Simulation
+
+We might decide that the plot on the last slide allows too many negative slopes. Let's update our prior by reducing the variability of the slopes:
+
+```{r}
+temps_prior2 <- prior(normal(35, 5), class = "Intercept") + 
+                prior(normal(.1, .1), class = "b") +
+                prior(exponential(.1), class = "sigma")
+```
+
+```{r cache = TRUE, results = "hide"}
+prior_samps2 <- brm(Avg_High_Temp ~ YEAR, temps, 
+                    family = gaussian(link = "identity"),
+                    prior = temps_prior2,
+                    sample_prior = "only")
+```
+
+## Prior Predictive Simulation
+
+```{r}
+plot(conditional_effects(prior_samps2, method = "posterior_linpred", 
+                         spaghetti = TRUE, ndraws = 500))
+```
+
+Remember that this is the prediction for the mean regression line, not for individual observations. Are you satisfied with this prior? Why or why not?
+
+## Prior Predictive Simulation
+
+We also need to evaluate our prior on $\sigma$. This controls where we expect our **actual observations** to be.
+
+* With `conditional_effects` use `method = "posterior_predict"` to plot a 95% credible interval band.
+
+```{r}
+plot(conditional_effects(prior_samps2, method = "posterior_predict"))
+```
+
+## Group Activity
+
+As a class, let's decide whether to make any further adjustments to our priors.
+
+On your own computer, read in the data (download from Blackboard):
+
+```{r eval = FALSE}
+library(tidyverse)
+library(brms)
+temps <- read_csv("weather.csv")
+```
+
+Set the priors (replace `...` with your priors):
+
+```{r eval = FALSE}
+temps_prior <- prior(..., class = "Intercept") + 
+               prior(..., class = "b") +
+               prior(..., class = "sigma")
+```
+
+Fit the model:
+
+```{r eval = FALSE}
+temps_mod <- brm(Avg_High_Temp ~ YEAR, temps, 
+                 family = gaussian(link = "identity"),
+                 prior = temps_prior)
+```
+
+## Group Activity
+
+Evaluate the model using the following code. Let's discuss the results as a group.
+
+```{r eval = FALSE}
+print(temps_mod)
+plot(conditional_effects(temps_mod, method = "posterior_linpred", prob = .95),
+     points = TRUE)
+plot(conditional_effects(temps_mod, method = "posterior_predict", prob = .95),
+     points = TRUE)
+```
+
+## Independent Activity
+
+Suppose that you wish you predict Life Expectancy (in years) from the Percent (0-100) of a population that has graduated high school in the U.S. in the 1970s using simple linear regression. 
+
+1. Write down the model form using $a$, $b$, and $\sigma$ as the symbols for the intercept, slope, and standard error that you will estimate.
+
+2. Based on the above information and your own knowledge, conduct prior predictive simulation for $a$, $b$, and $\sigma$.
+
+    - Your knowledge: what is a reasonable range of life expectancies? What type of relationship do you expect between these variables, and how strong do you think that relationship might be?
+  
+```{r eval = FALSE}
+data(state)
+brms_form <- `Life Exp` ~ `HS Grad`
+data <- state.x77
+
+priors <- ## add your chosen priors here!
+
+prior_samps <- brm(formula = brms_form, data = data, 
+                   family = gaussian(link = "identity"),
+                   prior = priors, sample_prior = "only")
+```
+
+## Independent Activity
+
+3. Compare your choices to your classmate's. Remember to **not** peek at the actual data during this step. 
+  
+4. If time allows, fit the model using `brms` with your choice of priors and evaluate the output.
