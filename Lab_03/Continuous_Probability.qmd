@@ -231,7 +231,7 @@ quantile(sample_10000, probs = c(0.05, 0.95))
 
 Highest posterior density (HPD) intervals
 
--  HD intervals give the narrowest interval including certain percent of samples.
+-  HPD intervals give the narrowest interval including certain percent of samples.
 ```{r}
 library(coda)
 HPDinterval(as.mcmc(sample_10000), prob=0.95)
