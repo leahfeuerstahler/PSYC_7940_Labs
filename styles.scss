@@ -14,6 +14,11 @@ $heading2Size: 32pt;
 $heading3Size: 28pt;
 $heading4Size: 18pt;
 
+.nowrap-code pre code {
+  white-space: pre !important;
+  overflow-x: clip !important;
+}
+
 .reveal section h1 {
   color: #1C1C2B;
 }
