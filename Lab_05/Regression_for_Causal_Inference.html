@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="Regression_for_Causal_Inference_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Regression_for_Causal_Inference_files/libs/quarto-html/tabby.min.js"></script>
+<script src="Regression_for_Causal_Inference_files/libs/quarto-html/popper.min.js"></script>
+<script src="Regression_for_Causal_Inference_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="Regression_for_Causal_Inference_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Regression_for_Causal_Inference_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="Regression_for_Causal_Inference_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <meta name="author" content="PSYC 7940">
+  <meta name="dcterms.date" content="2026-02-18">
+  <title>Lab 5: Regression for Causal Inference I</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="Regression_for_Causal_Inference_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="Regression_for_Causal_Inference_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="Regression_for_Causal_Inference_files/libs/revealjs/dist/theme/quarto-2e5c1077c6a04196786595800d368178.css">
+  <link href="Regression_for_Causal_Inference_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="Regression_for_Causal_Inference_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="Regression_for_Causal_Inference_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="Regression_for_Causal_Inference_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="Regression_for_Causal_Inference_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="Regression_for_Causal_Inference_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-background-image="../logo.png" data-background-opacity="0.5" data-background-size="contain" class="quarto-title-block center">
+  <h1 class="title">Lab 5: Regression for Causal Inference I</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+PSYC 7940 
+</div>
+</div>
+</div>
+
+  <p class="date">February 18, 2026</p>
+</section>
+<section id="overview" class="slide level2">
+<h2>Overview</h2>
+<p>Today, we will learn how to conduct multiple linear regression using <code>brms</code>.</p>
+<ul>
+<li><p>Prior prediction and specification with multiple variables</p></li>
+<li><p>Fiting the models and analyzing results</p></li>
+</ul>
+<p>Load in the following packages (install if needed):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href=""></a><span class="fu">library</span>(brms)</span>
+<span id="cb1-3"><a href=""></a><span class="fu">library</span>(bayesplot)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="relationships-among-multiple-variables" class="slide level2">
+<h2>Relationships among Multiple Variables</h2>
+<ul>
+<li><p>Last week, we learned how to do linear regression with one predictor.</p></li>
+<li><p>This week, we will extend linear regression to have multiple predictors.</p></li>
+<li><p>Unlike simple linear regression, we now need to consider relationships among multiple variables.</p></li>
+</ul>
+</section>
+<section id="emerging-adulthood" class="slide level2">
+<h2>Emerging Adulthood</h2>
+<p>In lecture, we considered the following model:</p>
+
+<img data-src="Regression_for_Causal_Inference_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"><p>If the mediation model is correct then if we include both <code>soc_med</code> and <code>support</code> as predictors of <code>wb</code>, then the coefficient for <code>soc_med</code> should be zero.</p>
+</section>
+<section id="emerging-adulthood-1" class="slide level2">
+<h2>Emerging Adulthood</h2>
+<p>The model we will fit first:</p>
+<p><span class="math display">\[\begin{align*}
+  {\sf wb}_i &amp; \sim N(\mu_i, \sigma) \\
+  \mu_i &amp; = a + bsp \times {\sf support}_i + bsm \times {\sf soc\_med}_i \\
+  a &amp; \sim \_\_\_ \\
+  bsp &amp; \sim \_\_\_ \\
+  bsm &amp; \sim \_\_\_ \\
+  \sigma &amp; \sim \_\_\_ \\
+\end{align*}\]</span></p>
+<p>Load in the Emerging Adulthood data from Blackboard:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>d <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"emerging_adult.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="rescaling-variables" class="slide level2">
+<h2>Rescaling Variables</h2>
+<p>Rescaling variables makes prior prediction and model interpretation easier.</p>
+<p>Let’s look at the scale of our original variables:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>d1 <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> <span class="fu">select</span>(soc_med, support, wb)</span>
+<span id="cb3-2"><a href=""></a>d1 <span class="sc">%&gt;%</span> summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    soc_med         support            wb       
+ Min.   : 0.00   Min.   : 0.00   Min.   :1.000  
+ 1st Qu.:29.00   1st Qu.:59.00   1st Qu.:3.500  
+ Median :35.00   Median :69.00   Median :4.667  
+ Mean   :34.43   Mean   :66.33   Mean   :4.470  
+ 3rd Qu.:40.00   3rd Qu.:76.00   3rd Qu.:5.500  
+ Max.   :55.00   Max.   :84.00   Max.   :7.000  
+ NA's   :1       NA's   :1       NA's   :2      </code></pre>
+</div>
+</div>
+<ul>
+<li><p><code>soc_med</code> is between 0 and 55</p></li>
+<li><p><code>support</code> is between 0 and 84</p></li>
+<li><p><code>wb</code> is between 1 and 7</p></li>
+</ul>
+</section>
+<section id="rescaling-variables-1" class="slide level2">
+<h2>Rescaling Variables</h2>
+<p>In lecture, we rescaled these variables to range between 0 and 1.</p>
+<p>To broaden our skills, today we will transform our variables into <strong><span class="math inline">\(z\)</span>-scores</strong> with mean 0 and standard deviation 1.</p>
+<p>We will also retain only complete cases. We will learn about missing data handling next week.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>d1 <span class="ot">&lt;-</span> d1 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">complete.cases</span>(d1)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">soc_med =</span> (soc_med <span class="sc">-</span> <span class="fu">mean</span>(soc_med)) <span class="sc">/</span> <span class="fu">sd</span>(soc_med),</span>
+<span id="cb5-3"><a href=""></a>         <span class="at">support =</span> (support <span class="sc">-</span> <span class="fu">mean</span>(support)) <span class="sc">/</span> <span class="fu">sd</span>(support),</span>
+<span id="cb5-4"><a href=""></a>         <span class="at">wb =</span> (wb <span class="sc">-</span> <span class="fu">mean</span>(wb)) <span class="sc">/</span> <span class="fu">sd</span>(wb))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="prior-prediction" class="slide level2">
+<h2>Prior Prediction</h2>
+<p>Relevant ideas for choosing priors (some borrowed from lecture):</p>
+<ul>
+<li><p>Data are messy, we want to allow relatively large <span class="math inline">\(\sigma\)</span> considering the scale of the variables</p></li>
+<li><p>Want to allow both positive and negative relationships</p></li>
+<li><p>Relationships may not be very strong</p></li>
+<li><p>All variables have a mean 0 and standard deviation 1, range from <span class="math inline">\(\approx\)</span> -3 to +3</p></li>
+</ul>
+</section>
+<section id="prior-prediction-1" class="slide level2">
+<h2>Prior Prediction</h2>
+<p>We may try the following priors:</p>
+<p><span class="math inline">\(a \sim N(0, .1)\)</span></p>
+<ul>
+<li><p>We may expect the intercept to be very close to zero</p></li>
+<li><p>Recall that the intercept <em>must</em> equal zero for OLS regression</p></li>
+</ul>
+<p><span class="math inline">\(bsp, bsm \sim N(0, .5)\)</span></p>
+<ul>
+<li>Allow both positive and negative slopes but without expecting very strong slopes</li>
+</ul>
+<p><span class="math inline">\(\sigma \sim Exp(1)\)</span></p>
+<ul>
+<li>This gives <span class="math inline">\(E(\sigma) = 1\)</span>, so that on average, our predictions may be 1 unit off</li>
+</ul>
+</section>
+<section id="prior-prediction-2" class="slide level2">
+<h2>Prior Prediction</h2>
+<p>View the prior structure:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">get_prior</span>(wb <span class="sc">~</span> soc_med <span class="sc">+</span> support, d1, <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource nowrap-code number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a href=""></a>                  prior     class    coef group resp dpar nlpar lb ub tag</span>
+<span id="cb7-2"><a href=""></a>                 (flat)         b                                        </span>
+<span id="cb7-3"><a href=""></a>                 (flat)         b soc_med                                </span>
+<span id="cb7-4"><a href=""></a>                 (flat)         b support                                </span>
+<span id="cb7-5"><a href=""></a> student_t(3, 0.1, 2.5) Intercept                                        </span>
+<span id="cb7-6"><a href=""></a>   student_t(3, 0, 2.5)     sigma                                0       </span>
+<span id="cb7-7"><a href=""></a>       source</span>
+<span id="cb7-8"><a href=""></a>      default</span>
+<span id="cb7-9"><a href=""></a> (vectorized)</span>
+<span id="cb7-10"><a href=""></a> (vectorized)</span>
+<span id="cb7-11"><a href=""></a>      default</span>
+<span id="cb7-12"><a href=""></a>      default</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="prior-prediction-3" class="slide level2">
+<h2>Prior Prediction</h2>
+<p>Sample from the prior:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>prior1 <span class="ot">&lt;-</span> <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, .<span class="dv">1</span>), <span class="at">class =</span> <span class="st">"Intercept"</span>) <span class="sc">+</span> </span>
+<span id="cb8-2"><a href=""></a>          <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, .<span class="dv">5</span>), <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">coef =</span> <span class="st">"soc_med"</span>) <span class="sc">+</span> </span>
+<span id="cb8-3"><a href=""></a>          <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, .<span class="dv">5</span>), <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">coef =</span> <span class="st">"support"</span>) <span class="sc">+</span> </span>
+<span id="cb8-4"><a href=""></a>          <span class="fu">prior</span>(<span class="fu">exponential</span>(<span class="dv">1</span>), <span class="at">class =</span> <span class="st">"sigma"</span>)</span>
+<span id="cb8-5"><a href=""></a></span>
+<span id="cb8-6"><a href=""></a>prior_check1 <span class="ot">&lt;-</span> <span class="fu">brm</span>(wb <span class="sc">~</span> soc_med <span class="sc">+</span> support, d1, <span class="at">prior =</span> prior1,</span>
+<span id="cb8-7"><a href=""></a>        <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">sample_prior =</span> <span class="st">"only"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="prior-prediction-4" class="slide level2">
+<h2>Prior Prediction</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(prior_check1, <span class="at">effect =</span> <span class="st">"soc_med"</span>,</span>
+<span id="cb9-2"><a href=""></a>                         <span class="at">method =</span> <span class="st">"posterior_linpred"</span>,</span>
+<span id="cb9-3"><a href=""></a>                         <span class="at">spaghetti =</span> <span class="cn">TRUE</span>, <span class="at">ndraws =</span> <span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="Regression_for_Causal_Inference_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch"></section>
+<section id="prior-prediction-5" class="slide level2">
+<h2>Prior Prediction</h2>
+<p>Now set <code>effect = "..."</code> to plot a specific predictor.</p>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Predictor: <code>soc_med</code></a></li><li><a href="#tabset-1-2">Predictor: <code>support</code></a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(prior_check1, <span class="at">effect =</span> <span class="st">"soc_med"</span>, </span>
+<span id="cb10-2"><a href=""></a>                         <span class="at">method =</span> <span class="st">"posterior_linpred"</span>,</span>
+<span id="cb10-3"><a href=""></a>                         <span class="at">spaghetti =</span> <span class="cn">TRUE</span>, <span class="at">ndraws =</span> <span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Regression_for_Causal_Inference_files/figure-revealjs/unnamed-chunk-10-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-2">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(prior_check1, <span class="at">effect =</span> <span class="st">"support"</span>, </span>
+<span id="cb11-2"><a href=""></a>                         <span class="at">method =</span> <span class="st">"posterior_linpred"</span>,</span>
+<span id="cb11-3"><a href=""></a>                         <span class="at">spaghetti =</span> <span class="cn">TRUE</span>, <span class="at">ndraws =</span> <span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Regression_for_Causal_Inference_files/figure-revealjs/unnamed-chunk-11-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="prior-prediction-6" class="slide level2">
+<h2>Prior Prediction</h2>
+<p>Now set <code>effect = "..."</code> to plot a specific predictor.</p>
+<div class="panel-tabset">
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Predictor: <code>soc_med</code></a></li><li><a href="#tabset-2-2">Predictor: <code>support</code></a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(prior_check1, <span class="at">effect =</span> <span class="st">"soc_med"</span>, </span>
+<span id="cb12-2"><a href=""></a>                         <span class="at">method =</span> <span class="st">"posterior_predict"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Regression_for_Causal_Inference_files/figure-revealjs/unnamed-chunk-12-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-2">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(prior_check1, <span class="at">effect =</span> <span class="st">"support"</span>, </span>
+<span id="cb13-2"><a href=""></a>                         <span class="at">method =</span> <span class="st">"posterior_predict"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Regression_for_Causal_Inference_files/figure-revealjs/unnamed-chunk-13-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="prior-prediction-7" class="slide level2">
+<h2>Prior Prediction</h2>
+<p>We can also look at the predicted distribution of errors (observed - predicted outcomes, a function of <span class="math inline">\(\sigma\)</span>) using <code>pp_check</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">pp_check</span>(prior_check1, <span class="at">type =</span> <span class="st">"error_hist"</span>, <span class="at">ndraws =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="Regression_for_Causal_Inference_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"></section>
+<section id="fit-the-model" class="slide level2">
+<h2>Fit the Model</h2>
+<p>At this point, we will move forward with these priors. As always, reasonable people may choose different priors and you may consider tweaking these choices.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>m1 <span class="ot">&lt;-</span> <span class="fu">brm</span>(wb <span class="sc">~</span> soc_med <span class="sc">+</span> support, d1, <span class="at">prior =</span> prior1,</span>
+<span id="cb15-2"><a href=""></a>          <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 3.2e-05 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.32 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 0.047 seconds (Warm-up)
+Chain 1:                0.054 seconds (Sampling)
+Chain 1:                0.101 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 8e-06 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 0.047 seconds (Warm-up)
+Chain 2:                0.046 seconds (Sampling)
+Chain 2:                0.093 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 7e-06 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 0.046 seconds (Warm-up)
+Chain 3:                0.049 seconds (Sampling)
+Chain 3:                0.095 seconds (Total)
+Chain 3: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
+Chain 4: 
+Chain 4: Gradient evaluation took 8e-06 seconds
+Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
+Chain 4: Adjust your expectations accordingly!
+Chain 4: 
+Chain 4: 
+Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 4: 
+Chain 4:  Elapsed Time: 0.046 seconds (Warm-up)
+Chain 4:                0.052 seconds (Sampling)
+Chain 4:                0.098 seconds (Total)
+Chain 4: </code></pre>
+</div>
+</div>
+</section>
+<section id="summarize-model-results" class="slide level2">
+<h2>Summarize Model Results</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">print</span>(m1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Family: gaussian 
+  Links: mu = identity 
+Formula: wb ~ soc_med + support 
+   Data: d1 (Number of observations: 3131) 
+  Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+         total post-warmup draws = 4000
+
+Regression Coefficients:
+          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+Intercept     0.00      0.02    -0.03     0.03 1.00     4464     2678
+soc_med       0.01      0.02    -0.02     0.04 1.00     4136     2977
+support       0.47      0.02     0.43     0.50 1.00     4138     3168
+
+Further Distributional Parameters:
+      Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sigma     0.88      0.01     0.86     0.91 1.00     4174     2716
+
+Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+and Tail_ESS are effective sample size measures, and Rhat is the potential
+scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+</div>
+</div>
+</section>
+<section id="counterfactuals" class="slide level2">
+<h2>Counterfactuals</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(m1, <span class="at">effect =</span> <span class="st">"soc_med"</span>, <span class="at">method =</span> <span class="st">"posterior_linpred"</span>,</span>
+<span id="cb19-2"><a href=""></a>                         <span class="at">conditions =</span> <span class="fu">list</span>(<span class="at">support =</span> <span class="dv">0</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="Regression_for_Causal_Inference_files/figure-revealjs/unnamed-chunk-17-1.png" width="960" class="r-stretch"></section>
+<section id="counterfactuals-1" class="slide level2">
+<h2>Counterfactuals</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(m1, <span class="at">effect =</span> <span class="st">"soc_med"</span>, <span class="at">method =</span> <span class="st">"posterior_predict"</span>,</span>
+<span id="cb20-2"><a href=""></a>                         <span class="at">conditions =</span> <span class="fu">list</span>(<span class="at">support =</span> <span class="dv">0</span>)), <span class="at">points =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="Regression_for_Causal_Inference_files/figure-revealjs/unnamed-chunk-18-1.png" width="960" class="r-stretch"></section>
+<section id="mediation-models" class="slide level2">
+<h2>Mediation Models</h2>
+<p>To fully test our DAG, we should fit a mediation model, which model modifies the previous model by simultaneously estimating the effect of <code>soc_med</code> on <code>support</code>.</p>
+<div class="columns">
+<div class="column">
+<p><span class="math display">\[\begin{align*}
+  {\sf wb}_i &amp; \sim N(\mu_{1i}, \sigma_1) \\
+  \mu_{1i} &amp; = a_1 + bsp \times {\sf support}_i + \\
+  &amp; bsm_1 \times {\sf soc\_med}_i \\
+  a_1 &amp; \sim N(0, .1) \\
+  bsp &amp; \sim N(0, .5) \\
+  bsm_1 &amp; \sim N(0, .5) \\
+  \sigma_1 &amp; \sim Exp(1)
+\end{align*}\]</span></p>
+</div><div class="column">
+<p><span class="math display">\[\begin{align*}
+  {\sf support}_i &amp; \sim N(\mu_{2i}, \sigma_2) \\
+  \mu_{2i} &amp; = a_2 + bsm_2 \times {\sf soc\_med}_i \\
+  a_2 &amp; \sim N(0, .1) \\
+  bsm_2 &amp; \sim N(0, .5) \\
+  \sigma_2 &amp; \sim Exp(1) \\
+\end{align*}\]</span></p>
+</div></div>
+<p>For simplicity, we will use the same priors as for the multiple regression model, but we could do more prior predictive simulation if desired.</p>
+</section>
+<section id="mediation-models-1" class="slide level2">
+<h2>Mediation Models</h2>
+<p>When testing a mediated model, we use multiple equations to define the relationship. In <code>brms</code>, we can do this using the <code>bf</code> function.</p>
+<ul>
+<li><p>Put each regression within <code>bf()</code>, separated by <code>+</code></p></li>
+<li><p><code>set_rescor(FALSE)</code> means to <strong>not</strong> estimate the correlation among residuals, which we don’t want for this model.</p></li>
+</ul>
+<p>Model formula:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>brm_mod_2 <span class="ot">&lt;-</span> <span class="fu">bf</span>(wb <span class="sc">~</span> support <span class="sc">+</span> soc_med) <span class="sc">+</span> </span>
+<span id="cb21-2"><a href=""></a>             <span class="fu">bf</span>(support <span class="sc">~</span> soc_med) <span class="sc">+</span> </span>
+<span id="cb21-3"><a href=""></a>             <span class="fu">set_rescor</span>(<span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="mediation-models-2" class="slide level2">
+<h2>Mediation Models</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">get_prior</span>(brm_mod_2, <span class="at">data =</span> d1, <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource nowrap-code number-lines code-with-copy"><code class="sourceCode"><span id="cb23-1"><a href=""></a>                  prior     class    coef group    resp dpar nlpar lb ub tag</span>
+<span id="cb23-2"><a href=""></a>                 (flat)         b               support                     </span>
+<span id="cb23-3"><a href=""></a>                 (flat)         b soc_med       support                     </span>
+<span id="cb23-4"><a href=""></a> student_t(3, 0.2, 2.5) Intercept               support                     </span>
+<span id="cb23-5"><a href=""></a>   student_t(3, 0, 2.5)     sigma               support             0       </span>
+<span id="cb23-6"><a href=""></a>                 (flat)         b                    wb                     </span>
+<span id="cb23-7"><a href=""></a>                 (flat)         b soc_med            wb                     </span>
+<span id="cb23-8"><a href=""></a>                 (flat)         b support            wb                     </span>
+<span id="cb23-9"><a href=""></a> student_t(3, 0.1, 2.5) Intercept                    wb                     </span>
+<span id="cb23-10"><a href=""></a>   student_t(3, 0, 2.5)     sigma                    wb             0       </span>
+<span id="cb23-11"><a href=""></a>       source</span>
+<span id="cb23-12"><a href=""></a>      default</span>
+<span id="cb23-13"><a href=""></a> (vectorized)</span>
+<span id="cb23-14"><a href=""></a>      default</span>
+<span id="cb23-15"><a href=""></a>      default</span>
+<span id="cb23-16"><a href=""></a>      default</span>
+<span id="cb23-17"><a href=""></a> (vectorized)</span>
+<span id="cb23-18"><a href=""></a> (vectorized)</span>
+<span id="cb23-19"><a href=""></a>      default</span>
+<span id="cb23-20"><a href=""></a>      default</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="mediation-models-3" class="slide level2">
+<h2>Mediation Models</h2>
+<p>In this case, we must specify priors for each response variable separately using the resp argument.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>brm_prior_2 <span class="ot">&lt;-</span> <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, .<span class="dv">1</span>), <span class="at">class =</span> <span class="st">"Intercept"</span>, <span class="at">resp =</span> <span class="st">"wb"</span>) <span class="sc">+</span></span>
+<span id="cb24-2"><a href=""></a>               <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, .<span class="dv">5</span>), <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">resp =</span> <span class="st">"wb"</span>) <span class="sc">+</span></span>
+<span id="cb24-3"><a href=""></a>               <span class="fu">prior</span>(<span class="fu">exponential</span>(<span class="dv">1</span>), <span class="at">class =</span> <span class="st">"sigma"</span>, <span class="at">resp =</span> <span class="st">"wb"</span>) <span class="sc">+</span></span>
+<span id="cb24-4"><a href=""></a>               <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, .<span class="dv">1</span>), <span class="at">class =</span> <span class="st">"Intercept"</span>, <span class="at">resp =</span> <span class="st">"support"</span>) <span class="sc">+</span></span>
+<span id="cb24-5"><a href=""></a>               <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, .<span class="dv">5</span>), <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">resp =</span> <span class="st">"support"</span>) <span class="sc">+</span></span>
+<span id="cb24-6"><a href=""></a>               <span class="fu">prior</span>(<span class="fu">exponential</span>(<span class="dv">1</span>), <span class="at">class =</span> <span class="st">"sigma"</span>, <span class="at">resp =</span> <span class="st">"support"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="mediation-models-4" class="slide level2">
+<h2>Mediation Models</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>m2 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb25-2"><a href=""></a>  <span class="at">formula =</span> brm_mod_2,</span>
+<span id="cb25-3"><a href=""></a>  <span class="at">data =</span> d1,</span>
+<span id="cb25-4"><a href=""></a>  <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>),</span>
+<span id="cb25-5"><a href=""></a>  <span class="at">prior =</span> brm_prior_2</span>
+<span id="cb25-6"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="mediation-models-5" class="slide level2">
+<h2>Mediation Models</h2>
+<p>Let’s interpret this output together.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">print</span>(m2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource nowrap-code number-lines code-with-copy"><code class="sourceCode"><span id="cb27-1"><a href=""></a> Family: MV(gaussian, gaussian) </span>
+<span id="cb27-2"><a href=""></a>  Links: mu = identity</span>
+<span id="cb27-3"><a href=""></a>         mu = identity </span>
+<span id="cb27-4"><a href=""></a>Formula: wb ~ support + soc_med </span>
+<span id="cb27-5"><a href=""></a>         support ~ soc_med </span>
+<span id="cb27-6"><a href=""></a>   Data: d1 (Number of observations: 3131) </span>
+<span id="cb27-7"><a href=""></a>  Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;</span>
+<span id="cb27-8"><a href=""></a>         total post-warmup draws = 4000</span>
+<span id="cb27-9"><a href=""></a></span>
+<span id="cb27-10"><a href=""></a>Regression Coefficients:</span>
+<span id="cb27-11"><a href=""></a>                  Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
+<span id="cb27-12"><a href=""></a>wb_Intercept          0.00      0.02    -0.03     0.03 1.00     5531     2936</span>
+<span id="cb27-13"><a href=""></a>support_Intercept    -0.00      0.02    -0.03     0.03 1.00     6221     2969</span>
+<span id="cb27-14"><a href=""></a>wb_support            0.47      0.02     0.43     0.50 1.00     5670     3091</span>
+<span id="cb27-15"><a href=""></a>wb_soc_med            0.01      0.02    -0.02     0.04 1.00     5432     3086</span>
+<span id="cb27-16"><a href=""></a>support_soc_med       0.21      0.02     0.18     0.25 1.00     5440     3053</span>
+<span id="cb27-17"><a href=""></a></span>
+<span id="cb27-18"><a href=""></a>Further Distributional Parameters:</span>
+<span id="cb27-19"><a href=""></a>              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
+<span id="cb27-20"><a href=""></a>sigma_wb          0.88      0.01     0.86     0.91 1.00     6062     3233</span>
+<span id="cb27-21"><a href=""></a>sigma_support     0.98      0.01     0.95     1.00 1.00     5444     2919</span>
+<span id="cb27-22"><a href=""></a></span>
+<span id="cb27-23"><a href=""></a>Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS</span>
+<span id="cb27-24"><a href=""></a>and Tail_ESS are effective sample size measures, and Rhat is the potential</span>
+<span id="cb27-25"><a href=""></a>scale reduction factor on split chains (at convergence, Rhat = 1).</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="handling-categorical-predictors" class="slide level2">
+<h2>Handling Categorical Predictors</h2>
+<p>When predictors are categorical, we can use an index variable approach. This often involves treating the variables as nonlinear parameters to set distinct priors for each group.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>d2 <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> <span class="fu">select</span>(sex, soc_med, support, wb)</span>
+<span id="cb28-2"><a href=""></a></span>
+<span id="cb28-3"><a href=""></a>d2 <span class="ot">&lt;-</span> d2 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">complete.cases</span>(d2)) <span class="sc">%&gt;%</span></span>
+<span id="cb28-4"><a href=""></a>    <span class="fu">mutate</span>(<span class="at">soc_med =</span> (soc_med <span class="sc">-</span> <span class="fu">mean</span>(soc_med)) <span class="sc">/</span> <span class="fu">sd</span>(soc_med),</span>
+<span id="cb28-5"><a href=""></a>         <span class="at">support =</span> (support <span class="sc">-</span> <span class="fu">mean</span>(support)) <span class="sc">/</span> <span class="fu">sd</span>(support),</span>
+<span id="cb28-6"><a href=""></a>         <span class="at">wb =</span> (wb <span class="sc">-</span> <span class="fu">mean</span>(wb)) <span class="sc">/</span> <span class="fu">sd</span>(wb),</span>
+<span id="cb28-7"><a href=""></a>         <span class="at">sex =</span> <span class="fu">factor</span>(sex))</span>
+<span id="cb28-8"><a href=""></a></span>
+<span id="cb28-9"><a href=""></a><span class="fu">summary</span>(d2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     sex          soc_med           support              wb         
+ female:2279   Min.   :-2.7313   Min.   :-4.8823   Min.   :-2.6340  
+ male  : 770   1st Qu.:-0.6349   1st Qu.:-0.5430   1st Qu.:-0.7372  
+ other :  53   Median : 0.0639   Median : 0.1924   Median : 0.1480  
+               Mean   : 0.0000   Mean   : 0.0000   Mean   : 0.0000  
+               3rd Qu.: 0.6462   3rd Qu.: 0.7073   3rd Qu.: 0.7803  
+               Max.   : 2.3932   Max.   : 1.2956   Max.   : 1.9184  </code></pre>
+</div>
+</div>
+</section>
+<section id="handling-categorical-predictors-1" class="slide level2">
+<h2>Handling Categorical Predictors</h2>
+<p>Now, we want to estimate separate intercepts for each reported category of <code>sex</code>.</p>
+<ul>
+<li><p>Make sure that <code>sex</code> is coded as a factor variable before fitting.</p></li>
+<li><p>The code <code>0 +</code> means to <strong>not</strong> estimate an overall intercept.</p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a>brm_mod_3 <span class="ot">&lt;-</span> <span class="fu">bf</span>(wb <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> sex <span class="sc">+</span> support <span class="sc">+</span> soc_med) <span class="sc">+</span> </span>
+<span id="cb30-2"><a href=""></a>             <span class="fu">bf</span>(support <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> sex <span class="sc">+</span> soc_med) <span class="sc">+</span> </span>
+<span id="cb30-3"><a href=""></a>             <span class="fu">set_rescor</span>(<span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now, intercepts are indicated by <code>class = b</code> rather than <code>class = Intercept</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">get_prior</span>(brm_mod_3, <span class="at">data =</span> d2, <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource nowrap-code number-lines code-with-copy"><code class="sourceCode"><span id="cb32-1"><a href=""></a>                prior class      coef group    resp dpar nlpar lb ub tag</span>
+<span id="cb32-2"><a href=""></a>               (flat)     b                 support                     </span>
+<span id="cb32-3"><a href=""></a>               (flat)     b sexfemale       support                     </span>
+<span id="cb32-4"><a href=""></a>               (flat)     b   sexmale       support                     </span>
+<span id="cb32-5"><a href=""></a>               (flat)     b  sexother       support                     </span>
+<span id="cb32-6"><a href=""></a>               (flat)     b   soc_med       support                     </span>
+<span id="cb32-7"><a href=""></a> student_t(3, 0, 2.5) sigma                 support             0       </span>
+<span id="cb32-8"><a href=""></a>               (flat)     b                      wb                     </span>
+<span id="cb32-9"><a href=""></a>               (flat)     b sexfemale            wb                     </span>
+<span id="cb32-10"><a href=""></a>               (flat)     b   sexmale            wb                     </span>
+<span id="cb32-11"><a href=""></a>               (flat)     b  sexother            wb                     </span>
+<span id="cb32-12"><a href=""></a>               (flat)     b   soc_med            wb                     </span>
+<span id="cb32-13"><a href=""></a>               (flat)     b   support            wb                     </span>
+<span id="cb32-14"><a href=""></a> student_t(3, 0, 2.5) sigma                      wb             0       </span>
+<span id="cb32-15"><a href=""></a>       source</span>
+<span id="cb32-16"><a href=""></a>      default</span>
+<span id="cb32-17"><a href=""></a> (vectorized)</span>
+<span id="cb32-18"><a href=""></a> (vectorized)</span>
+<span id="cb32-19"><a href=""></a> (vectorized)</span>
+<span id="cb32-20"><a href=""></a> (vectorized)</span>
+<span id="cb32-21"><a href=""></a>      default</span>
+<span id="cb32-22"><a href=""></a>      default</span>
+<span id="cb32-23"><a href=""></a> (vectorized)</span>
+<span id="cb32-24"><a href=""></a> (vectorized)</span>
+<span id="cb32-25"><a href=""></a> (vectorized)</span>
+<span id="cb32-26"><a href=""></a> (vectorized)</span>
+<span id="cb32-27"><a href=""></a> (vectorized)</span>
+<span id="cb32-28"><a href=""></a>      default</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="handling-categorical-predictors-2" class="slide level2">
+<h2>Handling Categorical Predictors</h2>
+<p>Now, we want a broader prior on the intercepts to allow for mean differences among the sexes. We’ll use <span class="math inline">\(N(0, .2)\)</span>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>brm_prior_3 <span class="ot">&lt;-</span> <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, .<span class="dv">2</span>), <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">coef =</span> <span class="st">"sexfemale"</span>, <span class="at">resp =</span> <span class="st">"wb"</span>) <span class="sc">+</span></span>
+<span id="cb33-2"><a href=""></a>               <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, .<span class="dv">2</span>), <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">coef =</span> <span class="st">"sexmale"</span>, <span class="at">resp =</span> <span class="st">"wb"</span>) <span class="sc">+</span></span>
+<span id="cb33-3"><a href=""></a>               <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, .<span class="dv">2</span>), <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">coef =</span> <span class="st">"sexother"</span>, <span class="at">resp =</span> <span class="st">"wb"</span>) <span class="sc">+</span></span>
+<span id="cb33-4"><a href=""></a>               <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, .<span class="dv">5</span>), <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">coef =</span> <span class="st">"soc_med"</span>, <span class="at">resp =</span> <span class="st">"wb"</span>) <span class="sc">+</span></span>
+<span id="cb33-5"><a href=""></a>               <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, .<span class="dv">5</span>), <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">coef =</span> <span class="st">"support"</span>, <span class="at">resp =</span> <span class="st">"wb"</span>) <span class="sc">+</span></span>
+<span id="cb33-6"><a href=""></a>               <span class="fu">prior</span>(<span class="fu">exponential</span>(<span class="dv">1</span>), <span class="at">class =</span> <span class="st">"sigma"</span>, <span class="at">resp =</span> <span class="st">"wb"</span>) <span class="sc">+</span></span>
+<span id="cb33-7"><a href=""></a>               <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, .<span class="dv">2</span>), <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">coef =</span> <span class="st">"sexfemale"</span>, <span class="at">resp =</span> <span class="st">"support"</span>) <span class="sc">+</span></span>
+<span id="cb33-8"><a href=""></a>               <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, .<span class="dv">2</span>), <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">coef =</span> <span class="st">"sexmale"</span>, <span class="at">resp =</span> <span class="st">"support"</span>) <span class="sc">+</span></span>
+<span id="cb33-9"><a href=""></a>               <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, .<span class="dv">2</span>), <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">coef =</span> <span class="st">"sexother"</span>, <span class="at">resp =</span> <span class="st">"support"</span>) <span class="sc">+</span></span>
+<span id="cb33-10"><a href=""></a>               <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, .<span class="dv">5</span>), <span class="at">class =</span> <span class="st">"b"</span>, <span class="at">coef =</span> <span class="st">"soc_med"</span>, <span class="at">resp =</span> <span class="st">"support"</span>) <span class="sc">+</span></span>
+<span id="cb33-11"><a href=""></a>               <span class="fu">prior</span>(<span class="fu">exponential</span>(<span class="dv">1</span>), <span class="at">class =</span> <span class="st">"sigma"</span>, <span class="at">resp =</span> <span class="st">"support"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="handling-categorical-predictors-3" class="slide level2">
+<h2>Handling Categorical Predictors</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a>m3 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb34-2"><a href=""></a>  <span class="at">formula =</span> brm_mod_3,</span>
+<span id="cb34-3"><a href=""></a>  <span class="at">data =</span> d2,</span>
+<span id="cb34-4"><a href=""></a>  <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>),</span>
+<span id="cb34-5"><a href=""></a>  <span class="at">prior =</span> brm_prior_3</span>
+<span id="cb34-6"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 5.4e-05 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.54 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 0.14 seconds (Warm-up)
+Chain 1:                0.126 seconds (Sampling)
+Chain 1:                0.266 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 1.6e-05 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.16 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 0.145 seconds (Warm-up)
+Chain 2:                0.119 seconds (Sampling)
+Chain 2:                0.264 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 1.6e-05 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.16 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 0.14 seconds (Warm-up)
+Chain 3:                0.124 seconds (Sampling)
+Chain 3:                0.264 seconds (Total)
+Chain 3: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
+Chain 4: 
+Chain 4: Gradient evaluation took 1.6e-05 seconds
+Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.16 seconds.
+Chain 4: Adjust your expectations accordingly!
+Chain 4: 
+Chain 4: 
+Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 4: 
+Chain 4:  Elapsed Time: 0.144 seconds (Warm-up)
+Chain 4:                0.123 seconds (Sampling)
+Chain 4:                0.267 seconds (Total)
+Chain 4: </code></pre>
+</div>
+</div>
+</section>
+<section id="handling-categorical-predictors-4" class="slide level2">
+<h2>Handling Categorical Predictors</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="fu">print</span>(m3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource nowrap-code number-lines code-with-copy"><code class="sourceCode"><span id="cb37-1"><a href=""></a> Family: MV(gaussian, gaussian) </span>
+<span id="cb37-2"><a href=""></a>  Links: mu = identity</span>
+<span id="cb37-3"><a href=""></a>         mu = identity </span>
+<span id="cb37-4"><a href=""></a>Formula: wb ~ 0 + sex + support + soc_med </span>
+<span id="cb37-5"><a href=""></a>         support ~ 0 + sex + soc_med </span>
+<span id="cb37-6"><a href=""></a>   Data: d2 (Number of observations: 3102) </span>
+<span id="cb37-7"><a href=""></a>  Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;</span>
+<span id="cb37-8"><a href=""></a>         total post-warmup draws = 4000</span>
+<span id="cb37-9"><a href=""></a></span>
+<span id="cb37-10"><a href=""></a>Regression Coefficients:</span>
+<span id="cb37-11"><a href=""></a>                  Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
+<span id="cb37-12"><a href=""></a>wb_sexfemale         -0.02      0.02    -0.06     0.02 1.00     7849     3213</span>
+<span id="cb37-13"><a href=""></a>wb_sexmale            0.08      0.03     0.02     0.15 1.00     8538     2990</span>
+<span id="cb37-14"><a href=""></a>wb_sexother          -0.29      0.10    -0.49    -0.08 1.00     7964     2940</span>
+<span id="cb37-15"><a href=""></a>wb_support            0.46      0.02     0.43     0.50 1.00     7147     3010</span>
+<span id="cb37-16"><a href=""></a>wb_soc_med            0.01      0.02    -0.02     0.05 1.00     6569     3267</span>
+<span id="cb37-17"><a href=""></a>support_sexfemale     0.03      0.02    -0.01     0.07 1.00     7304     3137</span>
+<span id="cb37-18"><a href=""></a>support_sexmale      -0.07      0.03    -0.13     0.00 1.00     8084     3265</span>
+<span id="cb37-19"><a href=""></a>support_sexother     -0.28      0.12    -0.51    -0.06 1.00     8204     2891</span>
+<span id="cb37-20"><a href=""></a>support_soc_med       0.21      0.02     0.17     0.24 1.00     7282     3368</span>
+<span id="cb37-21"><a href=""></a></span>
+<span id="cb37-22"><a href=""></a>Further Distributional Parameters:</span>
+<span id="cb37-23"><a href=""></a>              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
+<span id="cb37-24"><a href=""></a>sigma_wb          0.88      0.01     0.86     0.90 1.00     7373     3061</span>
+<span id="cb37-25"><a href=""></a>sigma_support     0.98      0.01     0.95     1.00 1.00     8819     3125</span>
+<span id="cb37-26"><a href=""></a></span>
+<span id="cb37-27"><a href=""></a>Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS</span>
+<span id="cb37-28"><a href=""></a>and Tail_ESS are effective sample size measures, and Rhat is the potential</span>
+<span id="cb37-29"><a href=""></a>scale reduction factor on split chains (at convergence, Rhat = 1).</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="activity" class="slide level2">
+<h2>Activity</h2>
+<p>In this lab, we fit 3 different <code>brms</code> models.</p>
+<ul>
+<li><p>Multiple linear regression with 2 continuous predictors</p></li>
+<li><p>Simple mediation with continuous predictor and mediator</p></li>
+<li><p>Mediation with a categorical covariate</p></li>
+</ul>
+</section>
+<section id="activity-1" class="slide level2 scrollable">
+<h2>Activity</h2>
+<p>Tasks:</p>
+<ol type="1">
+<li><p>Run the code to fit each model on your own computer.</p></li>
+<li><p>Visualize the results from each model using the code from this week and last. Feel free to explore other options.</p></li>
+</ol>
+<ul>
+<li><p><code>plot(conditional_effects(...))</code>: now use the fitted model rather than the priors-only model</p>
+<ul>
+<li><p>Use both <code>method = "posterior_linpred"</code> and <code>method = "posterior_predict"</code></p></li>
+<li><p>Set <code>effect = "..."</code> to put a specific IV on the <span class="math inline">\(x\)</span> axis</p></li>
+<li><p>Set <code>conditions = list(... = #)</code> to plot results conditional on a specific value of another predictor</p></li>
+<li><p>Set <code>resp = "..."</code> to plot the effect for a specific outcome (response) ariable</p></li>
+</ul></li>
+<li><p><code>pp_check(..., type = "...")</code></p>
+<ul>
+<li>Try <code>type = "scatter_avg", ndraws = 100</code></li>
+</ul></li>
+</ul>
+<ol start="3" type="1">
+<li>For each plot, talk through with the TA and/or a classmate how to interpret the results.</li>
+</ol>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="Regression_for_Causal_Inference_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="Regression_for_Causal_Inference_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="Regression_for_Causal_Inference_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="Regression_for_Causal_Inference_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="Regression_for_Causal_Inference_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="Regression_for_Causal_Inference_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="Regression_for_Causal_Inference_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="Regression_for_Causal_Inference_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="Regression_for_Causal_Inference_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="Regression_for_Causal_Inference_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="Regression_for_Causal_Inference_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': true,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
+                // default icon
+                link.classList.add("external");
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

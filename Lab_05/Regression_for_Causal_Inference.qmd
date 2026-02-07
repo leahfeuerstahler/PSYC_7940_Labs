@@ -2,3 +2,449 @@
 title: "Lab 5: Regression for Causal Inference I"
 date: February 18, 2026
 ---
+
+
+```{r echo = FALSE, eval = FALSE}
+library(knitr)
+opts_chunk$set(options(width=200))
+```
+
+
+## Overview
+
+Today, we will learn how to conduct multiple linear regression using `brms`.
+
+* Prior prediction and specification with multiple variables
+
+* Fiting the models and analyzing results
+
+Load in the following packages (install if needed):
+
+```{r}
+library(tidyverse)
+library(brms)
+library(bayesplot)
+```
+
+## Relationships among Multiple Variables
+
+* Last week, we learned how to do linear regression with one predictor.
+
+* This week, we will extend linear regression to have multiple predictors.
+
+* Unlike simple linear regression, we now need to consider relationships among multiple variables.
+
+## Emerging Adulthood
+
+In lecture, we considered the following model:
+
+```{r echo = FALSE, fig.height = 3}
+library(dagitty)
+dag_ea <- dagitty("dag{socmed -> support -> wb}")
+
+coordinates(dag_ea) <-  list(x = c(socmed = 0, support = 1, wb = 2),
+                           y = c(socmed = 0, support = -1, wb = 0))
+plot(dag_ea)
+```
+
+If the mediation model is correct then if we include both `soc_med` and `support` as predictors of `wb`, then the coefficient for `soc_med` should be zero.
+
+## Emerging Adulthood
+
+The model we will fit first:
+
+\begin{align*}
+  {\sf wb}_i & \sim N(\mu_i, \sigma) \\
+  \mu_i & = a + bsp \times {\sf support}_i + bsm \times {\sf soc\_med}_i \\
+  a & \sim \_\_\_ \\
+  bsp & \sim \_\_\_ \\
+  bsm & \sim \_\_\_ \\
+  \sigma & \sim \_\_\_ \\
+\end{align*}
+
+Load in the Emerging Adulthood data from Blackboard:
+
+```{r}
+d <- read_csv("emerging_adult.csv")
+```
+
+
+## Rescaling Variables
+
+Rescaling variables makes prior prediction and model interpretation easier.
+
+Let's look at the scale of our original variables:
+
+```{r}
+d1 <- d %>% select(soc_med, support, wb)
+d1 %>% summary
+```
+* `soc_med` is between 0 and 55
+
+* `support` is between 0 and 84
+
+* `wb` is between 1 and 7
+
+## Rescaling Variables
+
+In lecture, we rescaled these variables to range between 0 and 1.
+
+To broaden our skills, today we will transform our variables into **$z$-scores** with mean 0 and standard deviation 1. 
+
+We will also retain only complete cases. We will learn about missing data handling next week.
+
+```{r}
+d1 <- d1 %>% filter(complete.cases(d1)) %>%
+  mutate(soc_med = (soc_med - mean(soc_med)) / sd(soc_med),
+         support = (support - mean(support)) / sd(support),
+         wb = (wb - mean(wb)) / sd(wb))
+```
+
+
+## Prior Prediction
+
+Relevant ideas for choosing priors (some borrowed from lecture):
+
+* Data are messy, we want to allow relatively large $\sigma$ considering the scale of the variables
+
+* Want to allow both positive and negative relationships
+
+* Relationships may not be very strong
+
+* All variables have a mean 0 and standard deviation 1, range from $\approx$ -3 to +3
+
+## Prior Prediction
+
+We may try the following priors:
+
+$a \sim N(0, .1)$
+
+  - We may expect the intercept to be very close to zero
+
+  - Recall that the intercept *must* equal zero for OLS regression
+  
+$bsp, bsm \sim N(0, .5)$
+
+  - Allow both positive and negative slopes but without expecting very strong slopes
+
+$\sigma \sim Exp(1)$
+
+  - This gives $E(\sigma) = 1$, so that on average, our predictions may be 1 unit off
+
+## Prior Prediction
+
+View the prior structure:
+
+```{r}
+#| class-output: "nowrap-code"
+get_prior(wb ~ soc_med + support, d1, family = gaussian(link = "identity"))
+```
+
+## Prior Prediction
+
+Sample from the prior:
+
+```{r results = "hide"}
+prior1 <- prior(normal(0, .1), class = "Intercept") + 
+          prior(normal(0, .5), class = "b", coef = "soc_med") + 
+          prior(normal(0, .5), class = "b", coef = "support") + 
+          prior(exponential(1), class = "sigma")
+
+prior_check1 <- brm(wb ~ soc_med + support, d1, prior = prior1,
+        family = gaussian(link = "identity"), sample_prior = "only")
+```
+
+
+## Prior Prediction
+
+```{r}
+plot(conditional_effects(prior_check1, effect = "soc_med",
+                         method = "posterior_linpred",
+                         spaghetti = TRUE, ndraws = 100))
+```
+
+## Prior Prediction
+
+Now set `effect = "..."` to plot a specific predictor.
+
+::: panel-tabset
+
+## Predictor: `soc_med`
+
+```{r}
+plot(conditional_effects(prior_check1, effect = "soc_med", 
+                         method = "posterior_linpred",
+                         spaghetti = TRUE, ndraws = 100))
+```
+
+
+## Predictor: `support`
+
+```{r}
+plot(conditional_effects(prior_check1, effect = "support", 
+                         method = "posterior_linpred",
+                         spaghetti = TRUE, ndraws = 100))
+```
+
+:::
+
+
+## Prior Prediction
+
+Now set `effect = "..."` to plot a specific predictor.
+
+::: panel-tabset
+
+## Predictor: `soc_med`
+
+```{r}
+plot(conditional_effects(prior_check1, effect = "soc_med", 
+                         method = "posterior_predict"))
+```
+
+
+## Predictor: `support`
+
+```{r}
+plot(conditional_effects(prior_check1, effect = "support", 
+                         method = "posterior_predict"))
+```
+
+:::
+
+## Prior Prediction
+
+We can also look at the predicted distribution of errors (observed - predicted outcomes, a function of $\sigma$) using `pp_check`:
+
+```{r}
+pp_check(prior_check1, type = "error_hist", ndraws = 12)
+```
+
+## Fit the Model
+
+At this point, we will move forward with these priors. As always, reasonable people may choose different priors and you may consider tweaking these choices.
+
+```{r cache = TRUE}
+m1 <- brm(wb ~ soc_med + support, d1, prior = prior1,
+          family = gaussian(link = "identity"))
+```
+
+## Summarize Model Results
+
+```{r}
+print(m1)
+```
+
+## Counterfactuals
+
+```{r}
+plot(conditional_effects(m1, effect = "soc_med", method = "posterior_linpred",
+                         conditions = list(support = 0)))
+```
+
+## Counterfactuals
+
+```{r}
+plot(conditional_effects(m1, effect = "soc_med", method = "posterior_predict",
+                         conditions = list(support = 0)), points = TRUE)
+```
+
+## Mediation Models
+
+To fully test our DAG, we should fit a mediation model, which model modifies the previous model by simultaneously estimating the effect of `soc_med` on `support`. 
+
+::: columns
+:::: column
+
+\begin{align*}
+  {\sf wb}_i & \sim N(\mu_{1i}, \sigma_1) \\
+  \mu_{1i} & = a_1 + bsp \times {\sf support}_i + \\
+  & bsm_1 \times {\sf soc\_med}_i \\
+  a_1 & \sim N(0, .1) \\
+  bsp & \sim N(0, .5) \\
+  bsm_1 & \sim N(0, .5) \\
+  \sigma_1 & \sim Exp(1)
+\end{align*}
+
+::::
+:::: column
+
+\begin{align*}
+  {\sf support}_i & \sim N(\mu_{2i}, \sigma_2) \\
+  \mu_{2i} & = a_2 + bsm_2 \times {\sf soc\_med}_i \\
+  a_2 & \sim N(0, .1) \\
+  bsm_2 & \sim N(0, .5) \\
+  \sigma_2 & \sim Exp(1) \\
+\end{align*}
+
+::::
+:::
+
+For simplicity, we will use the same priors as for the multiple regression model, but we could do more prior predictive simulation if desired.
+
+## Mediation Models
+
+When testing a mediated model, we use multiple equations to define the relationship. In `brms`, we can do this using the `bf` function.
+
+* Put each regression within `bf()`, separated by `+`
+
+* `set_rescor(FALSE)` means to **not** estimate the correlation among residuals, which we don't want for this model.
+
+Model formula:
+
+```{r cache = TRUE}
+brm_mod_2 <- bf(wb ~ support + soc_med) + 
+             bf(support ~ soc_med) + 
+             set_rescor(FALSE)
+```
+
+## Mediation Models
+
+```{r}
+#| class-output: "nowrap-code"
+get_prior(brm_mod_2, data = d1, family = gaussian(link = "identity"))
+```
+
+## Mediation Models
+
+In this case, we must specify priors for each response variable separately using the resp argument.
+
+```{r}
+#| class-output: "nowrap-code"
+brm_prior_2 <- prior(normal(0, .1), class = "Intercept", resp = "wb") +
+               prior(normal(0, .5), class = "b", resp = "wb") +
+               prior(exponential(1), class = "sigma", resp = "wb") +
+               prior(normal(0, .1), class = "Intercept", resp = "support") +
+               prior(normal(0, .5), class = "b", resp = "support") +
+               prior(exponential(1), class = "sigma", resp = "support")
+```
+
+## Mediation Models
+
+```{r cache = TRUE, results = "hide"}
+m2 <- brm(
+  formula = brm_mod_2,
+  data = d1,
+  family = gaussian(link = "identity"),
+  prior = brm_prior_2
+)
+```
+
+## Mediation Models
+
+Let's interpret this output together.
+
+```{r}
+#| class-output: "nowrap-code"
+print(m2)
+```
+
+## Handling Categorical Predictors
+
+When predictors are categorical, we can use an index variable approach. This often involves treating the variables as nonlinear parameters to set distinct priors for each group.
+
+```{r}
+d2 <- d %>% select(sex, soc_med, support, wb)
+
+d2 <- d2 %>% filter(complete.cases(d2)) %>%
+    mutate(soc_med = (soc_med - mean(soc_med)) / sd(soc_med),
+         support = (support - mean(support)) / sd(support),
+         wb = (wb - mean(wb)) / sd(wb),
+         sex = factor(sex))
+
+summary(d2)
+
+```
+
+## Handling Categorical Predictors
+
+Now, we want to estimate separate intercepts for each reported category of `sex`. 
+
+* Make sure that `sex` is coded as a factor variable before fitting.
+
+* The code `0 + ` means to **not** estimate an overall intercept.
+
+```{r}
+brm_mod_3 <- bf(wb ~ 0 + sex + support + soc_med) + 
+             bf(support ~ 0 + sex + soc_med) + 
+             set_rescor(FALSE)
+```
+
+Now, intercepts are indicated by `class = b` rather than `class = Intercept`:
+
+```{r}
+#| class-output: "nowrap-code"
+get_prior(brm_mod_3, data = d2, family = gaussian(link = "identity"))
+```
+
+## Handling Categorical Predictors
+
+Now, we want a broader prior on the intercepts to allow for mean differences among the sexes. We'll use $N(0, .2)$.
+
+
+```{r}
+brm_prior_3 <- prior(normal(0, .2), class = "b", coef = "sexfemale", resp = "wb") +
+               prior(normal(0, .2), class = "b", coef = "sexmale", resp = "wb") +
+               prior(normal(0, .2), class = "b", coef = "sexother", resp = "wb") +
+               prior(normal(0, .5), class = "b", coef = "soc_med", resp = "wb") +
+               prior(normal(0, .5), class = "b", coef = "support", resp = "wb") +
+               prior(exponential(1), class = "sigma", resp = "wb") +
+               prior(normal(0, .2), class = "b", coef = "sexfemale", resp = "support") +
+               prior(normal(0, .2), class = "b", coef = "sexmale", resp = "support") +
+               prior(normal(0, .2), class = "b", coef = "sexother", resp = "support") +
+               prior(normal(0, .5), class = "b", coef = "soc_med", resp = "support") +
+               prior(exponential(1), class = "sigma", resp = "support")
+```
+
+
+## Handling Categorical Predictors
+
+```{r}
+m3 <- brm(
+  formula = brm_mod_3,
+  data = d2,
+  family = gaussian(link = "identity"),
+  prior = brm_prior_3
+)
+```
+
+## Handling Categorical Predictors
+
+```{r}
+#| class-output: "nowrap-code"
+print(m3)
+```
+
+## Activity
+
+In this lab, we fit 3 different `brms` models.
+
+* Multiple linear regression with 2 continuous predictors
+
+* Simple mediation with continuous predictor and mediator
+
+* Mediation with a categorical covariate
+
+## Activity
+
+Tasks:
+
+1. Run the code to fit each model on your own computer.
+
+2. Visualize the results from each model using the code from this week and last. Feel free to explore other options.
+  
+  * `plot(conditional_effects(...))`: now use the fitted model rather than the priors-only model
+  
+      - Use both `method = "posterior_linpred"` and `method = "posterior_predict"`
+      
+      - Set `effect = "..."` to put a specific IV on the $x$ axis
+      
+      - Set `conditions = list(... = #)` to plot results conditional on a specific value of another predictor
+      
+      - Set `resp = "..."` to plot the effect for a specific outcome (response) ariable
+
+  * `pp_check(..., type = "...")`
+  
+      - Try `type = "scatter_avg", ndraws = 100`
+      
+3. For each plot, talk through with the TA and/or a classmate how to interpret the results.
