@@ -79,6 +79,7 @@ Let's look at the scale of our original variables:
 d1 <- d %>% select(soc_med, support, wb)
 d1 %>% summary
 ```
+
 * `soc_med` is between 0 and 55
 
 * `support` is between 0 and 84
