@@ -257,11 +257,11 @@ PSYC 7940
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">get_prior</span>(brms_form, <span class="at">data =</span> TDF, </span>
 <span id="cb4-2"><a href=""></a>          <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource nowrap-code number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a href=""></a>                 prior     class    coef group resp dpar nlpar lb ub</span>
-<span id="cb5-2"><a href=""></a>                (flat)         b                                    </span>
-<span id="cb5-3"><a href=""></a>                (flat)         b HeightC                            </span>
-<span id="cb5-4"><a href=""></a> student_t(3, 70, 7.4) Intercept                                    </span>
-<span id="cb5-5"><a href=""></a>  student_t(3, 0, 7.4)     sigma                                0   </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource nowrap-code number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a href=""></a>                 prior     class    coef group resp dpar nlpar lb ub tag</span>
+<span id="cb5-2"><a href=""></a>                (flat)         b                                        </span>
+<span id="cb5-3"><a href=""></a>                (flat)         b HeightC                                </span>
+<span id="cb5-4"><a href=""></a> student_t(3, 70, 7.4) Intercept                                        </span>
+<span id="cb5-5"><a href=""></a>  student_t(3, 0, 7.4)     sigma                                0       </span>
 <span id="cb5-6"><a href=""></a>       source</span>
 <span id="cb5-7"><a href=""></a>      default</span>
 <span id="cb5-8"><a href=""></a> (vectorized)</span>
@@ -406,7 +406,7 @@ Chain 4: </code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">print</span>(mod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Family: gaussian 
-  Links: mu = identity; sigma = identity 
+  Links: mu = identity 
 Formula: Weight ~ HeightC 
    Data: TDF (Number of observations: 179) 
   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
@@ -709,14 +709,15 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 </ol>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">data</span>(state)</span>
-<span id="cb33-2"><a href=""></a>brms_form <span class="ot">&lt;-</span> <span class="st">`</span><span class="at">Life Exp</span><span class="st">`</span> <span class="sc">~</span> <span class="st">`</span><span class="at">HS Grad</span><span class="st">`</span></span>
-<span id="cb33-3"><a href=""></a>data <span class="ot">&lt;-</span> state.x77</span>
-<span id="cb33-4"><a href=""></a></span>
-<span id="cb33-5"><a href=""></a>priors <span class="ot">&lt;-</span> <span class="do">## add your chosen priors here!</span></span>
-<span id="cb33-6"><a href=""></a></span>
-<span id="cb33-7"><a href=""></a>prior_samps <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">formula =</span> brms_form, <span class="at">data =</span> data, </span>
-<span id="cb33-8"><a href=""></a>                   <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>),</span>
-<span id="cb33-9"><a href=""></a>                   <span class="at">prior =</span> priors, <span class="at">sample_prior =</span> <span class="st">"only"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb33-2"><a href=""></a>data <span class="ot">&lt;-</span> state.x77</span>
+<span id="cb33-3"><a href=""></a><span class="fu">colnames</span>(data) <span class="ot">&lt;-</span> <span class="fu">make.names</span>(<span class="fu">colnames</span>(data))</span>
+<span id="cb33-4"><a href=""></a>brms_form <span class="ot">&lt;-</span> Life.Exp <span class="sc">~</span> HS.Grad</span>
+<span id="cb33-5"><a href=""></a></span>
+<span id="cb33-6"><a href=""></a>priors <span class="ot">&lt;-</span> <span class="do">## add your chosen priors here!</span></span>
+<span id="cb33-7"><a href=""></a></span>
+<span id="cb33-8"><a href=""></a>prior_samps <span class="ot">&lt;-</span> <span class="fu">brm</span>(<span class="at">formula =</span> brms_form, <span class="at">data =</span> data, </span>
+<span id="cb33-9"><a href=""></a>                   <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>),</span>
+<span id="cb33-10"><a href=""></a>                   <span class="at">prior =</span> priors, <span class="at">sample_prior =</span> <span class="st">"only"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="independent-activity-1" class="slide level2 scrollable">

@@ -355,8 +355,9 @@ Suppose that you wish you predict Life Expectancy (in years) from the Percent (0
   
 ```{r eval = FALSE}
 data(state)
-brms_form <- `Life Exp` ~ `HS Grad`
 data <- state.x77
+colnames(data) <- make.names(colnames(data))
+brms_form <- Life.Exp ~ HS.Grad
 
 priors <- ## add your chosen priors here!
 
