@@ -1,6 +1,8 @@
 ---
 title: "Lab 4: Applied Bayesian Inference"
 date: February 11, 2026
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## Goals
