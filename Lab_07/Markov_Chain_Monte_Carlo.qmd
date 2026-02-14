@@ -2,3 +2,554 @@
 title: "Lab 7: Markov Chain Monte Carlo"
 date: March 4, 2026
 ---
+
+## Review
+
+-   In previous labs, we conducted Bayesian analysis for regression models. We also learned how to summarize the results.
+
+-   However, we never investigated the quality of analysis itself. Today we want to answer the question: whether the results accurately describe the posterior distribution or not?
+
+## Markov Chain Monte Carlo (MCMC)
+
+-   If you remember, we mentioned the word **MCMC** several times. The full name of it is Markov Chain Monte Carlo, and it is the method for us to generate samples from a posterior distribution. 
+
+-   In this lab, we focus on Hamiltonian Monte Carlo (or Hybrid Monte Carlo), which is a specific type of MCMC. 
+
+## Markov Chain Monte Carlo (MCMC)
+
+**What to pay attention to?**
+
+-   Choices when running the model:
+    -   Iterations
+    -   Chains
+
+-   Ways to analyze the output:
+    -   Traceplot
+    -   Effective sample size
+    -   Gelman's R
+    -   Pairs plots
+    
+-   General tips for error message.
+    
+## brms Model Mechanics
+
+Read in the TDF data.
+
+```{r}
+library(tidyverse)
+library(brms)
+TDF <- read_csv("TDF.csv")
+TDF<-TDF %>% 
+  # mean-center height and convert to cm
+  mutate (HeightC = (Height - mean(Height))*100)
+```
+
+
+Fit the model:
+```{r cache = TRUE}
+brms_form <- Weight ~ HeightC
+
+brms_prior <- prior(normal(66.5, 2), class = "Intercept") +
+              prior(normal(1, .5), class = "b") +
+              prior(exponential(.25), class = "sigma")
+
+mod1<-brm(brms_form,
+          data=TDF,
+          family = gaussian(link = "identity"),
+          prior = brms_prior,
+          seed = 123)
+```
+
+
+## brms Model Mechanics
+
+If we scroll through the messages, we can see that it provides informations about **chains** and **iterations**.
+
+```{}
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 2.5e-05 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 0.012 seconds (Warm-up)
+Chain 1:                0.041 seconds (Sampling)
+Chain 1:                0.053 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 5e-06 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.05 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 0.013 seconds (Warm-up)
+Chain 2:                0.009 seconds (Sampling)
+Chain 2:                0.022 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 2e-06 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 0.013 seconds (Warm-up)
+Chain 3:                0.007 seconds (Sampling)
+Chain 3:                0.02 seconds (Total)
+Chain 3: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
+Chain 4: 
+Chain 4: Gradient evaluation took 2e-06 seconds
+Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 4: Adjust your expectations accordingly!
+Chain 4: 
+Chain 4: 
+Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 4: 
+Chain 4:  Elapsed Time: 0.012 seconds (Warm-up)
+Chain 4:                0.008 seconds (Sampling)
+Chain 4:                0.02 seconds (Total)
+Chain 4: 
+```
+
+
+## brms Model Mechanics
+
+Up until now, we used the default settings of `brm`:
+
+* **4 chains**: run 4 separate MCMC chains.
+
+* **2000 iterations per chain** 2000 samples are taken from each of chains.
+
+* Chains are run linearly, one after the other.
+
+::: {.callout-note}
+
+Note that $2,000\times 4 = 8,000$ samples are run, but only 4,000 samples contribute to the posterior estimates. 
+
+This is because the HMC needs a warm-up process to make the sampling process more efficient. After the warm-up process, the `brm` starts the real sampling process. By default, half of the iterations in each chain are used for warm-up.
+
+:::
+
+
+## brms Model Mechanics
+
+We can modify the following argument:
+
+* `chains`: number of chains to run
+
+* `iter`: number of iterations per chain
+
+* `warmup`: number of warm-up iterations (less than `iter`)
+
+* `cores`: number of computer cores for running chains in parallel (should be no larger than `chains`)
+
+::: {.callout-tip}
+
+Run the following to see the maximum number of cores available on your computer. 
+
+```{r eval = FALSE}
+parallel::detectCores()
+```
+
+:::
+
+## brms Model Mechanics
+
+Modify the `chains`, `iter`, and `cores` arguments as follows:
+
+```{r cache = TRUE}
+mod2 <- brm(brms_form,
+            data = TDF,
+            family = gaussian(link = "identity"),
+            prior = brms_prior,
+            chains = 2,
+            iter = 1000,
+            warmup = 300,
+            cores = 2,
+            seed = 123)
+``` 
+
+## brms Model Mechanics
+
+For illustration, let's also run the model with relatively few iterations and warmup, and with **very bad** priors.
+
+```{r cache = TRUE}
+bad_priors <- prior(normal(0, 1), class = "Intercept") +
+              prior(normal(-20, .1), class = "b") +
+              prior(exponential(100), class = "sigma")
+
+mod3 <- brm(brms_form,
+            data = TDF,
+            family = gaussian(link = "identity"),
+            prior = bad_priors,
+            chains = 4,
+            iter = 100,
+            warmup = 50,
+            seed = 123)
+```
+
+
+
+## brms Model Mechanics
+
+We can compare the result of `mod1`, `mod2`, and `mod3`. What differences in parameter estimates and CIs do you notice?
+
+::: panel-tabset
+
+## Model 1
+
+```{r}
+summary(mod1)
+```
+
+## Model 2
+
+```{r}
+summary(mod2)
+```
+
+## Model 3
+
+```{r}
+summary(mod3)
+```
+
+
+:::
+
+## brms Model Mechanics
+
+There is little difference in the estimates for Models 1 and 2, but big differences for Model 3. 
+
+* Especially for simple models, it may not be necessary to run overly many chains or iterations. There are no golden rules for the selection of chains and iterations, though sometimes our diagnostics suggest that more are needed.
+
+General guidance:
+
+-   Use one chain for testing code. (Better for seeing error messages.)
+
+-   Use three or four chains to run the models. (Allows for comparison among chains)
+
+-   Run chains in parallel only if you have the computational resources to do so. If your computer is slow, running chains in parallel may overwhelm your system.
+
+
+## Diagnostics
+
+We always want to check that the MCMC algorithm accurately sampled from the posterior distribution. 
+
+Density and trace plots are good places to start. Density plots (left) show the posterior distribution of each parameter. Trace plots (right) show the parameter estimate across iterations, one line per chain. Chains that "mix well" will have a lot of overlap.
+
+## Diagnostics
+
+::: panel-tabset
+
+## Model 1
+
+```{r}
+plot(mod1)
+```
+
+## Model 2
+
+```{r}
+plot(mod2)
+```
+
+## Model 3
+
+```{r}
+plot(mod3)
+```
+
+:::
+
+
+## Diagnostics
+
+
+It is somewhat subjective to decide whether a trace plot is a "good" or not. 
+
+* Usually, we want the trace plot to stay in the same $y$ axis range from the beginning to the end, and to explore the full range many times throughout the trajectory.
+
+* Also, we want the trace plot from different chains to explore the same range.
+
+* In the examples on the previous slide, Models 1 and 2 are good, but Model 3's trace plots indicate that there is something wrong with the model.
+
+## Diagnostics
+
+It is also useful to look at the "pairs" plot that shows the relationships between parameter estimates. If there are strong relationships between parameters, it could be the result of multicollinearity or similar problems with your model.
+
+::: panel-tabset
+
+## Model 1
+
+```{r}
+pairs(mod1)
+```
+
+## Model 2
+
+```{r}
+pairs(mod2)
+```
+
+## Model 3
+
+```{r}
+pairs(mod3)
+```
+
+
+:::
+
+
+## Diagnostics
+
+The Rhat diagnostic compares the variance in estimates between vs. across chains. Lower (closer to 1) values are better. There are no universal guidelines, but I usually worry if this is greater then 1.01. 
+
+* This is printed by `summary()`, but we can also call `rhat()` directly.
+
+* Again, we see that this diagnotic flags problems with Model 3. 
+
+```{r}
+rhat(mod1)
+```
+
+```{r}
+rhat(mod2)
+```
+
+```{r}
+rhat(mod3)
+```
+
+
+## Diagnostics
+
+Another useful index is the effective sample size (ESS). This represents the number of effectively independent draws from the posterior distribution. The more iterations you run, the higher this number will *usually* be. 
+
+* `Bulk_ESS` is the ESS for the mean or median - high values desired for point estimates
+
+* `Tail_ESS` is for the tails - high values desired for interval estimates
+
+## Diagnostics
+
+Compare the ESS for our 3 model, keeping in mind the "total post-warmup draws":
+
+::: panel-tabset
+
+## Model 1
+
+```{r}
+summary(mod1)
+```
+
+## Model 2
+
+```{r}
+summary(mod2)
+```
+
+## Model 3
+
+```{r}
+summary(mod3)
+```
+
+:::
+
+## Tips
+
+If we encounter an issue during the analysis, it is an indicator that **something** is wrong with our model. Although the best solution is not always clear, we can start with some general tips:
+
+Warning messages:
+
+* It is important to read the content of warning message because it may give essential message why we have a problematic result. Warning messages often suggest useful help pages!
+
+* For example, if the warning message informs of convergence issue (low R_hat or low ESS), often we can first try to increase the number of iterations.
+
+* Sometimes you can ignore the warning message after checking the output. For example, if the R_hat and ESS in the output is good enough to you, having only a few divergent transition may be not troublesome.
+
+
+## Tips
+
+Suggestions if you run into other problems with `brms`:
+
+* Your code may have errors - look over it carefully.
+
+* Make sure that your variables are scaled as you desire and that the priors are appropriate for the scale of your variables.
+
+* Load the relevant data set and package, make sure the name of the object and variables is what you use in the `brm()` function.
+
+* No errors or typos in your models (possible if you have a complicated model)!
+
+* Try generating data that fit your expected model. Do the simulated data produce the same problems? This strategy can help you diagnose whether the problem is with your data or with the model.
+
+## Activity 1
+
+Run the following code that generates final exam grades for 50 students. Grades of 60 or above pass. What happens if we try to predict `pass` from `grade`?
+
+* We will use logistic regression for this analysis
+
+* This example induces **perfect separation**, where the outcome is perfectly predicted. If we try to run this with frequentist methods, we receive errors. 
+
+```{r}
+set.seed(42)
+n <- 50
+grade <- sample(n, 50, 100)
+
+pass <- ifelse(grade > 60, 1, 0) 
+
+d <- data.frame(grade, pass)
+```
+
+## Activity 1
+
+Use the following code to run the model with the `brms` default priors. What do you see in the output that indicates problems?
+
+```{r eval = FALSE}
+fit1 <- brm(pass ~ grade, data = d, 
+  family = bernoulli(link = "logit"),
+  chains = 2, iter = 2000)
+```
+
+
+```{r eval = FALSE}
+print(fit1)
+```
+
+```{r eval = FALSE}
+plot(fit1)
+```
+
+## Activity 1
+
+Unlike frequentist statistics, Bayesian statistics is capable of giving us a solution to this model. The solution is to add an informative prior.
+
+* Run the following code and compare the results to the previous analysis.
+
+```{r eval = FALSE}
+prior <- prior(normal(0, 1), class = "Intercept") + 
+         prior(normal(0, 1), class = "b")
+
+fit2 <- brm(pass ~ grade, data = d, 
+  family = bernoulli(link = "logit"),
+  chains = 2, iter = 2000, prior = prior)
+```
+
+
+```{r eval = FALSE}
+print(fit2)
+```
+
+```{r eval = FALSE}
+plot(fit2)
+```
+
+
+## Activity 2
+
+Next, we will analyze the `rock` data from the `datasets` package. We will predict permeability `perm` from the interaction of area (`area`) and perimeter (`peri`).
+
+* Use `summary` to look at the ranges of the variables. 
+
+* We will use the default uninformative priors for illustration only.
+
+
+```{r eval = FALSE}
+data(rock, package = "datasets")
+
+summary(rock)
+
+brm_form <- perm ~ area * peri
+
+fit <- brm(brm_form, rock,
+           family = gaussian(link = "identity"))
+```
+
+
+```{r eval = FALSE}
+print(fit)
+```
+
+```{r eval = FALSE}
+pairs(fit)
+```
+
+
+## Activity 2
+
+Rescaling variables can help stabilize the models. Here, we will use the `scale` function to turn each variable into $z$-scores. 
+
+* Run the following code (again with uninformative default priors) and compare the results to the previous analysis.
+
+```{r eval = FALSE}
+rock2 <- rock %>% mutate(across(everything(), scale))
+
+fit2 <- brm(brm_form, rock2,
+            family = gaussian(link = "identity"))
+```
+
+```{r eval = FALSE}
+print(fit2)
+```
+
+```{r eval = FALSE}
+pairs(fit2)
+```
+
