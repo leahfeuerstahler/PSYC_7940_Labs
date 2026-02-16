@@ -107,6 +107,10 @@ To see the draws themselves:
 
 From the `brms` package:
 
+* `b_Intercept` is the intercept that you want to look at
+
+* `Intercept` is the intercept when all predictors are centered (`brms` uses internally for computational efficiency)
+
 ```{r}
 as_draws_df(mod)
 ```
