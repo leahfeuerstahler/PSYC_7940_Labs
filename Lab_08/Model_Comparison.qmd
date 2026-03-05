@@ -2,3 +2,412 @@
 title: "Lab 8: Model Comparison"
 date: March 18, 2026
 ---
+
+## Overview
+
+<!-- need to focus this lab more on practical computational aspects -->
+
+<!-- Fitting polynomial and/or interactive models in brms -->
+<!-- Calculating psis -->
+<!-- Moment matching -->
+<!-- WAIC -->
+<!-- loo_compare -->
+<!-- model averaging -->
+
+<!-- Model selection - weather data could be a good activity example -->
+
+
+In previous labs, we learned how to use `brms` to set priors, fit models, and summarize results. 
+
+Today we will learn how to compare the relative fit among models.
+
+<!-- * We will also learn how to estimate polynomial regression and models with interactions. -->
+
+First, load in the packages that we'll use today.
+
+```{r}
+library(tidyverse)
+library(brms)
+```
+
+## Data Example
+
+Let's return to the cycling data from earlier this semester and run that model:
+
+* The example is old, but the data is new, download it again from this week's lab folder!
+
+```{r cache = TRUE}
+TDF <- read_csv("TDF.csv")
+TDF<-TDF %>% 
+  # mean-center height and convert to cm
+  mutate (HeightC = (Height - mean(Height))*100)
+
+brms_form <- Weight ~ HeightC
+
+brms_prior<-prior(normal(66.5, 2), class = "Intercept") +
+            prior(normal(1, .5), class = "b") +
+            prior(exponential(.25), class = "sigma")
+
+mod1 <- brm(brms_form,
+            data = TDF,
+            family = gaussian(link = "identity"),
+            prior = brms_prior)
+```
+
+
+## Data Example
+
+```{r}
+summary(mod1)
+```
+
+## Log Likelihood
+
+We can use `log_lik` to get the log density of the model for each iteration and each person.
+
+* This is a measure of how well the data fit to the model.
+
+```{r}
+res_l <- log_lik(mod1)
+```
+
+The output is pointwise, meaning that each of the 4000 MCMC iterations and each of the 179 individuals in the data has its own contribution to the log density: 
+
+```{r}
+res_l %>% glimpse
+```
+
+## Out-of-Sample Deviance
+
+The log pointwise density is a measure of goodness-of-fit **in the current sample**.
+
+We usually care more about how the model performs **in new samples**.
+
+We will learn about two methods to compare the relative performance of models in new samples:
+
+1. `loo`: Approximate leave-one-out cross-validation via Pareto-smoothed importance sampling (PSIS)
+
+2. `waic`: Balances in-sample prediction with a penalty term, similar to other information criteria
+
+## Out-of-Sample Deviance
+
+- Pareto-smoothed importance sampling (PSIS) is computationally efficient *approximation* to leave-one-out cross-validation.
+
+- *Exact* leave-one-out cross-validation would involve fitting the model $N$ times, once for each of the $N$ rows in the data!
+
+- `loo` is pointwise. We get one set of fit information for each row in our data:
+
+```{r}
+loo_res <- loo(mod1)
+head(loo_res$pointwise)
+```
+
+## Out-of-Sample Deviance
+
+If a data point has a high Pareto k value (e.g., > .7), then the loo approximation is not as accurate as we would like.
+
+- None of our data points have Pareto k > .7.
+
+
+```{r}
+max(loo_res$pointwise[, 5])
+```
+
+
+## Out-of-Sample Deviance
+
+Widely applicable information criterion (WAIC)
+
+```{r}
+waic_res <- waic(mod1)
+waic_res
+```
+
+The `waic` row represents the information criterion we are looking for.
+
+## Out-of-Sample Deviance
+
+Like `loo`, `waic` is pointwise - this can be useful for understanding which indviduals contribute more/less to overall fit.
+
+```{r}
+head(waic_res$pointwise)
+```
+
+## Model Comparison
+
+Back to the cycling data. We will fit new models that incorporate information about riders' specialties.
+
+* `Leader`: riders who aim to win the entire 3-week Tour-de-France
+
+* `Climber`: riders who focus on results for hilly and mountainous terrain
+
+* `Sprinter`: riders who focus on results for flat terrain
+
+* `All-rounder`: riders who have no particular specialty
+
+```{r}
+table(TDF$Specialty)
+```
+
+## Model Comparison
+
+Let's add `Specialty` as an index variable intercept into our model.
+
+
+```{r cache = TRUE}
+brms_form <- Weight ~ 0 + Specialty + HeightC
+
+brms_prior<-prior(normal(66.5, 2), class = "b") +
+            prior(normal(1, .5), class = "b", coef = "HeightC") +
+            prior(exponential(.25), class = "sigma")
+
+mod2 <- brm(brms_form,
+            data = TDF,
+            family = gaussian(link = "identity"),
+            prior = brms_prior)
+```
+
+## Model Comparison
+
+```{r}
+#| class-output: "nowrap-code"
+summary(mod2)
+```
+
+
+## Model Comparison
+
+```{r}
+effects <- conditional_effects(mod2, effects = "HeightC", 
+                         conditions = make_conditions(mod2, vars = "Specialty"), 
+                         method = "posterior_linpred")
+```
+
+::: panel-tabset
+
+## Multiple Plots
+
+```{r}
+plot(effects, facet_args = list(nrow = 1, ncol = 4))
+```
+
+## Single Plot
+
+```{r}
+ggplot(effects[[1]], aes(x = HeightC, color = Specialty, fill = Specialty)) + 
+       geom_line(aes(y = estimate__)) + 
+  geom_ribbon(aes(ymin = lower__, ymax = upper__), alpha = .2, linetype = 0)
+```
+
+
+:::
+
+## Model Comparison
+
+The previous model estimated only a separate intercept for each specialty. We may wish to consider a separate intercept and slope for each specialty:
+
+```{r cache = TRUE}
+brms_form <- Weight ~ 0 + Specialty + Specialty:HeightC
+
+brms_prior<-prior(normal(66.5, 2), class = "b") +
+            prior(normal(1, .5), class = "b", coef = "SpecialtyAllMrounder:HeightC") +
+            prior(normal(1, .5), class = "b", coef = "SpecialtyClimber:HeightC") +
+            prior(normal(1, .5), class = "b", coef = "SpecialtyLeader:HeightC") +
+            prior(normal(1, .5), class = "b", coef = "SpecialtySprinter:HeightC") +
+            prior(exponential(.25), class = "sigma")
+
+mod3 <- brm(brms_form,
+            data = TDF,
+            family = gaussian(link = "identity"),
+            prior = brms_prior)
+```
+
+## Model Comparison
+
+```{r}
+#| class-output: "nowrap-code"
+summary(mod3)
+```
+
+
+## Model Comparison
+
+```{r}
+effects <- conditional_effects(mod3, effects = "HeightC", 
+                  conditions = make_conditions(mod3, vars = "Specialty"))
+```
+
+::: panel-tabset
+
+## Multiple Plots
+
+```{r}
+plot(effects, facet_args = list(nrow = 1, ncol = 4))
+```
+
+
+
+## Single Plot
+
+```{r}
+ggplot(effects[[1]], aes(x = HeightC, color = Specialty, fill = Specialty)) + 
+       geom_line(aes(y = estimate__)) + 
+  geom_ribbon(aes(ymin = lower__, ymax = upper__), alpha = .2, linetype = 0)
+```
+
+:::
+
+## Model Comparison
+
+We can compare the fit of our three models.
+
+* Use `add_criterion` to compute the `loo` and `waic` 
+
+```{r}
+mod1 <- add_criterion(mod1, criterion = c("loo", "waic"))
+```
+
+```{r}
+mod2 <- add_criterion(mod2, criterion = c("loo", "waic"))
+```
+
+```{}
+Warning: 
+1 (0.6%) p_waic estimates greater than 0.4. We recommend trying loo instead.
+```
+
+```{r}
+mod3 <- add_criterion(mod3, criterion = c("loo", "waic"))
+```
+```{}
+Warning: 
+3 (1.7%) p_waic estimates greater than 0.4. We recommend trying loo instead.
+```
+
+There are some warnings for models 2 and 3. `loo` may be more reliable than `waic` for these models.
+
+
+## Model Comparison
+
+Now we can conduct model comparison. 
+
+```{r}
+loo_compare(mod1, mod2, mod3, criterion = "loo")
+```
+
+```{r}
+loo_compare(mod1, mod2, mod3, criterion = "waic")
+```
+
+* Models 2 and 3 provide much better fit than model 1. 
+
+* The fit of Model 2 is about 1.5 standard errors better than the fit of model 3.
+
+
+In this example, `loo` and `waic` give almost exactly the same results, but they are slightly different:
+
+```{r}
+mod1$criteria$loo$estimates
+mod1$criteria$waic$estimates
+```
+
+## Activity
+
+Loed in the `weather.csv` data. In this activity, we will predict averag high temperature by year through linear and polynomial models.
+
+```{r}
+library(tidyverse)
+library(brms)
+temps <- read_csv("weather.csv")
+```
+
+Rescale years so that 1918 (The first year in this data set) is 0.
+
+```{r}
+temps <- temps %>% mutate(YEAR = YEAR - 1918)
+```
+
+
+For all models that you fit, use the following priors:
+
+```{r}
+temps_prior <- prior(normal(45, 5), class = "Intercept") + 
+               prior(normal(0, 5), class = "b") + 
+               prior(lognormal(2, 1), class = "sigma")
+```
+
+
+## Activity
+
+Fit linear, quadratic, and cubic models using the following formulas
+
+* `poly` creates a polynomial function
+
+* `raw = TRUE` means to use ordinary polynomials (instead of [orthogonal polynomials](https://en.wikipedia.org/wiki/Orthogonal_polynomials))
+
+```{r}
+form_lin <- "Avg_High_Temp ~ YEAR"
+form_quad <- "Avg_High_Temp ~ poly(YEAR, 2, raw = TRUE)"
+form_cubic <- "Avg_High_Temp ~ poly(YEAR, 3, raw = TRUE)"
+```
+
+```{r echo = FALSE, eval = FALSE}
+temps_mod1 <- brm(form_lin, temps, 
+                 family = gaussian(link = "identity"),
+                 prior = temps_prior)
+
+temps_mod2 <- brm(form_quad, temps, 
+                 family = gaussian(link = "identity"),
+                 prior = temps_prior)
+
+temps_mod3 <- brm(form_cubic, temps, 
+                 family = gaussian(link = "identity"),
+                 prior = temps_prior)
+```
+
+Review:
+
+* Evaluate the **convergence** of each model. Do you think that the model summaries are reliable? 
+
+<details>
+
+<summary>Spoilers! Open me after evaluating convergence for yourself</summary>
+
+You likely found that the cubic model did not fit well. It turns out that orthogonal polynomials help improve convergence by making the different polynomial terms uncorrelated with each other.
+
+* Fit the cubic model again using the following model formula:
+
+```{r}
+form_cubic <- "Avg_High_Temp ~ poly(YEAR, 3, raw = FALSE)"
+```
+
+
+```{r echo = FALSE, eval = FALSE}
+temps_mod3 <- brm(form_cubic, temps, 
+                 family = gaussian(link = "identity"),
+                 prior = temps_prior)
+```
+
+</details>
+
+## Activity 
+
+1. Compare the fit of the linear, quadratic, and cubic models using `loo` and `waic`. What do you conclude?
+
+```{r echo = FALSE, eval = FALSE}
+temps_mod1 <- add_criterion(temps_mod1, criterion = c("loo", "waic"))
+temps_mod2 <- add_criterion(temps_mod2, criterion = c("loo", "waic"))
+temps_mod3 <- add_criterion(temps_mod3, criterion = c("loo", "waic"))
+
+loo_compare(temps_mod1, temps_mod2, temps_mod3, criterion = "loo")
+loo_compare(temps_mod1, temps_mod2, temps_mod3, criterion = "waic")
+
+# linear model fits best but the quadratic model is within a standard error
+```
+
+2. Plot the best fit curve and standard error for your quadratic model.
+
+```{r echo = FALSE, eval = FALSE}
+conditional_effects(temps_mod2, method = "posterior_linpred")
+```
+
