@@ -5,23 +5,9 @@ date: March 18, 2026
 
 ## Overview
 
-<!-- need to focus this lab more on practical computational aspects -->
-
-<!-- Fitting polynomial and/or interactive models in brms -->
-<!-- Calculating psis -->
-<!-- Moment matching -->
-<!-- WAIC -->
-<!-- loo_compare -->
-<!-- model averaging -->
-
-<!-- Model selection - weather data could be a good activity example -->
-
-
 In previous labs, we learned how to use `brms` to set priors, fit models, and summarize results. 
 
 Today we will learn how to compare the relative fit among models.
-
-<!-- * We will also learn how to estimate polynomial regression and models with interactions. -->
 
 First, load in the packages that we'll use today.
 
