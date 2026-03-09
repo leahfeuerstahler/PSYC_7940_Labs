@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="Introduction_to_stan_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Introduction_to_stan_files/libs/quarto-html/tabby.min.js"></script>
+<script src="Introduction_to_stan_files/libs/quarto-html/popper.min.js"></script>
+<script src="Introduction_to_stan_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="Introduction_to_stan_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Introduction_to_stan_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="Introduction_to_stan_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <meta name="author" content="PSYC 7940">
+  <meta name="dcterms.date" content="2026-03-25">
+  <title>Lab 9: Introduction to stan</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="Introduction_to_stan_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="Introduction_to_stan_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="Introduction_to_stan_files/libs/revealjs/dist/theme/quarto-2e5c1077c6a04196786595800d368178.css">
+  <link href="Introduction_to_stan_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="Introduction_to_stan_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="Introduction_to_stan_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="Introduction_to_stan_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="Introduction_to_stan_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="Introduction_to_stan_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-background-image="../logo.png" data-background-opacity="0.5" data-background-size="contain" class="quarto-title-block center">
+  <h1 class="title">Lab 9: Introduction to stan</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+PSYC 7940 
+</div>
+</div>
+</div>
+
+  <p class="date">March 25, 2026</p>
+</section>
+<section id="rstan-and-brms" class="slide level2">
+<h2><code>rstan</code> and <code>brms</code></h2>
+<ul>
+<li><p><code>rstan</code> and <code>brms</code> are both <code>R</code> interfaces to the command-line program <code>stan</code>.</p></li>
+<li><p>Compared to <code>rstan</code>, <code>brms</code> is more user-friendly. Instead, <code>rstan</code> is more flexible and can fit more complex models than <code>brms</code>.</p></li>
+<li><p>Today we will learn how to use <code>rstan</code> by writing <code>stan</code> code directly. Proficiency in <code>stan</code> won’t be tested in this course, but it may be helpful if you want to do research in practice.</p></li>
+<li><p><code>stan</code> is very flexible/general, which makes it useful for many varied models. Because it does not make any assumptions about your model, you will need to provide more information than usual (including explicitly stated the sample size).</p></li>
+</ul>
+</section>
+<section id="stan-files" class="slide level2">
+<h2><code>stan</code> Files</h2>
+<p>Click the green “+” on the left top side of your Rstudio panel</p>
+<ul>
+<li>Select <code>Stan File</code>.</li>
+</ul>
+</section>
+<section id="stan-files-1" class="slide level2">
+<h2><code>stan</code> Files</h2>
+<p>For any <code>stan</code> model, we need to add information to these 3 blocks:</p>
+<ul>
+<li><code>data</code></li>
+<li><code>parameter</code></li>
+<li><code>model</code></li>
+</ul>
+<p>We’ll fill them one by one for the <code>weather</code> data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href=""></a><span class="fu">library</span>(rstan)</span>
+<span id="cb1-3"><a href=""></a>temps <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"weather.csv"</span>)</span>
+<span id="cb1-4"><a href=""></a>temps <span class="ot">&lt;-</span> temps <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">YEAR =</span> YEAR <span class="sc">-</span> <span class="dv">1918</span>)</span>
+<span id="cb1-5"><a href=""></a>temps <span class="sc">%&gt;%</span> glimpse</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource nowrap-code number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a href=""></a>Rows: 107</span>
+<span id="cb2-2"><a href=""></a>Columns: 2</span>
+<span id="cb2-3"><a href=""></a>$ YEAR          &lt;dbl&gt; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16…</span>
+<span id="cb2-4"><a href=""></a>$ Avg_High_Temp &lt;dbl&gt; 45.54839, 36.67742, 43.09677, 39.45161, 39.45161, 47.387…</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="data-block" class="slide level2">
+<h2><code>data</code> Block</h2>
+<p>Take the simple linear regression model (<code>Avg_High_Temp</code> ~ <code>YEAR</code>). In the data block, we need to specify the variables we are using in the model, and the length (sample size) of each variable.</p>
+<ul>
+<li><p><code>vector[107] Avg_High_Temp;</code> means that we define a vector of length 107 with the name <code>Avg_High_Temp</code></p></li>
+<li><p>We use this same pattern for the variable <code>YEAR</code>.</p></li>
+<li><p>Variable names should match those in the data.</p></li>
+<li><p>In the <code>stan</code> language, comments follow <code>//</code></p></li>
+</ul>
+<pre><code>data{ // this is the data block
+  vector[107] Avg_High_Temp;
+  vector[107] YEAR;
+}</code></pre>
+<p><strong>Don’t forget the semi-colon!</strong></p>
+</section>
+<section id="parameter-block" class="slide level2">
+<h2><code>parameter</code> Block</h2>
+<p>In the <code>parameters</code> block, we specify parameters that we name however we like. Here, we use:</p>
+<ul>
+<li><p><code>a</code> for the intercept</p></li>
+<li><p><code>b</code> for the slope</p></li>
+<li><p><code>sigma</code> for the residual variance</p></li>
+</ul>
+<p>We specify these as <code>real</code> variables because we want to estimate these parameters on the entire real number line.</p>
+<pre><code>parameters{
+    real a;
+    real b;
+    real&lt;lower = 0&gt; sigma;
+}</code></pre>
+<ul>
+<li><code>&lt;lower = 0&gt;</code> means to set a lower bound of 0 on the <code>sigma</code> parameter.</li>
+</ul>
+</section>
+<section id="model-block" class="slide level2">
+<h2><code>model</code> Block</h2>
+<p>In the <code>model</code> block, we will specify both the priors and the model formula:</p>
+<pre><code>model{
+  a ~ normal(45, 5);
+  b ~ normal(0, 5);
+  sigma ~ lognormal(0, 5);
+  Avg_High_Temp ~ normal(a + b*YEAR, sigma);
+}</code></pre>
+<p>After entering these three blocks in your file, save the file to your <strong>current working directory</strong> as <code>weather.stan</code>.</p>
+</section>
+<section id="running-stan" class="slide level2">
+<h2>Running <code>stan</code></h2>
+<p>Now, we can run our <code>stan</code> model using the following code:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>m1 <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">file =</span> <span class="st">"weather.stan"</span>, <span class="at">data =</span> temps)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
+using C compiler: ‘Apple clang version 17.0.0 (clang-1700.6.4.2)’
+using SDK: ‘MacOSX26.2.sdk’
+clang -arch arm64 -std=gnu2x -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/opt/R/arm64/include    -fPIC  -falign-functions=64 -Wall -g -O2  -c foo.c -o foo.o
+In file included from &lt;built-in&gt;:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
+In file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/Dense:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/Core:19:
+/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:679:10: fatal error: 'cmath' file not found
+  679 | #include &lt;cmath&gt;
+      |          ^~~~~~~
+1 error generated.
+make: *** [foo.o] Error 1
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
+Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: lognormal_lpdf: Random variable is -0.831544, but must be nonnegative! (in 'anon_model', line 13, column 2 to column 26)
+Chain 1: 
+Chain 1: Gradient evaluation took 3.3e-05 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.33 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 0.033 seconds (Warm-up)
+Chain 1:                0.023 seconds (Sampling)
+Chain 1:                0.056 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 2e-06 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 0.03 seconds (Warm-up)
+Chain 2:                0.024 seconds (Sampling)
+Chain 2:                0.054 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 2e-06 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 0.03 seconds (Warm-up)
+Chain 3:                0.026 seconds (Sampling)
+Chain 3:                0.056 seconds (Total)
+Chain 3: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
+Chain 4: 
+Chain 4: Gradient evaluation took 2e-06 seconds
+Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 4: Adjust your expectations accordingly!
+Chain 4: 
+Chain 4: 
+Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 4: 
+Chain 4:  Elapsed Time: 0.029 seconds (Warm-up)
+Chain 4:                0.023 seconds (Sampling)
+Chain 4:                0.052 seconds (Total)
+Chain 4: </code></pre>
+</div>
+</div>
+</section>
+<section id="running-stan-1" class="slide level2">
+<h2>Running <code>stan</code></h2>
+<p>Unlike <code>brms</code>, <code>stan</code> does not remove <code>NA</code> values for us. If the data set is not complete, <code>stan</code> returns a warning message and stops:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>temps2 <span class="ot">&lt;-</span> temps</span>
+<span id="cb8-2"><a href=""></a>temps2[<span class="dv">1</span>, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span> <span class="co"># set one observation to BA</span></span>
+<span id="cb8-3"><a href=""></a><span class="fu">stan</span>(<span class="at">file =</span> <span class="st">"weather.stan"</span>, <span class="at">data =</span> temps2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Error in FUN(X[[i]], ...) : Stan does not support NA (in YEAR) in data</code></pre>
+</div>
+</div>
+</section>
+<section id="running-stan-2" class="slide level2">
+<h2>Running <code>stan</code></h2>
+<p>It can also be useful to specify input variables as a <code>list</code>. This is helpful if we want to input variables of different length.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>temps_list <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Avg_High_Temp =</span> temps<span class="sc">$</span>Avg_High_Temp,</span>
+<span id="cb10-2"><a href=""></a>                   <span class="at">YEAR =</span> temps<span class="sc">$</span>YEAR)</span>
+<span id="cb10-3"><a href=""></a></span>
+<span id="cb10-4"><a href=""></a>m1 <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">file =</span> <span class="st">"weather.stan"</span>, <span class="at">data =</span> temps_list)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 5e-06 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.05 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 0.025 seconds (Warm-up)
+Chain 1:                0.025 seconds (Sampling)
+Chain 1:                0.05 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 2e-06 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 0.026 seconds (Warm-up)
+Chain 2:                0.025 seconds (Sampling)
+Chain 2:                0.051 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 2e-06 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 0.027 seconds (Warm-up)
+Chain 3:                0.025 seconds (Sampling)
+Chain 3:                0.052 seconds (Total)
+Chain 3: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
+Chain 4: Rejecting initial value:
+Chain 4:   Error evaluating the log probability at the initial value.
+Chain 4: Exception: lognormal_lpdf: Random variable is -0.274935, but must be nonnegative! (in 'anon_model', line 13, column 2 to column 26)
+Chain 4: 
+Chain 4: Gradient evaluation took 2e-06 seconds
+Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 4: Adjust your expectations accordingly!
+Chain 4: 
+Chain 4: 
+Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 4: 
+Chain 4:  Elapsed Time: 0.028 seconds (Warm-up)
+Chain 4:                0.026 seconds (Sampling)
+Chain 4:                0.054 seconds (Total)
+Chain 4: </code></pre>
+</div>
+</div>
+</section>
+<section id="running-stan-3" class="slide level2">
+<h2>Running <code>stan</code></h2>
+<p>Instead of saving <code>stan</code> code as a separate file, we can instead write it as a character string in <code>R</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>weather_mod <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb12-2"><a href=""></a><span class="st">data{</span></span>
+<span id="cb12-3"><a href=""></a><span class="st">  vector[107] Avg_High_Temp;</span></span>
+<span id="cb12-4"><a href=""></a><span class="st">  vector[107] YEAR;</span></span>
+<span id="cb12-5"><a href=""></a><span class="st">}</span></span>
+<span id="cb12-6"><a href=""></a><span class="st">parameters{</span></span>
+<span id="cb12-7"><a href=""></a><span class="st">    real a;</span></span>
+<span id="cb12-8"><a href=""></a><span class="st">    real b;</span></span>
+<span id="cb12-9"><a href=""></a><span class="st">    real sigma;</span></span>
+<span id="cb12-10"><a href=""></a><span class="st">}</span></span>
+<span id="cb12-11"><a href=""></a><span class="st">model{</span></span>
+<span id="cb12-12"><a href=""></a><span class="st">  a ~ normal(45, 5);</span></span>
+<span id="cb12-13"><a href=""></a><span class="st">  b ~ normal(0, 5);</span></span>
+<span id="cb12-14"><a href=""></a><span class="st">  sigma ~ lognormal(0, 5);</span></span>
+<span id="cb12-15"><a href=""></a><span class="st">  Avg_High_Temp ~ normal(a + b*YEAR, sigma);</span></span>
+<span id="cb12-16"><a href=""></a><span class="st">}</span></span>
+<span id="cb12-17"><a href=""></a><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="running-stan-4" class="slide level2">
+<h2>Running <code>stan</code></h2>
+<p>And run the model:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>m2 <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">model_code =</span> weather_mod, <span class="at">data =</span> temps)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
+Chain 1: Rejecting initial value:
+Chain 1:   Error evaluating the log probability at the initial value.
+Chain 1: Exception: lognormal_lpdf: Random variable is -1.45383, but must be nonnegative! (in 'anon_model', line 13, column 2 to column 26)
+Chain 1: 
+Chain 1: Gradient evaluation took 1.5e-05 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.15 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 0.027 seconds (Warm-up)
+Chain 1:                0.024 seconds (Sampling)
+Chain 1:                0.051 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: lognormal_lpdf: Random variable is -0.654178, but must be nonnegative! (in 'anon_model', line 13, column 2 to column 26)
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: lognormal_lpdf: Random variable is -0.566332, but must be nonnegative! (in 'anon_model', line 13, column 2 to column 26)
+Chain 2: 
+Chain 2: Gradient evaluation took 3e-06 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.03 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 0.047 seconds (Warm-up)
+Chain 2:                0.024 seconds (Sampling)
+Chain 2:                0.071 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: lognormal_lpdf: Random variable is -0.19546, but must be nonnegative! (in 'anon_model', line 13, column 2 to column 26)
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: lognormal_lpdf: Random variable is -0.209677, but must be nonnegative! (in 'anon_model', line 13, column 2 to column 26)
+Chain 3: 
+Chain 3: Gradient evaluation took 3e-06 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.03 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 0.029 seconds (Warm-up)
+Chain 3:                0.026 seconds (Sampling)
+Chain 3:                0.055 seconds (Total)
+Chain 3: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
+Chain 4: 
+Chain 4: Gradient evaluation took 2e-06 seconds
+Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 4: Adjust your expectations accordingly!
+Chain 4: 
+Chain 4: 
+Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 4: 
+Chain 4:  Elapsed Time: 0.032 seconds (Warm-up)
+Chain 4:                0.022 seconds (Sampling)
+Chain 4:                0.054 seconds (Total)
+Chain 4: </code></pre>
+</div>
+</div>
+</section>
+<section id="running-stan-5" class="slide level2">
+<h2>Running <code>stan</code></h2>
+<p>We may prefer to include sample size as a variable rather than explicitly coding it in the model. We can do so by making the following modifications to the <code>data</code> block:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>weather_mod2 <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb15-2"><a href=""></a><span class="st">data{</span></span>
+<span id="cb15-3"><a href=""></a><span class="st">  int N; // sample size</span></span>
+<span id="cb15-4"><a href=""></a><span class="st">  vector[N] Avg_High_Temp; // now of length N</span></span>
+<span id="cb15-5"><a href=""></a><span class="st">  vector[N] YEAR; // now of length N</span></span>
+<span id="cb15-6"><a href=""></a><span class="st">}</span></span>
+<span id="cb15-7"><a href=""></a><span class="st">parameters{</span></span>
+<span id="cb15-8"><a href=""></a><span class="st">    real a;</span></span>
+<span id="cb15-9"><a href=""></a><span class="st">    real b;</span></span>
+<span id="cb15-10"><a href=""></a><span class="st">    real sigma;</span></span>
+<span id="cb15-11"><a href=""></a><span class="st">}</span></span>
+<span id="cb15-12"><a href=""></a><span class="st">model{</span></span>
+<span id="cb15-13"><a href=""></a><span class="st">  a ~ normal(45, 5);</span></span>
+<span id="cb15-14"><a href=""></a><span class="st">  b ~ normal(0, 5);</span></span>
+<span id="cb15-15"><a href=""></a><span class="st">  sigma ~ lognormal(0, 5);</span></span>
+<span id="cb15-16"><a href=""></a><span class="st">  Avg_High_Temp ~ normal(a + b*YEAR, sigma);</span></span>
+<span id="cb15-17"><a href=""></a><span class="st">}</span></span>
+<span id="cb15-18"><a href=""></a><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="running-stan-6" class="slide level2">
+<h2>Running <code>stan</code></h2>
+<p><code>stan</code> now expects three inputs: <code>N</code>, <code>Avg_High_Temp</code>, and <code>YEAR</code>. Now, we <strong>must</strong> specify the input as a list.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>temps_list <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">N =</span> <span class="dv">107</span>, </span>
+<span id="cb16-2"><a href=""></a>                   <span class="at">Avg_High_Temp =</span> temps<span class="sc">$</span>Avg_High_Temp, </span>
+<span id="cb16-3"><a href=""></a>                   <span class="at">YEAR =</span> temps<span class="sc">$</span>YEAR)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>m3 <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">model_code =</span> weather_mod2, <span class="at">data =</span> temps_list)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
+using C compiler: ‘Apple clang version 17.0.0 (clang-1700.6.4.2)’
+using SDK: ‘MacOSX26.2.sdk’
+clang -arch arm64 -std=gnu2x -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/opt/R/arm64/include    -fPIC  -falign-functions=64 -Wall -g -O2  -c foo.c -o foo.o
+In file included from &lt;built-in&gt;:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
+In file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/Dense:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/Core:19:
+/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:679:10: fatal error: 'cmath' file not found
+  679 | #include &lt;cmath&gt;
+      |          ^~~~~~~
+1 error generated.
+make: *** [foo.o] Error 1
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 2.1e-05 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.21 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 0.028 seconds (Warm-up)
+Chain 1:                0.024 seconds (Sampling)
+Chain 1:                0.052 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: lognormal_lpdf: Random variable is -0.941144, but must be nonnegative! (in 'anon_model', line 14, column 2 to column 26)
+Chain 2: 
+Chain 2: Gradient evaluation took 2e-06 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 0.029 seconds (Warm-up)
+Chain 2:                0.025 seconds (Sampling)
+Chain 2:                0.054 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: lognormal_lpdf: Random variable is -0.522885, but must be nonnegative! (in 'anon_model', line 14, column 2 to column 26)
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: lognormal_lpdf: Random variable is -1.02776, but must be nonnegative! (in 'anon_model', line 14, column 2 to column 26)
+Chain 3: 
+Chain 3: Gradient evaluation took 2e-06 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 0.024 seconds (Warm-up)
+Chain 3:                0.025 seconds (Sampling)
+Chain 3:                0.049 seconds (Total)
+Chain 3: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
+Chain 4: Rejecting initial value:
+Chain 4:   Error evaluating the log probability at the initial value.
+Chain 4: Exception: lognormal_lpdf: Random variable is -0.44036, but must be nonnegative! (in 'anon_model', line 14, column 2 to column 26)
+Chain 4: Rejecting initial value:
+Chain 4:   Error evaluating the log probability at the initial value.
+Chain 4: Exception: lognormal_lpdf: Random variable is -1.61953, but must be nonnegative! (in 'anon_model', line 14, column 2 to column 26)
+Chain 4: Rejecting initial value:
+Chain 4:   Error evaluating the log probability at the initial value.
+Chain 4: Exception: lognormal_lpdf: Random variable is -1.20773, but must be nonnegative! (in 'anon_model', line 14, column 2 to column 26)
+Chain 4: 
+Chain 4: Gradient evaluation took 2e-06 seconds
+Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 4: Adjust your expectations accordingly!
+Chain 4: 
+Chain 4: 
+Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 4: 
+Chain 4:  Elapsed Time: 0.031 seconds (Warm-up)
+Chain 4:                0.025 seconds (Sampling)
+Chain 4:                0.056 seconds (Total)
+Chain 4: </code></pre>
+</div>
+</div>
+</section>
+<section id="stan-output" class="slide level2">
+<h2><code>stan</code> Output</h2>
+<p>A summary of results is available with the <code>print</code> function:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">print</span>(m1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource nowrap-code number-lines code-with-copy"><code class="sourceCode"><span id="cb20-1"><a href=""></a>Inference for Stan model: anon_model.</span>
+<span id="cb20-2"><a href=""></a>4 chains, each with iter=2000; warmup=1000; thin=1; </span>
+<span id="cb20-3"><a href=""></a>post-warmup draws per chain=1000, total post-warmup draws=4000.</span>
+<span id="cb20-4"><a href=""></a></span>
+<span id="cb20-5"><a href=""></a>         mean se_mean   sd    2.5%     25%     50%     75%   97.5% n_eff Rhat</span>
+<span id="cb20-6"><a href=""></a>a       40.86    0.02 0.73   39.36   40.38   40.86   41.36   42.25  1668    1</span>
+<span id="cb20-7"><a href=""></a>b        0.04    0.00 0.01    0.02    0.03    0.04    0.05    0.06  1524    1</span>
+<span id="cb20-8"><a href=""></a>sigma    3.90    0.01 0.28    3.41    3.71    3.89    4.07    4.50  2321    1</span>
+<span id="cb20-9"><a href=""></a>lp__  -201.69    0.03 1.23 -205.09 -202.26 -201.36 -200.78 -200.29  1672    1</span>
+<span id="cb20-10"><a href=""></a></span>
+<span id="cb20-11"><a href=""></a>Samples were drawn using NUTS(diag_e) at Sun Mar  8 20:46:30 2026.</span>
+<span id="cb20-12"><a href=""></a>For each parameter, n_eff is a crude measure of effective sample size,</span>
+<span id="cb20-13"><a href=""></a>and Rhat is the potential scale reduction factor on split chains (at </span>
+<span id="cb20-14"><a href=""></a>convergence, Rhat=1).</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="stan-output-1" class="slide level2">
+<h2><code>stan</code> Output</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">stan_dens</span>(m1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="Introduction_to_stan_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"></section>
+<section id="stan-output-2" class="slide level2">
+<h2><code>stan</code> Output</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">stan_trace</span>(m1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="Introduction_to_stan_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch"></section>
+<section id="stan-output-3" class="slide level2">
+<h2><code>stan</code> Output</h2>
+<p>We can extract the posterior samples using the <code>extract</code> function:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>post_samps <span class="ot">&lt;-</span> <span class="fu">extract</span>(m1)</span>
+<span id="cb23-2"><a href=""></a>post_samps <span class="sc">%&gt;%</span> glimpse</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 4
+ $ a    : num [1:4000(1d)] 42 41.2 40 40.3 41.2 ...
+  ..- attr(*, "dimnames")=List of 1
+  .. ..$ iterations: NULL
+ $ b    : num [1:4000(1d)] 0.0259 0.0379 0.0553 0.0394 0.0326 ...
+  ..- attr(*, "dimnames")=List of 1
+  .. ..$ iterations: NULL
+ $ sigma: num [1:4000(1d)] 4.24 3.81 3.5 4.63 3.92 ...
+  ..- attr(*, "dimnames")=List of 1
+  .. ..$ iterations: NULL
+ $ lp__ : num [1:4000(1d)] -202 -200 -202 -205 -200 ...
+  ..- attr(*, "dimnames")=List of 1
+  .. ..$ iterations: NULL</code></pre>
+</div>
+</div>
+<p><code>lp__</code> indicates the log posterior. If we only want to extract some parameters, we can use the <code>pars</code> argument:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>post_samps <span class="ot">&lt;-</span> <span class="fu">extract</span>(m1, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"sigma"</span>))</span>
+<span id="cb25-2"><a href=""></a>post_samps <span class="sc">%&gt;%</span> glimpse</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 3
+ $ a    : num [1:4000(1d)] 42 41.2 40 40.3 41.2 ...
+  ..- attr(*, "dimnames")=List of 1
+  .. ..$ iterations: NULL
+ $ b    : num [1:4000(1d)] 0.0259 0.0379 0.0553 0.0394 0.0326 ...
+  ..- attr(*, "dimnames")=List of 1
+  .. ..$ iterations: NULL
+ $ sigma: num [1:4000(1d)] 4.24 3.81 3.5 4.63 3.92 ...
+  ..- attr(*, "dimnames")=List of 1
+  .. ..$ iterations: NULL</code></pre>
+</div>
+</div>
+</section>
+<section id="stan-output-4" class="slide level2 scrollable">
+<h2><code>stan</code> Output</h2>
+<p>The <code>stan</code> package is not designed to calculate any further summary information for us. Instead, we must work with the sampled parameters directly. Below, we plot a 95% credible band around the best-fit lines.</p>
+<ol type="1">
+<li>Create an empty matrix with one column for each year and one row for each posterior draw.</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a>preds <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow =</span> <span class="dv">4000</span>, <span class="at">ncol =</span> <span class="dv">107</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="2" type="1">
+<li>Loop through each year and save the predictions at each year.</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">107</span>){</span>
+<span id="cb28-2"><a href=""></a>  preds[, i] <span class="ot">&lt;-</span> post_samps<span class="sc">$</span>a <span class="sc">+</span> post_samps<span class="sc">$</span>b <span class="sc">*</span> temps<span class="sc">$</span>YEAR[i]</span>
+<span id="cb28-3"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="stan-output-5" class="slide level2">
+<h2><code>stan</code> Output</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>preds_toplot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">YEAR =</span> temps<span class="sc">$</span>YEAR,</span>
+<span id="cb29-2"><a href=""></a>                           <span class="at">Avg =</span> <span class="fu">colMeans</span>(preds), </span>
+<span id="cb29-3"><a href=""></a>                           <span class="at">lb =</span> <span class="fu">apply</span>(preds, <span class="dv">2</span>, quantile, <span class="at">probs =</span> .<span class="dv">025</span>),</span>
+<span id="cb29-4"><a href=""></a>                           <span class="at">ub =</span> <span class="fu">apply</span>(preds, <span class="dv">2</span>, quantile, <span class="at">probs =</span> .<span class="dv">975</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a>preds_toplot <span class="sc">%&gt;%</span> </span>
+<span id="cb30-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(YEAR, Avg, <span class="at">ymin =</span> lb, <span class="at">max =</span> ub)) <span class="sc">+</span> </span>
+<span id="cb30-3"><a href=""></a>  <span class="fu">geom_ribbon</span>(<span class="at">fill =</span> <span class="fu">I</span>(<span class="st">"lightblue"</span>)) <span class="sc">+</span> <span class="fu">geom_path</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="Introduction_to_stan_files/figure-revealjs/unnamed-chunk-18-1.png" width="960" class="r-stretch"></section>
+<section id="index-variables" class="slide level2">
+<h2>Index Variables</h2>
+<p>If we have categorical variables in our model, we do not want <code>stan</code> to regard them as continuous variables.</p>
+<p>Earlier this semester, we predicted math scores from free lunch status and whether a student took a test prep course.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>testprep <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"testprep.csv"</span>)</span>
+<span id="cb31-2"><a href=""></a>testprep <span class="sc">%&gt;%</span> glimpse</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource nowrap-code number-lines code-with-copy"><code class="sourceCode"><span id="cb32-1"><a href=""></a>Rows: 1,000</span>
+<span id="cb32-2"><a href=""></a>Columns: 8</span>
+<span id="cb32-3"><a href=""></a>$ gender            &lt;chr&gt; "female", "female", "female", "male", "male", "femal…</span>
+<span id="cb32-4"><a href=""></a>$ raceEthnicity     &lt;chr&gt; "group B", "group C", "group B", "group A", "group C…</span>
+<span id="cb32-5"><a href=""></a>$ parentalEducation &lt;chr&gt; "bachelor's degree", "some college", "master's degre…</span>
+<span id="cb32-6"><a href=""></a>$ lunch             &lt;chr&gt; "standard", "standard", "standard", "free/reduced", …</span>
+<span id="cb32-7"><a href=""></a>$ testPrepCourse    &lt;chr&gt; "none", "completed", "none", "none", "none", "none",…</span>
+<span id="cb32-8"><a href=""></a>$ math              &lt;int&gt; 72, 69, 90, 47, 76, 71, 88, 40, 64, 38, 58, 40, 65, …</span>
+<span id="cb32-9"><a href=""></a>$ reading           &lt;int&gt; 72, 90, 95, 57, 78, 83, 95, 43, 64, 60, 54, 52, 81, …</span>
+<span id="cb32-10"><a href=""></a>$ writing           &lt;int&gt; 74, 88, 93, 44, 75, 78, 92, 39, 67, 50, 52, 43, 73, …</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="index-variables-1" class="slide level2">
+<h2>Index Variables</h2>
+<p>To illustrate, today we will predict <code>math</code> from <code>raceEthnicity</code>, which has 5 categories:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">table</span>(testprep<span class="sc">$</span>raceEthnicity)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+group A group B group C group D group E 
+     89     190     319     262     140 </code></pre>
+</div>
+</div>
+<p><code>stan</code> requires numeric input, so we need to convert <code>raceEthnicity</code> to an integer variable:</p>
+<ul>
+<li>One way to to do this is to first convert to a <code>factor</code>, then to <code>numeric</code>.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>testprep <span class="ot">&lt;-</span> testprep <span class="sc">%&gt;%</span> </span>
+<span id="cb35-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">raceEthnicityInt =</span> <span class="fu">as.numeric</span>(<span class="fu">factor</span>(raceEthnicity)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="index-variables-2" class="slide level2">
+<h2>Index Variables</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a>testprep_mod <span class="ot">&lt;-</span><span class="st">"data {</span></span>
+<span id="cb36-2"><a href=""></a><span class="st">  real math[1000];</span></span>
+<span id="cb36-3"><a href=""></a><span class="st">  int raceEthnicityInt[1000];</span></span>
+<span id="cb36-4"><a href=""></a><span class="st">}</span></span>
+<span id="cb36-5"><a href=""></a><span class="st">parameters {</span></span>
+<span id="cb36-6"><a href=""></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb36-7"><a href=""></a><span class="st">  real a[5]; // define five intercept parameters</span></span>
+<span id="cb36-8"><a href=""></a><span class="st">}</span></span>
+<span id="cb36-9"><a href=""></a><span class="st">model {</span></span>
+<span id="cb36-10"><a href=""></a><span class="st">  real mu[1000];</span></span>
+<span id="cb36-11"><a href=""></a><span class="st">  for (i in 1:1000) mu[i] = a[raceEthnicityInt[i]];  // refer to indices</span></span>
+<span id="cb36-12"><a href=""></a><span class="st">  math ~ normal(mu, sigma);</span></span>
+<span id="cb36-13"><a href=""></a><span class="st">  a ~ normal(0, 1);</span></span>
+<span id="cb36-14"><a href=""></a><span class="st">  sigma ~ exponential(1);</span></span>
+<span id="cb36-15"><a href=""></a><span class="st">}"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="index-variables-3" class="slide level2">
+<h2>Index Variables</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>m4 <span class="ot">&lt;-</span> <span class="fu">stan</span>(<span class="at">model_code =</span> testprep_mod,</span>
+<span id="cb37-2"><a href=""></a>           <span class="at">data =</span> testprep[, <span class="fu">c</span>(<span class="st">"math"</span>, <span class="st">"raceEthnicityInt"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
+using C compiler: ‘Apple clang version 17.0.0 (clang-1700.6.4.2)’
+using SDK: ‘MacOSX26.2.sdk’
+clang -arch arm64 -std=gnu2x -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/opt/R/arm64/include    -fPIC  -falign-functions=64 -Wall -g -O2  -c foo.c -o foo.o
+In file included from &lt;built-in&gt;:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
+In file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/Dense:1:
+In file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/Core:19:
+/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:679:10: fatal error: 'cmath' file not found
+  679 | #include &lt;cmath&gt;
+      |          ^~~~~~~
+1 error generated.
+make: *** [foo.o] Error 1
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 2.4e-05 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.24 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 0.132 seconds (Warm-up)
+Chain 1:                0.044 seconds (Sampling)
+Chain 1:                0.176 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 7e-06 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 0.136 seconds (Warm-up)
+Chain 2:                0.044 seconds (Sampling)
+Chain 2:                0.18 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 7e-06 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.07 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 0.128 seconds (Warm-up)
+Chain 3:                0.05 seconds (Sampling)
+Chain 3:                0.178 seconds (Total)
+Chain 3: 
+
+SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
+Chain 4: 
+Chain 4: Gradient evaluation took 9e-06 seconds
+Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
+Chain 4: Adjust your expectations accordingly!
+Chain 4: 
+Chain 4: 
+Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 4: 
+Chain 4:  Elapsed Time: 0.141 seconds (Warm-up)
+Chain 4:                0.045 seconds (Sampling)
+Chain 4:                0.186 seconds (Total)
+Chain 4: </code></pre>
+</div>
+</div>
+</section>
+<section id="index-variables-4" class="slide level2">
+<h2>Index Variables</h2>
+<p>Several tips for categorical variable coding:</p>
+<ul>
+<li>In the <code>data</code> block, define <code>int</code> (integer) for categorical variables. The categorical variables should be transformed to <code>numeric</code> type in your data set.</li>
+<li>In the <code>parameters</code> block, specify the number of levels for the parameters of categorical variables.</li>
+<li>In the <code>model</code> block, create a variable <code>mu</code> to summarize the average prediction for each data point.</li>
+</ul>
+</section>
+<section id="index-variables-5" class="slide level2">
+<h2>Index Variables</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">print</span>(m4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource nowrap-code number-lines code-with-copy"><code class="sourceCode"><span id="cb40-1"><a href=""></a>Inference for Stan model: anon_model.</span>
+<span id="cb40-2"><a href=""></a>4 chains, each with iter=2000; warmup=1000; thin=1; </span>
+<span id="cb40-3"><a href=""></a>post-warmup draws per chain=1000, total post-warmup draws=4000.</span>
+<span id="cb40-4"><a href=""></a></span>
+<span id="cb40-5"><a href=""></a>          mean se_mean   sd     2.5%      25%      50%      75%    97.5% n_eff</span>
+<span id="cb40-6"><a href=""></a>sigma    62.37    0.02 1.44    59.62    61.36    62.35    63.36    65.15  5308</span>
+<span id="cb40-7"><a href=""></a>a[1]      1.36    0.01 0.98    -0.58     0.69     1.36     2.02     3.23  4801</span>
+<span id="cb40-8"><a href=""></a>a[2]      2.95    0.01 1.00     1.02     2.27     2.94     3.63     4.89  4956</span>
+<span id="cb40-9"><a href=""></a>a[3]      4.91    0.01 0.99     3.00     4.24     4.93     5.56     6.86  4856</span>
+<span id="cb40-10"><a href=""></a>a[4]      4.26    0.01 0.97     2.37     3.62     4.27     4.91     6.17  5275</span>
+<span id="cb40-11"><a href=""></a>a[5]      2.55    0.01 0.98     0.62     1.89     2.55     3.19     4.49  5185</span>
+<span id="cb40-12"><a href=""></a>lp__  -4753.75    0.04 1.79 -4758.34 -4754.62 -4753.42 -4752.47 -4751.34  2010</span>
+<span id="cb40-13"><a href=""></a>      Rhat</span>
+<span id="cb40-14"><a href=""></a>sigma    1</span>
+<span id="cb40-15"><a href=""></a>a[1]     1</span>
+<span id="cb40-16"><a href=""></a>a[2]     1</span>
+<span id="cb40-17"><a href=""></a>a[3]     1</span>
+<span id="cb40-18"><a href=""></a>a[4]     1</span>
+<span id="cb40-19"><a href=""></a>a[5]     1</span>
+<span id="cb40-20"><a href=""></a>lp__     1</span>
+<span id="cb40-21"><a href=""></a></span>
+<span id="cb40-22"><a href=""></a>Samples were drawn using NUTS(diag_e) at Sun Mar  8 20:47:05 2026.</span>
+<span id="cb40-23"><a href=""></a>For each parameter, n_eff is a crude measure of effective sample size,</span>
+<span id="cb40-24"><a href=""></a>and Rhat is the potential scale reduction factor on split chains (at </span>
+<span id="cb40-25"><a href=""></a>convergence, Rhat=1).</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="activity" class="slide level2">
+<h2>Activity</h2>
+<p>The following site includes several models written in stan:</p>
+<ul>
+<li><p><a href="https://hedibert.org/wp-content/uploads/2021/02/stan-rstan-examples.html#example-1-simple-iid-gaussian-model" class="uri">https://hedibert.org/wp-content/uploads/2021/02/stan-rstan-examples.html#example-1-simple-iid-gaussian-model</a></p></li>
+<li><p>Work through a few of these examples on your own or with a friend.</p></li>
+<li><p>If you come across a modeling command that you don’t understand, try to figure out what it does.</p></li>
+<li><p>Run the code for yourself and analyze the output in terms of convergence.</p></li>
+</ul>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="Introduction_to_stan_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="Introduction_to_stan_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="Introduction_to_stan_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="Introduction_to_stan_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="Introduction_to_stan_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="Introduction_to_stan_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="Introduction_to_stan_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="Introduction_to_stan_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="Introduction_to_stan_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="Introduction_to_stan_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="Introduction_to_stan_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': true,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
+                // default icon
+                link.classList.add("external");
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

@@ -2,3 +2,361 @@
 title: "Lab 9: Introduction to stan"
 date: March 25, 2026
 ---
+
+## `rstan` and `brms`
+
+-   `rstan` and `brms` are both `R` interfaces to the command-line program `stan`.
+
+-   Compared to `rstan`, `brms` is more user-friendly. Instead, `rstan` is more flexible and can fit more complex models than `brms`.
+
+-   Today we will learn how to use `rstan` by writing `stan` code directly. Proficiency in `stan` won't be tested in this course, but it may be helpful if you want to do research in practice.
+
+-   `stan` is very flexible/general, which makes it useful for many varied models. Because it does not make any assumptions about your model, you will need to provide more information than usual (including explicitly stated the sample size).
+
+## `stan` Files
+
+Click the green "+" on the left top side of your Rstudio panel
+
+* Select `Stan File`.
+
+## `stan` Files
+
+For any `stan` model, we need to add information to these 3 blocks:
+
+-   `data`
+-   `parameter`
+-   `model`
+
+We'll fill them one by one for the `weather` data. 
+
+```{r}
+#| class-output: "nowrap-code"
+library(tidyverse)
+library(rstan)
+temps <- read_csv("weather.csv")
+temps <- temps %>% mutate(YEAR = YEAR - 1918)
+temps %>% glimpse
+```
+
+## `data` Block
+
+Take the simple linear regression model (`Avg_High_Temp` ~ `YEAR`). In the data block, we need to specify the variables we are using in the model, and the length (sample size) of each variable.
+
+* `vector[107] Avg_High_Temp;` means that we define a vector of length 107 with the name `Avg_High_Temp`
+
+* We use this same pattern for the variable `YEAR`.
+
+* Variable names should match those in the data.
+
+* In the `stan` language, comments follow `//`
+
+```{}
+data{ // this is the data block
+  vector[107] Avg_High_Temp;
+  vector[107] YEAR;
+}
+```
+
+**Don't forget the semi-colon!**
+
+## `parameter` Block
+
+In the `parameters` block, we specify parameters that we name however we like. Here, we use:
+
+* `a` for the intercept
+
+* `b` for the slope
+
+* `sigma` for the residual variance
+
+We specify these as `real` variables because we want to estimate these parameters on the entire real number line.
+
+```{}
+parameters{
+    real a;
+    real b;
+    real<lower = 0> sigma;
+}
+```
+
+* `<lower = 0>` means to set a lower bound of 0 on the `sigma` parameter.
+
+## `model` Block
+
+In the `model` block, we will specify both the priors and the model formula:
+
+
+```{}
+model{
+  a ~ normal(45, 5);
+  b ~ normal(0, 5);
+  sigma ~ lognormal(0, 5);
+  Avg_High_Temp ~ normal(a + b*YEAR, sigma);
+}
+```
+
+After entering these three blocks in your file, save the file to your **current working directory** as `weather.stan`.
+
+## Running `stan`
+
+Now, we can run our `stan` model using the following code:
+
+```{r message = FALSE, cache = TRUE}
+m1 <- stan(file = "weather.stan", data = temps)
+```
+
+## Running `stan`
+
+Unlike `brms`, `stan` does not remove `NA` values for us. If the data set is not complete, `stan` returns a warning message and stops:
+
+```{r}
+temps2 <- temps
+temps2[1, 1] <- NA # set one observation to BA
+stan(file = "weather.stan", data = temps2)
+```
+
+## Running `stan`
+
+It can also be useful to specify input variables as a `list`. This is helpful if we want to input variables of different length.
+
+```{r cache = TRUE}
+temps_list <- list(Avg_High_Temp = temps$Avg_High_Temp,
+                   YEAR = temps$YEAR)
+
+m1 <- stan(file = "weather.stan", data = temps_list)
+```
+
+
+
+## Running `stan`
+
+Instead of saving `stan` code as a separate file, we can instead write it as a character string in `R`.
+
+```{r}
+weather_mod <- "
+data{
+  vector[107] Avg_High_Temp;
+  vector[107] YEAR;
+}
+parameters{
+    real a;
+    real b;
+    real sigma;
+}
+model{
+  a ~ normal(45, 5);
+  b ~ normal(0, 5);
+  sigma ~ lognormal(0, 5);
+  Avg_High_Temp ~ normal(a + b*YEAR, sigma);
+}
+"
+```
+
+## Running `stan`
+
+And run the model:
+
+```{r }
+m2 <- stan(model_code = weather_mod, data = temps)
+```
+
+## Running `stan`
+
+We may prefer to include sample size as a variable rather than explicitly coding it in the model. We can do so by making the following modifications to the `data` block:
+
+```{r}
+weather_mod2 <- "
+data{
+  int N; // sample size
+  vector[N] Avg_High_Temp; // now of length N
+  vector[N] YEAR; // now of length N
+}
+parameters{
+    real a;
+    real b;
+    real sigma;
+}
+model{
+  a ~ normal(45, 5);
+  b ~ normal(0, 5);
+  sigma ~ lognormal(0, 5);
+  Avg_High_Temp ~ normal(a + b*YEAR, sigma);
+}
+"
+```
+
+## Running `stan`
+
+`stan` now expects three inputs: `N`, `Avg_High_Temp`, and `YEAR`. Now, we **must** specify the input as a list.
+
+```{r}
+temps_list <- list(N = 107, 
+                   Avg_High_Temp = temps$Avg_High_Temp, 
+                   YEAR = temps$YEAR)
+```
+
+```{r}
+m3 <- stan(model_code = weather_mod2, data = temps_list)
+```
+
+
+## `stan` Output
+
+A summary of results is available with the `print` function:
+
+```{r}
+#| class-output: "nowrap-code"
+
+print(m1)
+```
+
+
+## `stan` Output
+
+```{r}
+stan_dens(m1)
+```
+
+## `stan` Output
+
+```{r}
+stan_trace(m1)
+```
+
+
+
+## `stan` Output
+
+We can extract the posterior samples using the `extract` function:
+
+```{r}
+post_samps <- extract(m1)
+post_samps %>% glimpse
+```
+`lp__` indicates the log posterior. If we only want to extract some parameters, we can use the `pars` argument:
+
+```{r}
+post_samps <- extract(m1, pars = c("a", "b", "sigma"))
+post_samps %>% glimpse
+```
+
+## `stan` Output
+
+
+The `stan` package is not designed to calculate any further summary information for us. Instead, we must work with the sampled parameters directly. Below, we plot a 95% credible band around the best-fit lines.
+
+1. Create an empty matrix with one column for each year and one row for each posterior draw.
+
+```{r}
+preds <- matrix(NA, nrow = 4000, ncol = 107)
+```
+
+2. Loop through each year and save the predictions at each year.
+
+```{r}
+for(i in 1:107){
+  preds[, i] <- post_samps$a + post_samps$b * temps$YEAR[i]
+}
+```
+
+## `stan` Output
+
+```{r}
+preds_toplot <- data.frame(YEAR = temps$YEAR,
+                           Avg = colMeans(preds), 
+                           lb = apply(preds, 2, quantile, probs = .025),
+                           ub = apply(preds, 2, quantile, probs = .975))
+```
+
+```{r}
+preds_toplot %>% 
+  ggplot(aes(YEAR, Avg, ymin = lb, max = ub)) + 
+  geom_ribbon(fill = I("lightblue")) + geom_path()
+
+```
+
+
+## Index Variables
+
+If we have categorical variables in our model, we do not want `stan` to regard
+them as continuous variables.
+
+Earlier this semester, we predicted math scores from free lunch status and whether a student took a test prep course.
+
+```{r}
+#| class-output: "nowrap-code"
+
+testprep <- read.csv("testprep.csv")
+testprep %>% glimpse
+```
+
+## Index Variables
+
+To illustrate, today we will predict `math` from `raceEthnicity`, which has 5 categories:
+
+```{r}
+table(testprep$raceEthnicity)
+```
+
+`stan` requires numeric input, so we need to convert `raceEthnicity` to an integer variable:
+
+* One way to to do this is to first convert to a `factor`, then to `numeric`.
+
+```{r}
+testprep <- testprep %>% 
+  mutate(raceEthnicityInt = as.numeric(factor(raceEthnicity)))
+```
+
+
+
+## Index Variables
+
+```{r}
+testprep_mod <-"data {
+  real math[1000];
+  int raceEthnicityInt[1000];
+}
+parameters {
+  real<lower=0> sigma;
+  real a[5]; // define five intercept parameters
+}
+model {
+  real mu[1000];
+  for (i in 1:1000) mu[i] = a[raceEthnicityInt[i]];  // refer to indices
+  math ~ normal(mu, sigma);
+  a ~ normal(0, 1);
+  sigma ~ exponential(1);
+}"
+```
+
+## Index Variables
+
+```{r cache = TRUE}
+m4 <- stan(model_code = testprep_mod,
+           data = testprep[, c("math", "raceEthnicityInt")])
+```
+
+## Index Variables
+
+Several tips for categorical variable coding:
+
+-   In the `data` block, define `int` (integer) for categorical variables. The categorical variables should be transformed to `numeric` type in your data set.
+-   In the `parameters` block, specify the number of levels for the parameters of categorical variables.
+-   In the `model` block, create a variable `mu` to summarize the average prediction for each data point.
+
+## Index Variables
+
+```{r}
+#| class-output: "nowrap-code"
+print(m4)
+```
+
+## Activity
+
+The following site includes several models written in stan: 
+
+* <https://hedibert.org/wp-content/uploads/2021/02/stan-rstan-examples.html#example-1-simple-iid-gaussian-model>
+
+* Work through a few of these examples on your own or with a friend. 
+* If you come across a modeling command that you don't understand, try to figure out what it does. 
+* Run the code for yourself and analyze the output in terms of convergence.
