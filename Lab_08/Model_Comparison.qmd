@@ -299,7 +299,7 @@ mod1$criteria$waic$estimates
 
 ## Activity
 
-Loed in the `weather.csv` data. In this activity, we will predict averag high temperature by year through linear and polynomial models.
+Load in the `weather.csv` data. In this activity, we will predict average high temperature by year through linear and polynomial models.
 
 ```{r}
 library(tidyverse)
