@@ -211,17 +211,8 @@ PSYC 7940
 </section>
 <section id="overview" class="slide level2">
 <h2>Overview</h2>
-<!-- need to focus this lab more on practical computational aspects -->
-<!-- Fitting polynomial and/or interactive models in brms -->
-<!-- Calculating psis -->
-<!-- Moment matching -->
-<!-- WAIC -->
-<!-- loo_compare -->
-<!-- model averaging -->
-<!-- Model selection - weather data could be a good activity example -->
 <p>In previous labs, we learned how to use <code>brms</code> to set priors, fit models, and summarize results.</p>
 <p>Today we will learn how to compare the relative fit among models.</p>
-<!-- * We will also learn how to estimate polynomial regression and models with interactions. -->
 <p>First, load in the packages that we’ll use today.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
@@ -254,8 +245,8 @@ PSYC 7940
 <pre><code>
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 Chain 1: 
-Chain 1: Gradient evaluation took 3.2e-05 seconds
-Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.32 seconds.
+Chain 1: Gradient evaluation took 2.8e-05 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.28 seconds.
 Chain 1: Adjust your expectations accordingly!
 Chain 1: 
 Chain 1: 
@@ -273,14 +264,14 @@ Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 Chain 1: 
 Chain 1:  Elapsed Time: 0.012 seconds (Warm-up)
-Chain 1:                0.009 seconds (Sampling)
-Chain 1:                0.021 seconds (Total)
+Chain 1:                0.008 seconds (Sampling)
+Chain 1:                0.02 seconds (Total)
 Chain 1: 
 
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
 Chain 2: 
-Chain 2: Gradient evaluation took 2e-06 seconds
-Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 2: Gradient evaluation took 1e-06 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.01 seconds.
 Chain 2: Adjust your expectations accordingly!
 Chain 2: 
 Chain 2: 
@@ -297,15 +288,15 @@ Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
 Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 Chain 2: 
-Chain 2:  Elapsed Time: 0.012 seconds (Warm-up)
-Chain 2:                0.009 seconds (Sampling)
-Chain 2:                0.021 seconds (Total)
+Chain 2:  Elapsed Time: 0.01 seconds (Warm-up)
+Chain 2:                0.008 seconds (Sampling)
+Chain 2:                0.018 seconds (Total)
 Chain 2: 
 
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
 Chain 3: 
-Chain 3: Gradient evaluation took 2e-06 seconds
-Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 3: Gradient evaluation took 1e-06 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.01 seconds.
 Chain 3: Adjust your expectations accordingly!
 Chain 3: 
 Chain 3: 
@@ -323,14 +314,14 @@ Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 Chain 3: 
 Chain 3:  Elapsed Time: 0.011 seconds (Warm-up)
-Chain 3:                0.007 seconds (Sampling)
-Chain 3:                0.018 seconds (Total)
+Chain 3:                0.008 seconds (Sampling)
+Chain 3:                0.019 seconds (Total)
 Chain 3: 
 
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
 Chain 4: 
-Chain 4: Gradient evaluation took 2e-06 seconds
-Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 4: Gradient evaluation took 1e-06 seconds
+Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.01 seconds.
 Chain 4: Adjust your expectations accordingly!
 Chain 4: 
 Chain 4: 
@@ -368,12 +359,12 @@ Formula: Weight ~ HeightC
 
 Regression Coefficients:
           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-Intercept    69.31      0.36    68.62    70.00 1.00     3998     2806
-HeightC       0.78      0.05     0.68     0.89 1.00     3557     2827
+Intercept    69.32      0.36    68.62    70.02 1.00     3938     2736
+HeightC       0.78      0.05     0.68     0.89 1.00     4125     3097
 
 Further Distributional Parameters:
       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-sigma     4.85      0.26     4.37     5.40 1.00     4324     2852
+sigma     4.85      0.25     4.38     5.36 1.00     4289     2954
 
 Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -394,7 +385,7 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>res_l <span class="sc">%&gt;%</span> glimpse</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> num [1:4000, 1:179] -2.57 -2.43 -2.52 -2.54 -2.53 ...
+<pre><code> num [1:4000, 1:179] -2.56 -2.58 -2.5 -2.51 -2.49 ...
  - attr(*, "dimnames")=List of 2
   ..$ : NULL
   ..$ : NULL</code></pre>
@@ -423,12 +414,12 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <span id="cb9-2"><a href=""></a><span class="fu">head</span>(loo_res<span class="sc">$</span>pointwise)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      elpd_loo mcse_elpd_loo       p_loo    looic influence_pareto_k
-[1,] -2.521904  0.0008629501 0.003027328 5.043808       -0.066434008
-[2,] -2.783277  0.0010537434 0.004360798 5.566554        0.003971603
-[3,] -2.553903  0.0009888051 0.003615044 5.107807        0.002817097
-[4,] -2.632615  0.0013396652 0.006742208 5.265229        0.070656813
-[5,] -2.935164  0.0016664539 0.009692034 5.870328        0.036437689
-[6,] -3.019558  0.0015355285 0.008555593 6.039116       -0.006451111</code></pre>
+[1,] -2.521337  0.0008505712 0.002912779 5.042675        -0.06280700
+[2,] -2.785982  0.0010116343 0.004517701 5.571963         0.06496688
+[3,] -2.552565  0.0009396062 0.003548582 5.105130        -0.11924931
+[4,] -2.633032  0.0013417102 0.006225954 5.266064         0.06012128
+[5,] -2.933493  0.0015459756 0.009022698 5.866987        -0.05292129
+[6,] -3.018892  0.0014813470 0.008109628 6.037784        -0.03669721</code></pre>
 </div>
 </div>
 </section>
@@ -441,7 +432,7 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">max</span>(loo_res<span class="sc">$</span>pointwise[, <span class="dv">5</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2019163</code></pre>
+<pre><code>[1] 0.2552474</code></pre>
 </div>
 </div>
 </section>
@@ -456,9 +447,9 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 Computed from 4000 by 179 log-likelihood matrix.
 
           Estimate   SE
-elpd_waic   -538.2  9.8
-p_waic         2.9  0.5
-waic        1076.4 19.6</code></pre>
+elpd_waic   -538.1  9.8
+p_waic         2.8  0.5
+waic        1076.2 19.6</code></pre>
 </div>
 </div>
 <p>The <code>waic</code> row represents the information criterion we are looking for.</p>
@@ -470,12 +461,12 @@ waic        1076.4 19.6</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">head</span>(waic_res<span class="sc">$</span>pointwise)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     elpd_waic      p_waic     waic
-[1,] -2.521902 0.003025222 5.043804
-[2,] -2.783273 0.004356804 5.566546
-[3,] -2.553903 0.003615040 5.107807
-[4,] -2.632605 0.006732733 5.265211
-[5,] -2.935146 0.009673988 5.870292
-[6,] -3.019542 0.008539006 6.039083</code></pre>
+[1,] -2.521335 0.002910356 5.042670
+[2,] -2.785983 0.004518818 5.571965
+[3,] -2.552561 0.003544327 5.105121
+[4,] -2.633020 0.006213999 5.266040
+[5,] -2.933480 0.009009751 5.866961
+[6,] -3.018879 0.008096427 6.037758</code></pre>
 </div>
 </div>
 </section>
@@ -515,8 +506,8 @@ All-rounder     Climber      Leader    Sprinter
 <pre><code>
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 Chain 1: 
-Chain 1: Gradient evaluation took 1.6e-05 seconds
-Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.16 seconds.
+Chain 1: Gradient evaluation took 2.3e-05 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
 Chain 1: Adjust your expectations accordingly!
 Chain 1: 
 Chain 1: 
@@ -533,15 +524,15 @@ Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
 Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 Chain 1: 
-Chain 1:  Elapsed Time: 0.015 seconds (Warm-up)
-Chain 1:                0.011 seconds (Sampling)
-Chain 1:                0.026 seconds (Total)
+Chain 1:  Elapsed Time: 0.019 seconds (Warm-up)
+Chain 1:                0.012 seconds (Sampling)
+Chain 1:                0.031 seconds (Total)
 Chain 1: 
 
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
 Chain 2: 
-Chain 2: Gradient evaluation took 3e-06 seconds
-Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.03 seconds.
+Chain 2: Gradient evaluation took 1e-06 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.01 seconds.
 Chain 2: Adjust your expectations accordingly!
 Chain 2: 
 Chain 2: 
@@ -558,9 +549,9 @@ Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
 Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 Chain 2: 
-Chain 2:  Elapsed Time: 0.017 seconds (Warm-up)
-Chain 2:                0.009 seconds (Sampling)
-Chain 2:                0.026 seconds (Total)
+Chain 2:  Elapsed Time: 0.021 seconds (Warm-up)
+Chain 2:                0.013 seconds (Sampling)
+Chain 2:                0.034 seconds (Total)
 Chain 2: 
 
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
@@ -583,9 +574,9 @@ Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
 Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 Chain 3: 
-Chain 3:  Elapsed Time: 0.014 seconds (Warm-up)
-Chain 3:                0.008 seconds (Sampling)
-Chain 3:                0.022 seconds (Total)
+Chain 3:  Elapsed Time: 0.018 seconds (Warm-up)
+Chain 3:                0.013 seconds (Sampling)
+Chain 3:                0.031 seconds (Total)
 Chain 3: 
 
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
@@ -608,9 +599,9 @@ Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
 Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 Chain 4: 
-Chain 4:  Elapsed Time: 0.015 seconds (Warm-up)
-Chain 4:                0.011 seconds (Sampling)
-Chain 4:                0.026 seconds (Total)
+Chain 4:  Elapsed Time: 0.017 seconds (Warm-up)
+Chain 4:                0.013 seconds (Sampling)
+Chain 4:                0.03 seconds (Total)
 Chain 4: </code></pre>
 </div>
 </div>
@@ -629,21 +620,21 @@ Chain 4: </code></pre>
 <span id="cb22-7"><a href=""></a></span>
 <span id="cb22-8"><a href=""></a>Regression Coefficients:</span>
 <span id="cb22-9"><a href=""></a>                     Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS</span>
-<span id="cb22-10"><a href=""></a>SpecialtyAllMrounder    70.35      0.44    69.49    71.20 1.00     4433</span>
-<span id="cb22-11"><a href=""></a>SpecialtyClimber        65.46      0.70    64.04    66.82 1.00     5144</span>
-<span id="cb22-12"><a href=""></a>SpecialtyLeader         66.34      0.82    64.71    68.01 1.00     5223</span>
-<span id="cb22-13"><a href=""></a>SpecialtySprinter       71.69      0.69    70.31    73.03 1.00     4833</span>
-<span id="cb22-14"><a href=""></a>HeightC                  0.70      0.05     0.61     0.81 1.00     4832</span>
+<span id="cb22-10"><a href=""></a>SpecialtyAllMrounder    70.35      0.45    69.45    71.21 1.00     5156</span>
+<span id="cb22-11"><a href=""></a>SpecialtyClimber        65.46      0.71    64.07    66.84 1.00     5067</span>
+<span id="cb22-12"><a href=""></a>SpecialtyLeader         66.33      0.83    64.75    67.98 1.00     5658</span>
+<span id="cb22-13"><a href=""></a>SpecialtySprinter       71.68      0.68    70.34    72.99 1.00     6002</span>
+<span id="cb22-14"><a href=""></a>HeightC                  0.70      0.05     0.60     0.80 1.00     4871</span>
 <span id="cb22-15"><a href=""></a>                     Tail_ESS</span>
-<span id="cb22-16"><a href=""></a>SpecialtyAllMrounder     3009</span>
-<span id="cb22-17"><a href=""></a>SpecialtyClimber         2999</span>
-<span id="cb22-18"><a href=""></a>SpecialtyLeader          3247</span>
-<span id="cb22-19"><a href=""></a>SpecialtySprinter        3268</span>
-<span id="cb22-20"><a href=""></a>HeightC                  3104</span>
+<span id="cb22-16"><a href=""></a>SpecialtyAllMrounder     3066</span>
+<span id="cb22-17"><a href=""></a>SpecialtyClimber         2212</span>
+<span id="cb22-18"><a href=""></a>SpecialtyLeader          3178</span>
+<span id="cb22-19"><a href=""></a>SpecialtySprinter        3285</span>
+<span id="cb22-20"><a href=""></a>HeightC                  3160</span>
 <span id="cb22-21"><a href=""></a></span>
 <span id="cb22-22"><a href=""></a>Further Distributional Parameters:</span>
 <span id="cb22-23"><a href=""></a>      Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
-<span id="cb22-24"><a href=""></a>sigma     4.20      0.23     3.78     4.68 1.00     5147     2923</span>
+<span id="cb22-24"><a href=""></a>sigma     4.20      0.23     3.79     4.68 1.00     4455     3345</span>
 <span id="cb22-25"><a href=""></a></span>
 <span id="cb22-26"><a href=""></a>Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS</span>
 <span id="cb22-27"><a href=""></a>and Tail_ESS are effective sample size measures, and Rhat is the potential</span>
@@ -711,8 +702,8 @@ Chain 4: </code></pre>
 <pre><code>
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 Chain 1: 
-Chain 1: Gradient evaluation took 3e-05 seconds
-Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.3 seconds.
+Chain 1: Gradient evaluation took 1.5e-05 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.15 seconds.
 Chain 1: Adjust your expectations accordingly!
 Chain 1: 
 Chain 1: 
@@ -729,15 +720,15 @@ Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
 Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 Chain 1: 
-Chain 1:  Elapsed Time: 0.022 seconds (Warm-up)
-Chain 1:                0.015 seconds (Sampling)
-Chain 1:                0.037 seconds (Total)
+Chain 1:  Elapsed Time: 0.021 seconds (Warm-up)
+Chain 1:                0.014 seconds (Sampling)
+Chain 1:                0.035 seconds (Total)
 Chain 1: 
 
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
 Chain 2: 
-Chain 2: Gradient evaluation took 2e-06 seconds
-Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 2: Gradient evaluation took 1e-06 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.01 seconds.
 Chain 2: Adjust your expectations accordingly!
 Chain 2: 
 Chain 2: 
@@ -754,15 +745,15 @@ Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
 Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 Chain 2: 
-Chain 2:  Elapsed Time: 0.021 seconds (Warm-up)
-Chain 2:                0.015 seconds (Sampling)
-Chain 2:                0.036 seconds (Total)
+Chain 2:  Elapsed Time: 0.023 seconds (Warm-up)
+Chain 2:                0.014 seconds (Sampling)
+Chain 2:                0.037 seconds (Total)
 Chain 2: 
 
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
 Chain 3: 
-Chain 3: Gradient evaluation took 2e-06 seconds
-Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 3: Gradient evaluation took 1e-06 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.01 seconds.
 Chain 3: Adjust your expectations accordingly!
 Chain 3: 
 Chain 3: 
@@ -779,15 +770,15 @@ Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
 Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 Chain 3: 
-Chain 3:  Elapsed Time: 0.022 seconds (Warm-up)
+Chain 3:  Elapsed Time: 0.02 seconds (Warm-up)
 Chain 3:                0.014 seconds (Sampling)
-Chain 3:                0.036 seconds (Total)
+Chain 3:                0.034 seconds (Total)
 Chain 3: 
 
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
 Chain 4: 
-Chain 4: Gradient evaluation took 2e-06 seconds
-Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.02 seconds.
+Chain 4: Gradient evaluation took 1e-06 seconds
+Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.01 seconds.
 Chain 4: Adjust your expectations accordingly!
 Chain 4: 
 Chain 4: 
@@ -804,9 +795,9 @@ Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
 Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 Chain 4: 
-Chain 4:  Elapsed Time: 0.022 seconds (Warm-up)
+Chain 4:  Elapsed Time: 0.021 seconds (Warm-up)
 Chain 4:                0.014 seconds (Sampling)
-Chain 4:                0.036 seconds (Total)
+Chain 4:                0.035 seconds (Total)
 Chain 4: </code></pre>
 </div>
 </div>
@@ -825,27 +816,27 @@ Chain 4: </code></pre>
 <span id="cb29-7"><a href=""></a></span>
 <span id="cb29-8"><a href=""></a>Regression Coefficients:</span>
 <span id="cb29-9"><a href=""></a>                             Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS</span>
-<span id="cb29-10"><a href=""></a>SpecialtyAllMrounder            70.28      0.45    69.41    71.20 1.00     6938</span>
-<span id="cb29-11"><a href=""></a>SpecialtyClimber                65.31      0.71    63.87    66.69 1.00     8980</span>
-<span id="cb29-12"><a href=""></a>SpecialtyLeader                 66.14      1.02    64.16    68.14 1.00     4595</span>
-<span id="cb29-13"><a href=""></a>SpecialtySprinter               71.72      0.68    70.37    73.05 1.00     7708</span>
-<span id="cb29-14"><a href=""></a>SpecialtyAllMrounder:HeightC     0.74      0.07     0.60     0.88 1.00     5503</span>
-<span id="cb29-15"><a href=""></a>SpecialtyClimber:HeightC         0.61      0.11     0.40     0.83 1.00     8039</span>
-<span id="cb29-16"><a href=""></a>SpecialtyLeader:HeightC          0.64      0.18     0.29     0.99 1.00     4848</span>
-<span id="cb29-17"><a href=""></a>SpecialtySprinter:HeightC        0.77      0.11     0.56     0.97 1.00     6122</span>
+<span id="cb29-10"><a href=""></a>SpecialtyAllMrounder            70.28      0.45    69.38    71.18 1.00     7522</span>
+<span id="cb29-11"><a href=""></a>SpecialtyClimber                65.33      0.72    63.91    66.73 1.00     8155</span>
+<span id="cb29-12"><a href=""></a>SpecialtyLeader                 66.14      1.05    64.09    68.18 1.00     5484</span>
+<span id="cb29-13"><a href=""></a>SpecialtySprinter               71.70      0.71    70.28    73.05 1.00     8710</span>
+<span id="cb29-14"><a href=""></a>SpecialtyAllMrounder:HeightC     0.74      0.07     0.61     0.87 1.00     7219</span>
+<span id="cb29-15"><a href=""></a>SpecialtyClimber:HeightC         0.62      0.11     0.40     0.82 1.00     7500</span>
+<span id="cb29-16"><a href=""></a>SpecialtyLeader:HeightC          0.64      0.18     0.30     1.00 1.00     5412</span>
+<span id="cb29-17"><a href=""></a>SpecialtySprinter:HeightC        0.77      0.11     0.56     0.98 1.00     8900</span>
 <span id="cb29-18"><a href=""></a>                             Tail_ESS</span>
-<span id="cb29-19"><a href=""></a>SpecialtyAllMrounder             3006</span>
-<span id="cb29-20"><a href=""></a>SpecialtyClimber                 3386</span>
-<span id="cb29-21"><a href=""></a>SpecialtyLeader                  2785</span>
-<span id="cb29-22"><a href=""></a>SpecialtySprinter                2611</span>
-<span id="cb29-23"><a href=""></a>SpecialtyAllMrounder:HeightC     2955</span>
-<span id="cb29-24"><a href=""></a>SpecialtyClimber:HeightC         3093</span>
-<span id="cb29-25"><a href=""></a>SpecialtyLeader:HeightC          3195</span>
-<span id="cb29-26"><a href=""></a>SpecialtySprinter:HeightC        2557</span>
+<span id="cb29-19"><a href=""></a>SpecialtyAllMrounder             2919</span>
+<span id="cb29-20"><a href=""></a>SpecialtyClimber                 3074</span>
+<span id="cb29-21"><a href=""></a>SpecialtyLeader                  3503</span>
+<span id="cb29-22"><a href=""></a>SpecialtySprinter                3204</span>
+<span id="cb29-23"><a href=""></a>SpecialtyAllMrounder:HeightC     2607</span>
+<span id="cb29-24"><a href=""></a>SpecialtyClimber:HeightC         2823</span>
+<span id="cb29-25"><a href=""></a>SpecialtyLeader:HeightC          3230</span>
+<span id="cb29-26"><a href=""></a>SpecialtySprinter:HeightC        2800</span>
 <span id="cb29-27"><a href=""></a></span>
 <span id="cb29-28"><a href=""></a>Further Distributional Parameters:</span>
 <span id="cb29-29"><a href=""></a>      Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
-<span id="cb29-30"><a href=""></a>sigma     4.21      0.23     3.79     4.68 1.00     6975     3387</span>
+<span id="cb29-30"><a href=""></a>sigma     4.21      0.23     3.79     4.70 1.00     6504     3091</span>
 <span id="cb29-31"><a href=""></a></span>
 <span id="cb29-32"><a href=""></a>Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS</span>
 <span id="cb29-33"><a href=""></a>and Tail_ESS are effective sample size measures, and Rhat is the potential</span>
@@ -920,8 +911,8 @@ Chain 4: </code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>     elpd_diff se_diff
 mod2   0.0       0.0  
-mod3  -1.5       0.9  
-mod1 -24.7       6.2  </code></pre>
+mod3  -1.6       0.9  
+mod1 -24.6       6.2  </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -929,8 +920,8 @@ mod1 -24.7       6.2  </code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>     elpd_diff se_diff
 mod2   0.0       0.0  
-mod3  -1.4       0.9  
-mod1 -24.7       6.2  </code></pre>
+mod3  -1.6       0.9  
+mod1 -24.6       6.2  </code></pre>
 </div>
 </div>
 <ul>
@@ -942,22 +933,22 @@ mod1 -24.7       6.2  </code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a>mod1<span class="sc">$</span>criteria<span class="sc">$</span>loo<span class="sc">$</span>estimates</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            Estimate         SE
-elpd_loo -538.201621  9.8258842
-p_loo       2.937367  0.4754769
-looic    1076.403243 19.6517684</code></pre>
+elpd_loo -538.103979  9.8148204
+p_loo       2.849661  0.4613745
+looic    1076.207957 19.6296408</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a>mod1<span class="sc">$</span>criteria<span class="sc">$</span>waic<span class="sc">$</span>estimates</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             Estimate         SE
-elpd_waic -538.193326  9.8240758
-p_waic       2.929072  0.4730656
-waic      1076.386653 19.6481516</code></pre>
+elpd_waic -538.096518  9.8132184
+p_waic       2.842201  0.4595392
+waic      1076.193037 19.6264368</code></pre>
 </div>
 </div>
 </section>
 <section id="activity" class="slide level2">
 <h2>Activity</h2>
-<p>Loed in the <code>weather.csv</code> data. In this activity, we will predict averag high temperature by year through linear and polynomial models.</p>
+<p>Load in the <code>weather.csv</code> data. In this activity, we will predict average high temperature by year through linear and polynomial models.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb46-2"><a href=""></a><span class="fu">library</span>(brms)</span>
