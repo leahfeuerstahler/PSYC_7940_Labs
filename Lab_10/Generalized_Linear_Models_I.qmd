@@ -2,3 +2,270 @@
 title: "Lab 10: Generalized Linear Models I"
 date: April 1, 2026
 ---
+
+```{r echo = F, message = F, cache = FALSE, include = FALSE}
+library(tidyverse)
+library(brms)
+library(ggplot2)
+library(loo)
+library(knitr)
+library(formatR)
+
+opts_chunk$set(out.width = '1\\linewidth', options(width=60))
+opts_knit$set(global.par = TRUE)
+opts_chunk$set(echo=T, comment = '', class.output='sh',
+               fig.width=8, fig.height=5, fig.align = "center")
+```
+
+## Overview
+
+In previous labs, we focused on linear regression models where the outcome was continuous and normally distributed. 
+
+Today, we transition to **Generalized Linear Models (GLMs)**:
+
+* **Generalization:** We use non-normal data distributions and link functions rather than the normal distribution and identity link.
+
+* **Prior Specification:** The use of link functions changes how we approach prior predictive simulations.
+
+* **Interpretation:** Instead of interpreting direct changes in $Y$, the parameters are now on a transformed scale, such as log-odds.
+
+
+## Moving Beyond Linear Regression
+
+Previously, we considered the relationship between GPA and study time.
+
+\begin{align*}
+  GPA_i & \sim \text{Normal}(\mu_i, \sigma) \\
+  \mu_i & = \alpha + \beta \times \text{time}_i
+\end{align*}
+
+In `brms`, we specified this model using `family = gaussian(link = "identity")`. 
+
+## Binary Outcomes
+
+What if instead of predicting GPA itself, we wanted to model the probability of earning an "A" average or better (GPA > 3.5)? 
+
+A normal distribution is no longer appropriate. Instead, we can use the **Bernoulli distribution** to describe the distribution of the data.
+
+* Parameter $p$ represents the probability of success.
+
+* The **logit** function relates $p$ to our predictor variable(s).
+
+\begin{align*}
+  \text{A}_i & \sim \text{Bernoulli}(p_i) \\
+  \text{logit}(p_i) & = \alpha + \beta \times \text{time}_i
+\end{align*}
+
+## Linear vs. Logit Visual
+
+Notice the y-axes!
+
+```{r echo = FALSE}
+f <- function(a, b, time) a + b*time
+f_logit <- function(a, b, time) plogis(a + b*time)
+
+p1 <- ggplot(data.frame(x = c(0,5), y = c(0,1)), aes(x = x, y = y)) +
+  stat_function(fun = f, args = list(a = -1, b = .6)) +
+  labs(title = "Identity Link", x = "Time", y = "Probability") +
+  theme_minimal()
+
+p2 <- ggplot(data.frame(x = c(0,5), y = c(0,1)), aes(x = x, y = y)) +
+  stat_function(fun = f_logit, args = list(a = -3, b = 1)) +
+  labs(title = "Logit Link", x = "Time", y = "Probability") +
+  theme_minimal()
+
+gridExtra::grid.arrange(p1, p2, nrow=1)
+```
+
+
+## Link Functions: Why Logit?
+
+If we used an identity link ($p = \alpha + \beta \times \text{time}$), the model might predict probabilities below 0 or above 1. The **logit function** maps the linear predictor to a valid 0–1 range.
+
+
+* **Intercept ($\alpha$):** `plogis(a)` provides the probability of a pass when study time is zero.
+
+* **Slope ($\beta$):** The sign of $b$ controls whether the relationship between time and the probability is positive or negative.
+
+
+
+
+## Prior Prediction for GLMs
+
+Because the link function makes the relationship between parameters and the outcome non-linear, **prior predictive simulation** is essential for determining if our priors are reasonable.
+
+
+We will use the `gpa_study_hours.csv` dataset where GPA $\ge$ 3.5 is coded as 1 ("A") and GPA < 3.5 is 0.
+
+```{r message = FALSE}
+dat <- read_csv("gpa_study_hours.csv")
+dat %>% glimpse
+```
+
+
+In `brms`, logistic regression is specified with ` family = bernoulli(link = "logit")`
+
+* Use `get_prior` to see how to input priors
+
+```{r}
+brm_form <- A ~ study_hours
+
+get_prior(brm_form, data = dat, family = bernoulli(link = "logit"))
+```
+
+## Prior Prediction for GLMs
+
+Let's start our simulations with a $N(0, 1)$ prior on both $a$ and $b$.
+
+```{r results = "hide", cache = TRUE}
+prior1 <- prior(normal(0, 1), class = "b") + 
+          prior(normal(0, 1), class = "Intercept")
+
+prior_sim1 <- brm(brm_form, data = dat, family = bernoulli(link = "logit"),
+                  prior = prior1, sample_prior = "only")
+```
+
+
+## Prior Prediction for GLMs
+
+For GLMS, `method = "posterior_epred"` plots results on the transformed "probability" scale.
+
+```{r message = FALSE}
+conditional_effects(prior_sim1, method = "posterior_epred")
+```
+
+## Prior Prediction for GLMs
+
+This doesn't make sense! 
+
+* We would expect an *increase* in study hours to *increase the probability of an A $\rightarrow$ let's increase the mean of the prior on $b$ to .25 and decrease the standard deviation to .5.
+
+* The intercept corresponds to the probability of an A with **zero** hours of study, this should be lower than logit(0) = 0.5 $\rightarrow$ let's decrease the mean of the prior on $a$ to -.5. 
+
+```{r message = FALSE, cache = TRUE}
+prior2 <- prior(normal(.25, .5), class = "b") + 
+          prior(normal(-.5, 1), class = "Intercept")
+
+prior_sim2 <- brm(brm_form, data = dat, family = bernoulli(link = "logit"),
+                  prior = prior2, sample_prior = "only")
+```
+
+## Prior Prediction for GLMs
+
+Good enough?
+
+```{r}
+conditional_effects(prior_sim2, method = "posterior_epred")
+```
+
+## Fit the Logistic Regression Model
+
+```{r results = "hide", cache = TRUE}
+m1 <- brm(
+  formula = brm_form, 
+  data = dat,
+  family = bernoulli(link = "logit"),
+  prior = prior2)
+```
+
+## Results
+
+We were wrong about the prior for the intercept. Grade inflation at work!
+
+```{r}
+print(m1)
+```
+
+## Results
+
+```{r}
+conditional_effects(m1, method = "posterior_epred")
+```
+
+## Binomial vs. Bernouli
+
+Remember that the binomial distribution is a generalization of the bernoulli distribution
+
+* Bernoulli only has binary outcomes with probability $p$
+
+```{}
+brm(outcome ~ predictors, family = bernoulli(link = "logit"))
+```
+
+
+* Binomial is the count of binary successes, each with probability $p$
+
+    - `nsuccesses` is the total number of successes
+    - `ntrials` is the total number of trials (potential successes), must be greater than the number of successes
+    - `trials()` is special syntax in `brms`, not a variable in your data
+
+```{}
+brm(nsuccesses | trials(ntrials) ~ predictors, family = bernoulli(link = "logit"))
+```
+
+
+## Binomial Models
+
+In lecture, we looked at time 1 injuries by sport type (individual vs. team). Let's repeat this analysis for time 2.
+
+```{r}
+injury <- read_csv("injury.csv")
+
+d_bernoulli <- injury %>% 
+  select(sport, sport_type, injured_2) %>%
+  drop_na()
+
+d_binomial <- d_bernoulli %>% group_by(sport) %>% 
+  summarize(n = n(),
+            ninj = sum(injured_2), 
+            type = sport_type[1]) %>%
+  mutate(sport = factor(sport), type = factor(type))
+```
+
+
+## Binomial Models
+
+For this model, we want to treat both `sport` and `type` as index variables.
+
+```{r}
+brm_form2 <- bf(ninj | trials(n) ~ a + b,
+                a ~ 0 + sport,
+                b ~ 0 + type, nl = TRUE)
+
+get_prior(brm_form2, d_binomial,
+               family = binomial(link = "logit"))
+```
+
+
+## Binomial Models
+
+Use the priors we used in lecture:
+
+```{r results = "hide", cache = TRUE}
+inj_mod <- brm(brm_form2, d_binomial,
+               family = binomial(link = "logit"),
+               prior = prior(normal(-2, 1), nlpar = "a") + 
+                       prior(normal(0, 1), nlpar = "b"))
+```
+
+## Binomial Models
+
+```{r}
+print(inj_mod)
+```
+## Binomial Models
+
+```{r}
+conditional_effects(inj_mod, method = "posterior_epred")
+```
+
+
+
+## Activity
+
+
+1. Use the `d_bernoulli` data athat we defined earlier `family = bernoulli(link = "logit")` approach to fit the same model that we just fit using the binomial link. Compare the numeric and visual output from the two models.
+
+2. In lecture we also learned about multinomial logistic regression. Using the code shown in the lecture slides as a reference, use the (unaggregated) `injury` data to predict `sport` from any other variables in the data set (e.g., training hours, stiffness). As time allows, try to also conduct prior predictive simulation. What do you find?
+
+3. For the `conditional_effects()` function, the arguments `method = posterior_predict` and `method = posterior_linpred` function differently than `method = posterior_epred`. Test out these other arguments for the models that we fit today. What information does each plot convey?
