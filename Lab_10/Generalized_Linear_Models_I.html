@@ -322,106 +322,122 @@ PSYC 7940
 <span id="cb7-4"><a href=""></a>prior_sim2 <span class="ot">&lt;-</span> <span class="fu">brm</span>(brm_form, <span class="at">data =</span> dat, <span class="at">family =</span> <span class="fu">bernoulli</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
 <span id="cb7-5"><a href=""></a>                  <span class="at">prior =</span> prior2, <span class="at">sample_prior =</span> <span class="st">"only"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href=""></a></span>
-<span id="cb8-2"><a href=""></a><span class="ex">SAMPLING</span> FOR MODEL <span class="st">'anon_model'</span> NOW <span class="er">(</span><span class="ex">CHAIN</span> 1<span class="kw">)</span><span class="bu">.</span></span>
-<span id="cb8-3"><a href=""></a><span class="ex">Chain</span> 1: </span>
-<span id="cb8-4"><a href=""></a><span class="ex">Chain</span> 1: Gradient evaluation took 2e-05 seconds</span>
-<span id="cb8-5"><a href=""></a><span class="ex">Chain</span> 1: 1000 transitions using 10 leapfrog steps per transition would take 0.2 seconds.</span>
-<span id="cb8-6"><a href=""></a><span class="ex">Chain</span> 1: Adjust your expectations accordingly!</span>
-<span id="cb8-7"><a href=""></a><span class="ex">Chain</span> 1: </span>
-<span id="cb8-8"><a href=""></a><span class="ex">Chain</span> 1: </span>
-<span id="cb8-9"><a href=""></a><span class="ex">Chain</span> 1: Iteration:    1 / 2000 [  0%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-10"><a href=""></a><span class="ex">Chain</span> 1: Iteration:  200 / 2000 [ 10%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-11"><a href=""></a><span class="ex">Chain</span> 1: Iteration:  400 / 2000 [ 20%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-12"><a href=""></a><span class="ex">Chain</span> 1: Iteration:  600 / 2000 [ 30%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-13"><a href=""></a><span class="ex">Chain</span> 1: Iteration:  800 / 2000 [ 40%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-14"><a href=""></a><span class="ex">Chain</span> 1: Iteration: 1000 / 2000 [ 50%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-15"><a href=""></a><span class="ex">Chain</span> 1: Iteration: 1001 / 2000 [ 50%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-16"><a href=""></a><span class="ex">Chain</span> 1: Iteration: 1200 / 2000 [ 60%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-17"><a href=""></a><span class="ex">Chain</span> 1: Iteration: 1400 / 2000 [ 70%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-18"><a href=""></a><span class="ex">Chain</span> 1: Iteration: 1600 / 2000 [ 80%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-19"><a href=""></a><span class="ex">Chain</span> 1: Iteration: 1800 / 2000 [ 90%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-20"><a href=""></a><span class="ex">Chain</span> 1: Iteration: 2000 / 2000 <span class="pp">[</span><span class="ss">100%</span><span class="pp">]</span>  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-21"><a href=""></a><span class="ex">Chain</span> 1: </span>
-<span id="cb8-22"><a href=""></a><span class="ex">Chain</span> 1:  Elapsed Time: 0.004 seconds <span class="er">(</span><span class="ex">Warm-up</span><span class="kw">)</span></span>
-<span id="cb8-23"><a href=""></a><span class="ex">Chain</span> 1:                0.005 seconds <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-24"><a href=""></a><span class="ex">Chain</span> 1:                0.009 seconds <span class="er">(</span><span class="ex">Total</span><span class="kw">)</span></span>
-<span id="cb8-25"><a href=""></a><span class="ex">Chain</span> 1: </span>
-<span id="cb8-26"><a href=""></a></span>
-<span id="cb8-27"><a href=""></a><span class="ex">SAMPLING</span> FOR MODEL <span class="st">'anon_model'</span> NOW <span class="er">(</span><span class="ex">CHAIN</span> 2<span class="kw">)</span><span class="bu">.</span></span>
-<span id="cb8-28"><a href=""></a><span class="ex">Chain</span> 2: </span>
-<span id="cb8-29"><a href=""></a><span class="ex">Chain</span> 2: Gradient evaluation took 0 seconds</span>
-<span id="cb8-30"><a href=""></a><span class="ex">Chain</span> 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
-<span id="cb8-31"><a href=""></a><span class="ex">Chain</span> 2: Adjust your expectations accordingly!</span>
-<span id="cb8-32"><a href=""></a><span class="ex">Chain</span> 2: </span>
-<span id="cb8-33"><a href=""></a><span class="ex">Chain</span> 2: </span>
-<span id="cb8-34"><a href=""></a><span class="ex">Chain</span> 2: Iteration:    1 / 2000 [  0%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-35"><a href=""></a><span class="ex">Chain</span> 2: Iteration:  200 / 2000 [ 10%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-36"><a href=""></a><span class="ex">Chain</span> 2: Iteration:  400 / 2000 [ 20%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-37"><a href=""></a><span class="ex">Chain</span> 2: Iteration:  600 / 2000 [ 30%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-38"><a href=""></a><span class="ex">Chain</span> 2: Iteration:  800 / 2000 [ 40%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-39"><a href=""></a><span class="ex">Chain</span> 2: Iteration: 1000 / 2000 [ 50%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-40"><a href=""></a><span class="ex">Chain</span> 2: Iteration: 1001 / 2000 [ 50%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-41"><a href=""></a><span class="ex">Chain</span> 2: Iteration: 1200 / 2000 [ 60%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-42"><a href=""></a><span class="ex">Chain</span> 2: Iteration: 1400 / 2000 [ 70%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-43"><a href=""></a><span class="ex">Chain</span> 2: Iteration: 1600 / 2000 [ 80%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-44"><a href=""></a><span class="ex">Chain</span> 2: Iteration: 1800 / 2000 [ 90%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-45"><a href=""></a><span class="ex">Chain</span> 2: Iteration: 2000 / 2000 <span class="pp">[</span><span class="ss">100%</span><span class="pp">]</span>  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-46"><a href=""></a><span class="ex">Chain</span> 2: </span>
-<span id="cb8-47"><a href=""></a><span class="ex">Chain</span> 2:  Elapsed Time: 0.004 seconds <span class="er">(</span><span class="ex">Warm-up</span><span class="kw">)</span></span>
-<span id="cb8-48"><a href=""></a><span class="ex">Chain</span> 2:                0.004 seconds <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-49"><a href=""></a><span class="ex">Chain</span> 2:                0.008 seconds <span class="er">(</span><span class="ex">Total</span><span class="kw">)</span></span>
-<span id="cb8-50"><a href=""></a><span class="ex">Chain</span> 2: </span>
-<span id="cb8-51"><a href=""></a></span>
-<span id="cb8-52"><a href=""></a><span class="ex">SAMPLING</span> FOR MODEL <span class="st">'anon_model'</span> NOW <span class="er">(</span><span class="ex">CHAIN</span> 3<span class="kw">)</span><span class="bu">.</span></span>
-<span id="cb8-53"><a href=""></a><span class="ex">Chain</span> 3: </span>
-<span id="cb8-54"><a href=""></a><span class="ex">Chain</span> 3: Gradient evaluation took 0 seconds</span>
-<span id="cb8-55"><a href=""></a><span class="ex">Chain</span> 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
-<span id="cb8-56"><a href=""></a><span class="ex">Chain</span> 3: Adjust your expectations accordingly!</span>
-<span id="cb8-57"><a href=""></a><span class="ex">Chain</span> 3: </span>
-<span id="cb8-58"><a href=""></a><span class="ex">Chain</span> 3: </span>
-<span id="cb8-59"><a href=""></a><span class="ex">Chain</span> 3: Iteration:    1 / 2000 [  0%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-60"><a href=""></a><span class="ex">Chain</span> 3: Iteration:  200 / 2000 [ 10%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-61"><a href=""></a><span class="ex">Chain</span> 3: Iteration:  400 / 2000 [ 20%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-62"><a href=""></a><span class="ex">Chain</span> 3: Iteration:  600 / 2000 [ 30%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-63"><a href=""></a><span class="ex">Chain</span> 3: Iteration:  800 / 2000 [ 40%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-64"><a href=""></a><span class="ex">Chain</span> 3: Iteration: 1000 / 2000 [ 50%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-65"><a href=""></a><span class="ex">Chain</span> 3: Iteration: 1001 / 2000 [ 50%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-66"><a href=""></a><span class="ex">Chain</span> 3: Iteration: 1200 / 2000 [ 60%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-67"><a href=""></a><span class="ex">Chain</span> 3: Iteration: 1400 / 2000 [ 70%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-68"><a href=""></a><span class="ex">Chain</span> 3: Iteration: 1600 / 2000 [ 80%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-69"><a href=""></a><span class="ex">Chain</span> 3: Iteration: 1800 / 2000 [ 90%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-70"><a href=""></a><span class="ex">Chain</span> 3: Iteration: 2000 / 2000 <span class="pp">[</span><span class="ss">100%</span><span class="pp">]</span>  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-71"><a href=""></a><span class="ex">Chain</span> 3: </span>
-<span id="cb8-72"><a href=""></a><span class="ex">Chain</span> 3:  Elapsed Time: 0.004 seconds <span class="er">(</span><span class="ex">Warm-up</span><span class="kw">)</span></span>
-<span id="cb8-73"><a href=""></a><span class="ex">Chain</span> 3:                0.004 seconds <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-74"><a href=""></a><span class="ex">Chain</span> 3:                0.008 seconds <span class="er">(</span><span class="ex">Total</span><span class="kw">)</span></span>
-<span id="cb8-75"><a href=""></a><span class="ex">Chain</span> 3: </span>
-<span id="cb8-76"><a href=""></a></span>
-<span id="cb8-77"><a href=""></a><span class="ex">SAMPLING</span> FOR MODEL <span class="st">'anon_model'</span> NOW <span class="er">(</span><span class="ex">CHAIN</span> 4<span class="kw">)</span><span class="bu">.</span></span>
-<span id="cb8-78"><a href=""></a><span class="ex">Chain</span> 4: </span>
-<span id="cb8-79"><a href=""></a><span class="ex">Chain</span> 4: Gradient evaluation took 0 seconds</span>
-<span id="cb8-80"><a href=""></a><span class="ex">Chain</span> 4: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
-<span id="cb8-81"><a href=""></a><span class="ex">Chain</span> 4: Adjust your expectations accordingly!</span>
-<span id="cb8-82"><a href=""></a><span class="ex">Chain</span> 4: </span>
-<span id="cb8-83"><a href=""></a><span class="ex">Chain</span> 4: </span>
-<span id="cb8-84"><a href=""></a><span class="ex">Chain</span> 4: Iteration:    1 / 2000 [  0%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-85"><a href=""></a><span class="ex">Chain</span> 4: Iteration:  200 / 2000 [ 10%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-86"><a href=""></a><span class="ex">Chain</span> 4: Iteration:  400 / 2000 [ 20%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-87"><a href=""></a><span class="ex">Chain</span> 4: Iteration:  600 / 2000 [ 30%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-88"><a href=""></a><span class="ex">Chain</span> 4: Iteration:  800 / 2000 [ 40%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-89"><a href=""></a><span class="ex">Chain</span> 4: Iteration: 1000 / 2000 [ 50%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
-<span id="cb8-90"><a href=""></a><span class="ex">Chain</span> 4: Iteration: 1001 / 2000 [ 50%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-91"><a href=""></a><span class="ex">Chain</span> 4: Iteration: 1200 / 2000 [ 60%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-92"><a href=""></a><span class="ex">Chain</span> 4: Iteration: 1400 / 2000 [ 70%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-93"><a href=""></a><span class="ex">Chain</span> 4: Iteration: 1600 / 2000 [ 80%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-94"><a href=""></a><span class="ex">Chain</span> 4: Iteration: 1800 / 2000 [ 90%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-95"><a href=""></a><span class="ex">Chain</span> 4: Iteration: 2000 / 2000 <span class="pp">[</span><span class="ss">100%</span><span class="pp">]</span>  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-96"><a href=""></a><span class="ex">Chain</span> 4: </span>
-<span id="cb8-97"><a href=""></a><span class="ex">Chain</span> 4:  Elapsed Time: 0.004 seconds <span class="er">(</span><span class="ex">Warm-up</span><span class="kw">)</span></span>
-<span id="cb8-98"><a href=""></a><span class="ex">Chain</span> 4:                0.004 seconds <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
-<span id="cb8-99"><a href=""></a><span class="ex">Chain</span> 4:                0.008 seconds <span class="er">(</span><span class="ex">Total</span><span class="kw">)</span></span>
-<span id="cb8-100"><a href=""></a><span class="ex">Chain</span> 4: </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href=""></a><span class="ex">Running</span> /Library/Frameworks/R.framework/Resources/bin/R <span class="dt">\</span></span>
+<span id="cb8-2"><a href=""></a>  CMD SHLIB foo.c</span>
+<span id="cb8-3"><a href=""></a><span class="ex">using</span> C compiler: ‘Apple clang version 17.0.0 <span class="er">(</span><span class="ex">clang-1700.6.3.2</span><span class="kw">)</span><span class="ex">’</span></span>
+<span id="cb8-4"><a href=""></a><span class="ex">using</span> SDK: ‘MacOSX26.2.sdk’</span>
+<span id="cb8-5"><a href=""></a><span class="fu">clang</span> <span class="at">-arch</span> arm64 <span class="at">-std</span><span class="op">=</span>gnu2x <span class="at">-I</span><span class="st">"/Library/Frameworks/R.framework/Resources/include"</span> <span class="at">-DNDEBUG</span>   <span class="at">-I</span><span class="st">"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/Rcpp/include/"</span>  <span class="at">-I</span><span class="st">"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/"</span>  <span class="at">-I</span><span class="st">"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/unsupported"</span>  <span class="at">-I</span><span class="st">"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/BH/include"</span> <span class="at">-I</span><span class="st">"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/src/"</span>  <span class="at">-I</span><span class="st">"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/"</span>  <span class="at">-I</span><span class="st">"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppParallel/include/"</span>  <span class="at">-I</span><span class="st">"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/rstan/include"</span> <span class="at">-DEIGEN_NO_DEBUG</span>  <span class="at">-DBOOST_DISABLE_ASSERTS</span>  <span class="at">-DBOOST_PENDING_INTEGER_LOG2_HPP</span>  <span class="at">-DSTAN_THREADS</span>  <span class="at">-DUSE_STANC3</span> <span class="at">-DSTRICT_R_HEADERS</span>  <span class="at">-DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION</span>  <span class="at">-D_HAS_AUTO_PTR_ETC</span><span class="op">=</span>0  <span class="at">-include</span> <span class="st">'/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'</span>  <span class="at">-D_REENTRANT</span> <span class="at">-DRCPP_PARALLEL_USE_TBB</span><span class="op">=</span>1   <span class="at">-I</span>/opt/R/arm64/include    <span class="at">-fPIC</span>  <span class="at">-falign-functions</span><span class="op">=</span>64 <span class="at">-Wall</span> <span class="at">-g</span> <span class="at">-O2</span>  <span class="at">-c</span> foo.c <span class="at">-o</span> foo.o</span>
+<span id="cb8-6"><a href=""></a><span class="ex">In</span> file included from <span class="op">&lt;</span>built-in<span class="op">&gt;</span>:1:</span>
+<span id="cb8-7"><a href=""></a><span class="ex">In</span> file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:</span>
+<span id="cb8-8"><a href=""></a><span class="ex">In</span> file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/Dense:1:</span>
+<span id="cb8-9"><a href=""></a><span class="ex">In</span> file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/Core:19:</span>
+<span id="cb8-10"><a href=""></a><span class="ex">/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:679:10:</span> fatal error: <span class="st">'cmath'</span> file not found</span>
+<span id="cb8-11"><a href=""></a>  <span class="ex">679</span> <span class="kw">|</span> <span class="co">#include &lt;cmath&gt;</span></span>
+<span id="cb8-12"><a href=""></a>      <span class="kw">|</span>          <span class="ex">^~~~~~~</span></span>
+<span id="cb8-13"><a href=""></a><span class="ex">1</span> error generated.</span>
+<span id="cb8-14"><a href=""></a><span class="ex">make:</span> <span class="pp">***</span> <span class="pp">[</span><span class="ss">foo.o</span><span class="pp">]</span> Error 1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell-output cell-output-stdout">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href=""></a></span>
+<span id="cb9-2"><a href=""></a><span class="ex">SAMPLING</span> FOR MODEL <span class="st">'anon_model'</span> NOW <span class="er">(</span><span class="ex">CHAIN</span> 1<span class="kw">)</span><span class="bu">.</span></span>
+<span id="cb9-3"><a href=""></a><span class="ex">Chain</span> 1: </span>
+<span id="cb9-4"><a href=""></a><span class="ex">Chain</span> 1: Gradient evaluation took 2e-05 seconds</span>
+<span id="cb9-5"><a href=""></a><span class="ex">Chain</span> 1: 1000 transitions using 10 leapfrog steps per transition would take 0.2 seconds.</span>
+<span id="cb9-6"><a href=""></a><span class="ex">Chain</span> 1: Adjust your expectations accordingly!</span>
+<span id="cb9-7"><a href=""></a><span class="ex">Chain</span> 1: </span>
+<span id="cb9-8"><a href=""></a><span class="ex">Chain</span> 1: </span>
+<span id="cb9-9"><a href=""></a><span class="ex">Chain</span> 1: Iteration:    1 / 2000 [  0%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-10"><a href=""></a><span class="ex">Chain</span> 1: Iteration:  200 / 2000 [ 10%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-11"><a href=""></a><span class="ex">Chain</span> 1: Iteration:  400 / 2000 [ 20%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-12"><a href=""></a><span class="ex">Chain</span> 1: Iteration:  600 / 2000 [ 30%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-13"><a href=""></a><span class="ex">Chain</span> 1: Iteration:  800 / 2000 [ 40%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-14"><a href=""></a><span class="ex">Chain</span> 1: Iteration: 1000 / 2000 [ 50%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-15"><a href=""></a><span class="ex">Chain</span> 1: Iteration: 1001 / 2000 [ 50%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-16"><a href=""></a><span class="ex">Chain</span> 1: Iteration: 1200 / 2000 [ 60%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-17"><a href=""></a><span class="ex">Chain</span> 1: Iteration: 1400 / 2000 [ 70%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-18"><a href=""></a><span class="ex">Chain</span> 1: Iteration: 1600 / 2000 [ 80%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-19"><a href=""></a><span class="ex">Chain</span> 1: Iteration: 1800 / 2000 [ 90%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-20"><a href=""></a><span class="ex">Chain</span> 1: Iteration: 2000 / 2000 <span class="pp">[</span><span class="ss">100%</span><span class="pp">]</span>  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-21"><a href=""></a><span class="ex">Chain</span> 1: </span>
+<span id="cb9-22"><a href=""></a><span class="ex">Chain</span> 1:  Elapsed Time: 0.004 seconds <span class="er">(</span><span class="ex">Warm-up</span><span class="kw">)</span></span>
+<span id="cb9-23"><a href=""></a><span class="ex">Chain</span> 1:                0.004 seconds <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-24"><a href=""></a><span class="ex">Chain</span> 1:                0.008 seconds <span class="er">(</span><span class="ex">Total</span><span class="kw">)</span></span>
+<span id="cb9-25"><a href=""></a><span class="ex">Chain</span> 1: </span>
+<span id="cb9-26"><a href=""></a></span>
+<span id="cb9-27"><a href=""></a><span class="ex">SAMPLING</span> FOR MODEL <span class="st">'anon_model'</span> NOW <span class="er">(</span><span class="ex">CHAIN</span> 2<span class="kw">)</span><span class="bu">.</span></span>
+<span id="cb9-28"><a href=""></a><span class="ex">Chain</span> 2: </span>
+<span id="cb9-29"><a href=""></a><span class="ex">Chain</span> 2: Gradient evaluation took 0 seconds</span>
+<span id="cb9-30"><a href=""></a><span class="ex">Chain</span> 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
+<span id="cb9-31"><a href=""></a><span class="ex">Chain</span> 2: Adjust your expectations accordingly!</span>
+<span id="cb9-32"><a href=""></a><span class="ex">Chain</span> 2: </span>
+<span id="cb9-33"><a href=""></a><span class="ex">Chain</span> 2: </span>
+<span id="cb9-34"><a href=""></a><span class="ex">Chain</span> 2: Iteration:    1 / 2000 [  0%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-35"><a href=""></a><span class="ex">Chain</span> 2: Iteration:  200 / 2000 [ 10%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-36"><a href=""></a><span class="ex">Chain</span> 2: Iteration:  400 / 2000 [ 20%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-37"><a href=""></a><span class="ex">Chain</span> 2: Iteration:  600 / 2000 [ 30%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-38"><a href=""></a><span class="ex">Chain</span> 2: Iteration:  800 / 2000 [ 40%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-39"><a href=""></a><span class="ex">Chain</span> 2: Iteration: 1000 / 2000 [ 50%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-40"><a href=""></a><span class="ex">Chain</span> 2: Iteration: 1001 / 2000 [ 50%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-41"><a href=""></a><span class="ex">Chain</span> 2: Iteration: 1200 / 2000 [ 60%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-42"><a href=""></a><span class="ex">Chain</span> 2: Iteration: 1400 / 2000 [ 70%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-43"><a href=""></a><span class="ex">Chain</span> 2: Iteration: 1600 / 2000 [ 80%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-44"><a href=""></a><span class="ex">Chain</span> 2: Iteration: 1800 / 2000 [ 90%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-45"><a href=""></a><span class="ex">Chain</span> 2: Iteration: 2000 / 2000 <span class="pp">[</span><span class="ss">100%</span><span class="pp">]</span>  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-46"><a href=""></a><span class="ex">Chain</span> 2: </span>
+<span id="cb9-47"><a href=""></a><span class="ex">Chain</span> 2:  Elapsed Time: 0.004 seconds <span class="er">(</span><span class="ex">Warm-up</span><span class="kw">)</span></span>
+<span id="cb9-48"><a href=""></a><span class="ex">Chain</span> 2:                0.004 seconds <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-49"><a href=""></a><span class="ex">Chain</span> 2:                0.008 seconds <span class="er">(</span><span class="ex">Total</span><span class="kw">)</span></span>
+<span id="cb9-50"><a href=""></a><span class="ex">Chain</span> 2: </span>
+<span id="cb9-51"><a href=""></a></span>
+<span id="cb9-52"><a href=""></a><span class="ex">SAMPLING</span> FOR MODEL <span class="st">'anon_model'</span> NOW <span class="er">(</span><span class="ex">CHAIN</span> 3<span class="kw">)</span><span class="bu">.</span></span>
+<span id="cb9-53"><a href=""></a><span class="ex">Chain</span> 3: </span>
+<span id="cb9-54"><a href=""></a><span class="ex">Chain</span> 3: Gradient evaluation took 0 seconds</span>
+<span id="cb9-55"><a href=""></a><span class="ex">Chain</span> 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
+<span id="cb9-56"><a href=""></a><span class="ex">Chain</span> 3: Adjust your expectations accordingly!</span>
+<span id="cb9-57"><a href=""></a><span class="ex">Chain</span> 3: </span>
+<span id="cb9-58"><a href=""></a><span class="ex">Chain</span> 3: </span>
+<span id="cb9-59"><a href=""></a><span class="ex">Chain</span> 3: Iteration:    1 / 2000 [  0%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-60"><a href=""></a><span class="ex">Chain</span> 3: Iteration:  200 / 2000 [ 10%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-61"><a href=""></a><span class="ex">Chain</span> 3: Iteration:  400 / 2000 [ 20%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-62"><a href=""></a><span class="ex">Chain</span> 3: Iteration:  600 / 2000 [ 30%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-63"><a href=""></a><span class="ex">Chain</span> 3: Iteration:  800 / 2000 [ 40%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-64"><a href=""></a><span class="ex">Chain</span> 3: Iteration: 1000 / 2000 [ 50%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-65"><a href=""></a><span class="ex">Chain</span> 3: Iteration: 1001 / 2000 [ 50%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-66"><a href=""></a><span class="ex">Chain</span> 3: Iteration: 1200 / 2000 [ 60%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-67"><a href=""></a><span class="ex">Chain</span> 3: Iteration: 1400 / 2000 [ 70%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-68"><a href=""></a><span class="ex">Chain</span> 3: Iteration: 1600 / 2000 [ 80%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-69"><a href=""></a><span class="ex">Chain</span> 3: Iteration: 1800 / 2000 [ 90%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-70"><a href=""></a><span class="ex">Chain</span> 3: Iteration: 2000 / 2000 <span class="pp">[</span><span class="ss">100%</span><span class="pp">]</span>  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-71"><a href=""></a><span class="ex">Chain</span> 3: </span>
+<span id="cb9-72"><a href=""></a><span class="ex">Chain</span> 3:  Elapsed Time: 0.004 seconds <span class="er">(</span><span class="ex">Warm-up</span><span class="kw">)</span></span>
+<span id="cb9-73"><a href=""></a><span class="ex">Chain</span> 3:                0.004 seconds <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-74"><a href=""></a><span class="ex">Chain</span> 3:                0.008 seconds <span class="er">(</span><span class="ex">Total</span><span class="kw">)</span></span>
+<span id="cb9-75"><a href=""></a><span class="ex">Chain</span> 3: </span>
+<span id="cb9-76"><a href=""></a></span>
+<span id="cb9-77"><a href=""></a><span class="ex">SAMPLING</span> FOR MODEL <span class="st">'anon_model'</span> NOW <span class="er">(</span><span class="ex">CHAIN</span> 4<span class="kw">)</span><span class="bu">.</span></span>
+<span id="cb9-78"><a href=""></a><span class="ex">Chain</span> 4: </span>
+<span id="cb9-79"><a href=""></a><span class="ex">Chain</span> 4: Gradient evaluation took 0 seconds</span>
+<span id="cb9-80"><a href=""></a><span class="ex">Chain</span> 4: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.</span>
+<span id="cb9-81"><a href=""></a><span class="ex">Chain</span> 4: Adjust your expectations accordingly!</span>
+<span id="cb9-82"><a href=""></a><span class="ex">Chain</span> 4: </span>
+<span id="cb9-83"><a href=""></a><span class="ex">Chain</span> 4: </span>
+<span id="cb9-84"><a href=""></a><span class="ex">Chain</span> 4: Iteration:    1 / 2000 [  0%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-85"><a href=""></a><span class="ex">Chain</span> 4: Iteration:  200 / 2000 [ 10%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-86"><a href=""></a><span class="ex">Chain</span> 4: Iteration:  400 / 2000 [ 20%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-87"><a href=""></a><span class="ex">Chain</span> 4: Iteration:  600 / 2000 [ 30%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-88"><a href=""></a><span class="ex">Chain</span> 4: Iteration:  800 / 2000 [ 40%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-89"><a href=""></a><span class="ex">Chain</span> 4: Iteration: 1000 / 2000 [ 50%]  <span class="er">(</span><span class="ex">Warmup</span><span class="kw">)</span></span>
+<span id="cb9-90"><a href=""></a><span class="ex">Chain</span> 4: Iteration: 1001 / 2000 [ 50%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-91"><a href=""></a><span class="ex">Chain</span> 4: Iteration: 1200 / 2000 [ 60%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-92"><a href=""></a><span class="ex">Chain</span> 4: Iteration: 1400 / 2000 [ 70%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-93"><a href=""></a><span class="ex">Chain</span> 4: Iteration: 1600 / 2000 [ 80%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-94"><a href=""></a><span class="ex">Chain</span> 4: Iteration: 1800 / 2000 [ 90%]  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-95"><a href=""></a><span class="ex">Chain</span> 4: Iteration: 2000 / 2000 <span class="pp">[</span><span class="ss">100%</span><span class="pp">]</span>  <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-96"><a href=""></a><span class="ex">Chain</span> 4: </span>
+<span id="cb9-97"><a href=""></a><span class="ex">Chain</span> 4:  Elapsed Time: 0.004 seconds <span class="er">(</span><span class="ex">Warm-up</span><span class="kw">)</span></span>
+<span id="cb9-98"><a href=""></a><span class="ex">Chain</span> 4:                0.004 seconds <span class="er">(</span><span class="ex">Sampling</span><span class="kw">)</span></span>
+<span id="cb9-99"><a href=""></a><span class="ex">Chain</span> 4:                0.008 seconds <span class="er">(</span><span class="ex">Total</span><span class="kw">)</span></span>
+<span id="cb9-100"><a href=""></a><span class="ex">Chain</span> 4: </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -429,51 +445,51 @@ PSYC 7940
 <h2>Prior Prediction for GLMs</h2>
 <p>Good enough?</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">conditional_effects</span>(prior_sim2, <span class="at">method =</span> <span class="st">"posterior_epred"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">conditional_effects</span>(prior_sim2, <span class="at">method =</span> <span class="st">"posterior_epred"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Generalized_Linear_Models_I_files/figure-revealjs/unnamed-chunk-8-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
 <section id="fit-the-logistic-regression-model" class="slide level2">
 <h2>Fit the Logistic Regression Model</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>m1 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
-<span id="cb10-2"><a href=""></a>  <span class="at">formula =</span> brm_form, </span>
-<span id="cb10-3"><a href=""></a>  <span class="at">data =</span> dat,</span>
-<span id="cb10-4"><a href=""></a>  <span class="at">family =</span> <span class="fu">bernoulli</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
-<span id="cb10-5"><a href=""></a>  <span class="at">prior =</span> prior2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>m1 <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb11-2"><a href=""></a>  <span class="at">formula =</span> brm_form, </span>
+<span id="cb11-3"><a href=""></a>  <span class="at">data =</span> dat,</span>
+<span id="cb11-4"><a href=""></a>  <span class="at">family =</span> <span class="fu">bernoulli</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
+<span id="cb11-5"><a href=""></a>  <span class="at">prior =</span> prior2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="results" class="slide level2">
 <h2>Results</h2>
 <p>We were wrong about the prior for the intercept. Grade inflation at work!</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">print</span>(m1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">print</span>(m1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href=""></a> <span class="ex">Family:</span> bernoulli </span>
-<span id="cb12-2"><a href=""></a>  <span class="ex">Links:</span> mu = logit </span>
-<span id="cb12-3"><a href=""></a><span class="ex">Formula:</span> A ~ study_hours </span>
-<span id="cb12-4"><a href=""></a>   <span class="ex">Data:</span> dat <span class="er">(</span><span class="ex">Number</span> of observations: 192<span class="kw">)</span> </span>
-<span id="cb12-5"><a href=""></a>  <span class="ex">Draws:</span> 4 chains, each with iter = 2000<span class="kw">;</span> <span class="ex">warmup</span> = 1000<span class="kw">;</span> <span class="ex">thin</span> = 1<span class="kw">;</span></span>
-<span id="cb12-6"><a href=""></a>         <span class="ex">total</span> post-warmup draws = 4000</span>
-<span id="cb12-7"><a href=""></a></span>
-<span id="cb12-8"><a href=""></a><span class="ex">Regression</span> Coefficients:</span>
-<span id="cb12-9"><a href=""></a>            <span class="ex">Estimate</span> Est.Error l-95% CI u-95% CI Rhat</span>
-<span id="cb12-10"><a href=""></a><span class="ex">Intercept</span>       0.20      0.30    <span class="at">-0.40</span>     0.77 1.00</span>
-<span id="cb12-11"><a href=""></a><span class="ex">study_hours</span>     0.03      0.02     0.00     0.07 1.00</span>
-<span id="cb12-12"><a href=""></a>            <span class="ex">Bulk_ESS</span> Tail_ESS</span>
-<span id="cb12-13"><a href=""></a><span class="ex">Intercept</span>       2742     2350</span>
-<span id="cb12-14"><a href=""></a><span class="ex">study_hours</span>     2252     2506</span>
-<span id="cb12-15"><a href=""></a></span>
-<span id="cb12-16"><a href=""></a><span class="ex">Draws</span> were sampled using sampling<span class="er">(</span><span class="ex">NUTS</span><span class="kw">)</span><span class="bu">.</span> For each parameter, Bulk_ESS</span>
-<span id="cb12-17"><a href=""></a><span class="ex">and</span> Tail_ESS are effective sample size measures, and Rhat is the potential</span>
-<span id="cb12-18"><a href=""></a><span class="ex">scale</span> reduction factor on split chains <span class="er">(</span><span class="ex">at</span> convergence, Rhat = 1<span class="kw">)</span><span class="bu">.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href=""></a> <span class="ex">Family:</span> bernoulli </span>
+<span id="cb13-2"><a href=""></a>  <span class="ex">Links:</span> mu = logit </span>
+<span id="cb13-3"><a href=""></a><span class="ex">Formula:</span> A ~ study_hours </span>
+<span id="cb13-4"><a href=""></a>   <span class="ex">Data:</span> dat <span class="er">(</span><span class="ex">Number</span> of observations: 192<span class="kw">)</span> </span>
+<span id="cb13-5"><a href=""></a>  <span class="ex">Draws:</span> 4 chains, each with iter = 2000<span class="kw">;</span> <span class="ex">warmup</span> = 1000<span class="kw">;</span> <span class="ex">thin</span> = 1<span class="kw">;</span></span>
+<span id="cb13-6"><a href=""></a>         <span class="ex">total</span> post-warmup draws = 4000</span>
+<span id="cb13-7"><a href=""></a></span>
+<span id="cb13-8"><a href=""></a><span class="ex">Regression</span> Coefficients:</span>
+<span id="cb13-9"><a href=""></a>            <span class="ex">Estimate</span> Est.Error l-95% CI u-95% CI Rhat</span>
+<span id="cb13-10"><a href=""></a><span class="ex">Intercept</span>       0.20      0.30    <span class="at">-0.39</span>     0.79 1.00</span>
+<span id="cb13-11"><a href=""></a><span class="ex">study_hours</span>     0.03      0.02     0.00     0.06 1.00</span>
+<span id="cb13-12"><a href=""></a>            <span class="ex">Bulk_ESS</span> Tail_ESS</span>
+<span id="cb13-13"><a href=""></a><span class="ex">Intercept</span>       3636     2576</span>
+<span id="cb13-14"><a href=""></a><span class="ex">study_hours</span>     3092     2262</span>
+<span id="cb13-15"><a href=""></a></span>
+<span id="cb13-16"><a href=""></a><span class="ex">Draws</span> were sampled using sampling<span class="er">(</span><span class="ex">NUTS</span><span class="kw">)</span><span class="bu">.</span> For each parameter, Bulk_ESS</span>
+<span id="cb13-17"><a href=""></a><span class="ex">and</span> Tail_ESS are effective sample size measures, and Rhat is the potential</span>
+<span id="cb13-18"><a href=""></a><span class="ex">scale</span> reduction factor on split chains <span class="er">(</span><span class="ex">at</span> convergence, Rhat = 1<span class="kw">)</span><span class="bu">.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
 <section id="results-1" class="slide level2">
 <h2>Results</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">conditional_effects</span>(m1, <span class="at">method =</span> <span class="st">"posterior_epred"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">conditional_effects</span>(m1, <span class="at">method =</span> <span class="st">"posterior_epred"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="Generalized_Linear_Models_I_files/figure-revealjs/unnamed-chunk-11-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
@@ -492,64 +508,64 @@ PSYC 7940
 <li><code>trials()</code> is special syntax in <code>brms</code>, not a variable in your data</li>
 </ul></li>
 </ul>
-<pre><code>brm(nsuccesses | trials(ntrials) ~ predictors, family = bernoulli(link = "logit"))</code></pre>
+<pre><code>brm(nsuccesses | trials(ntrials) ~ predictors, family = binomial(link = "logit"))</code></pre>
 </section>
 <section id="binomial-models" class="slide level2">
 <h2>Binomial Models</h2>
 <p>In lecture, we looked at time 1 injuries by sport type (individual vs.&nbsp;team). Let’s repeat this analysis for time 2.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>injury <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"injury.csv"</span>)</span>
-<span id="cb16-2"><a href=""></a></span>
-<span id="cb16-3"><a href=""></a>d_bernoulli <span class="ot">&lt;-</span> injury <span class="sc">%&gt;%</span> </span>
-<span id="cb16-4"><a href=""></a>  <span class="fu">select</span>(sport, sport_type, injured_2) <span class="sc">%&gt;%</span></span>
-<span id="cb16-5"><a href=""></a>  <span class="fu">drop_na</span>()</span>
-<span id="cb16-6"><a href=""></a></span>
-<span id="cb16-7"><a href=""></a>d_binomial <span class="ot">&lt;-</span> d_bernoulli <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(sport) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-8"><a href=""></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
-<span id="cb16-9"><a href=""></a>            <span class="at">ninj =</span> <span class="fu">sum</span>(injured_2), </span>
-<span id="cb16-10"><a href=""></a>            <span class="at">type =</span> sport_type[<span class="dv">1</span>]) <span class="sc">%&gt;%</span></span>
-<span id="cb16-11"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">sport =</span> <span class="fu">factor</span>(sport), <span class="at">type =</span> <span class="fu">factor</span>(type))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>injury <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"injury.csv"</span>)</span>
+<span id="cb17-2"><a href=""></a></span>
+<span id="cb17-3"><a href=""></a>d_bernoulli <span class="ot">&lt;-</span> injury <span class="sc">%&gt;%</span> </span>
+<span id="cb17-4"><a href=""></a>  <span class="fu">select</span>(sport, sport_type, injured_2) <span class="sc">%&gt;%</span></span>
+<span id="cb17-5"><a href=""></a>  <span class="fu">drop_na</span>()</span>
+<span id="cb17-6"><a href=""></a></span>
+<span id="cb17-7"><a href=""></a>d_binomial <span class="ot">&lt;-</span> d_bernoulli <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(sport) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-8"><a href=""></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb17-9"><a href=""></a>            <span class="at">ninj =</span> <span class="fu">sum</span>(injured_2), </span>
+<span id="cb17-10"><a href=""></a>            <span class="at">type =</span> sport_type[<span class="dv">1</span>]) <span class="sc">%&gt;%</span></span>
+<span id="cb17-11"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">sport =</span> <span class="fu">factor</span>(sport), <span class="at">type =</span> <span class="fu">factor</span>(type))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="binomial-models-1" class="slide level2">
 <h2>Binomial Models</h2>
 <p>For this model, we want to treat both <code>sport</code> and <code>type</code> as index variables.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>brm_form2 <span class="ot">&lt;-</span> <span class="fu">bf</span>(ninj <span class="sc">|</span> <span class="fu">trials</span>(n) <span class="sc">~</span> a <span class="sc">+</span> b,</span>
-<span id="cb17-2"><a href=""></a>                a <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> sport,</span>
-<span id="cb17-3"><a href=""></a>                b <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> type, <span class="at">nl =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb17-4"><a href=""></a></span>
-<span id="cb17-5"><a href=""></a><span class="fu">get_prior</span>(brm_form2, d_binomial,</span>
-<span id="cb17-6"><a href=""></a>               <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>brm_form2 <span class="ot">&lt;-</span> <span class="fu">bf</span>(ninj <span class="sc">|</span> <span class="fu">trials</span>(n) <span class="sc">~</span> a <span class="sc">+</span> b,</span>
+<span id="cb18-2"><a href=""></a>                a <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> sport,</span>
+<span id="cb18-3"><a href=""></a>                b <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> type, <span class="at">nl =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-4"><a href=""></a></span>
+<span id="cb18-5"><a href=""></a><span class="fu">get_prior</span>(brm_form2, d_binomial,</span>
+<span id="cb18-6"><a href=""></a>               <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href=""></a>  <span class="ex">prior</span> class            coef group resp dpar nlpar lb ub</span>
-<span id="cb18-2"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>                                     a      </span>
-<span id="cb18-3"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>  sportathletics                     a      </span>
-<span id="cb18-4"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span> sportbasketball                     a      </span>
-<span id="cb18-5"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>    sportcricket                     a      </span>
-<span id="cb18-6"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>   sportfootball                     a      </span>
-<span id="cb18-7"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>        sportgym                     a      </span>
-<span id="cb18-8"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>     sporthockey                     a      </span>
-<span id="cb18-9"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>    sportnetball                     a      </span>
-<span id="cb18-10"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>      sportother                     a      </span>
-<span id="cb18-11"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>      sportrugby                     a      </span>
-<span id="cb18-12"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>                                     b      </span>
-<span id="cb18-13"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>  typeIndividual                     b      </span>
-<span id="cb18-14"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>        typeTeam                     b      </span>
-<span id="cb18-15"><a href=""></a> <span class="ex">tag</span>       source</span>
-<span id="cb18-16"><a href=""></a>          <span class="ex">default</span></span>
-<span id="cb18-17"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
-<span id="cb18-18"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
-<span id="cb18-19"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
-<span id="cb18-20"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
-<span id="cb18-21"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
-<span id="cb18-22"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
-<span id="cb18-23"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
-<span id="cb18-24"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
-<span id="cb18-25"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
-<span id="cb18-26"><a href=""></a>          <span class="ex">default</span></span>
-<span id="cb18-27"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
-<span id="cb18-28"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href=""></a>  <span class="ex">prior</span> class            coef group resp dpar nlpar lb ub</span>
+<span id="cb19-2"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>                                     a      </span>
+<span id="cb19-3"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>  sportathletics                     a      </span>
+<span id="cb19-4"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span> sportbasketball                     a      </span>
+<span id="cb19-5"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>    sportcricket                     a      </span>
+<span id="cb19-6"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>   sportfootball                     a      </span>
+<span id="cb19-7"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>        sportgym                     a      </span>
+<span id="cb19-8"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>     sporthockey                     a      </span>
+<span id="cb19-9"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>    sportnetball                     a      </span>
+<span id="cb19-10"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>      sportother                     a      </span>
+<span id="cb19-11"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>      sportrugby                     a      </span>
+<span id="cb19-12"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>                                     b      </span>
+<span id="cb19-13"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>  typeIndividual                     b      </span>
+<span id="cb19-14"><a href=""></a> <span class="kw">(</span><span class="ex">flat</span><span class="kw">)</span>     <span class="ex">b</span>        typeTeam                     b      </span>
+<span id="cb19-15"><a href=""></a> <span class="ex">tag</span>       source</span>
+<span id="cb19-16"><a href=""></a>          <span class="ex">default</span></span>
+<span id="cb19-17"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
+<span id="cb19-18"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
+<span id="cb19-19"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
+<span id="cb19-20"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
+<span id="cb19-21"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
+<span id="cb19-22"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
+<span id="cb19-23"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
+<span id="cb19-24"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
+<span id="cb19-25"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
+<span id="cb19-26"><a href=""></a>          <span class="ex">default</span></span>
+<span id="cb19-27"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span>
+<span id="cb19-28"><a href=""></a>     <span class="kw">(</span><span class="ex">vectorized</span><span class="kw">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -557,62 +573,62 @@ PSYC 7940
 <h2>Binomial Models</h2>
 <p>Use the priors we used in lecture:</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a>inj_mod <span class="ot">&lt;-</span> <span class="fu">brm</span>(brm_form2, d_binomial,</span>
-<span id="cb19-2"><a href=""></a>               <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
-<span id="cb19-3"><a href=""></a>               <span class="at">prior =</span> <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>), <span class="at">nlpar =</span> <span class="st">"a"</span>) <span class="sc">+</span> </span>
-<span id="cb19-4"><a href=""></a>                       <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">nlpar =</span> <span class="st">"b"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>inj_mod <span class="ot">&lt;-</span> <span class="fu">brm</span>(brm_form2, d_binomial,</span>
+<span id="cb20-2"><a href=""></a>               <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
+<span id="cb20-3"><a href=""></a>               <span class="at">prior =</span> <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">1</span>), <span class="at">nlpar =</span> <span class="st">"a"</span>) <span class="sc">+</span> </span>
+<span id="cb20-4"><a href=""></a>                       <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">nlpar =</span> <span class="st">"b"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="binomial-models-3" class="slide level2">
 <h2>Binomial Models</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">print</span>(inj_mod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">print</span>(inj_mod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href=""></a> <span class="ex">Family:</span> binomial </span>
-<span id="cb21-2"><a href=""></a>  <span class="ex">Links:</span> mu = logit </span>
-<span id="cb21-3"><a href=""></a><span class="ex">Formula:</span> ninj <span class="kw">|</span> <span class="ex">trials</span><span class="er">(</span><span class="ex">n</span><span class="kw">)</span> <span class="ex">~</span> a + b </span>
-<span id="cb21-4"><a href=""></a>         <span class="ex">a</span> ~ 0 + sport</span>
-<span id="cb21-5"><a href=""></a>         <span class="ex">b</span> ~ 0 + type</span>
-<span id="cb21-6"><a href=""></a>   <span class="ex">Data:</span> d_binomial <span class="er">(</span><span class="ex">Number</span> of observations: 9<span class="kw">)</span> </span>
-<span id="cb21-7"><a href=""></a>  <span class="ex">Draws:</span> 4 chains, each with iter = 2000<span class="kw">;</span> <span class="ex">warmup</span> = 1000<span class="kw">;</span> <span class="ex">thin</span> = 1<span class="kw">;</span></span>
-<span id="cb21-8"><a href=""></a>         <span class="ex">total</span> post-warmup draws = 4000</span>
-<span id="cb21-9"><a href=""></a></span>
-<span id="cb21-10"><a href=""></a><span class="ex">Regression</span> Coefficients:</span>
-<span id="cb21-11"><a href=""></a>                  <span class="ex">Estimate</span> Est.Error l-95% CI u-95% CI Rhat</span>
-<span id="cb21-12"><a href=""></a><span class="ex">a_sportathletics</span>     <span class="at">-0.71</span>      0.63    <span class="at">-1.94</span>     0.50 1.00</span>
-<span id="cb21-13"><a href=""></a><span class="ex">a_sportbasketball</span>    <span class="at">-2.00</span>      0.71    <span class="at">-3.39</span>    <span class="at">-0.68</span> 1.00</span>
-<span id="cb21-14"><a href=""></a><span class="ex">a_sportcricket</span>       <span class="at">-1.97</span>      0.69    <span class="at">-3.36</span>    <span class="at">-0.67</span> 1.00</span>
-<span id="cb21-15"><a href=""></a><span class="ex">a_sportfootball</span>      <span class="at">-2.12</span>      0.56    <span class="at">-3.22</span>    <span class="at">-1.05</span> 1.00</span>
-<span id="cb21-16"><a href=""></a><span class="ex">a_sportgym</span>           <span class="at">-2.02</span>      0.78    <span class="at">-3.59</span>    <span class="at">-0.48</span> 1.00</span>
-<span id="cb21-17"><a href=""></a><span class="ex">a_sporthockey</span>        <span class="at">-1.70</span>      0.61    <span class="at">-2.93</span>    <span class="at">-0.53</span> 1.00</span>
-<span id="cb21-18"><a href=""></a><span class="ex">a_sportnetball</span>       <span class="at">-3.13</span>      0.74    <span class="at">-4.60</span>    <span class="at">-1.72</span> 1.00</span>
-<span id="cb21-19"><a href=""></a><span class="ex">a_sportother</span>         <span class="at">-3.01</span>      0.72    <span class="at">-4.44</span>    <span class="at">-1.63</span> 1.00</span>
-<span id="cb21-20"><a href=""></a><span class="ex">a_sportrugby</span>         <span class="at">-1.08</span>      0.50    <span class="at">-2.04</span>    <span class="at">-0.12</span> 1.00</span>
-<span id="cb21-21"><a href=""></a><span class="ex">b_typeIndividual</span>      0.25      0.60    <span class="at">-0.94</span>     1.43 1.00</span>
-<span id="cb21-22"><a href=""></a><span class="ex">b_typeTeam</span>            0.07      0.44    <span class="at">-0.81</span>     0.93 1.00</span>
-<span id="cb21-23"><a href=""></a>                  <span class="ex">Bulk_ESS</span> Tail_ESS</span>
-<span id="cb21-24"><a href=""></a><span class="ex">a_sportathletics</span>      2894     2731</span>
-<span id="cb21-25"><a href=""></a><span class="ex">a_sportbasketball</span>     3381     2653</span>
-<span id="cb21-26"><a href=""></a><span class="ex">a_sportcricket</span>        3616     2312</span>
-<span id="cb21-27"><a href=""></a><span class="ex">a_sportfootball</span>       2868     2967</span>
-<span id="cb21-28"><a href=""></a><span class="ex">a_sportgym</span>            3349     2936</span>
-<span id="cb21-29"><a href=""></a><span class="ex">a_sporthockey</span>         2983     2444</span>
-<span id="cb21-30"><a href=""></a><span class="ex">a_sportnetball</span>        3840     3120</span>
-<span id="cb21-31"><a href=""></a><span class="ex">a_sportother</span>          2989     2532</span>
-<span id="cb21-32"><a href=""></a><span class="ex">a_sportrugby</span>          2519     2733</span>
-<span id="cb21-33"><a href=""></a><span class="ex">b_typeIndividual</span>      2649     2324</span>
-<span id="cb21-34"><a href=""></a><span class="ex">b_typeTeam</span>            2251     2584</span>
-<span id="cb21-35"><a href=""></a></span>
-<span id="cb21-36"><a href=""></a><span class="ex">Draws</span> were sampled using sampling<span class="er">(</span><span class="ex">NUTS</span><span class="kw">)</span><span class="bu">.</span> For each parameter, Bulk_ESS</span>
-<span id="cb21-37"><a href=""></a><span class="ex">and</span> Tail_ESS are effective sample size measures, and Rhat is the potential</span>
-<span id="cb21-38"><a href=""></a><span class="ex">scale</span> reduction factor on split chains <span class="er">(</span><span class="ex">at</span> convergence, Rhat = 1<span class="kw">)</span><span class="bu">.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href=""></a> <span class="ex">Family:</span> binomial </span>
+<span id="cb22-2"><a href=""></a>  <span class="ex">Links:</span> mu = logit </span>
+<span id="cb22-3"><a href=""></a><span class="ex">Formula:</span> ninj <span class="kw">|</span> <span class="ex">trials</span><span class="er">(</span><span class="ex">n</span><span class="kw">)</span> <span class="ex">~</span> a + b </span>
+<span id="cb22-4"><a href=""></a>         <span class="ex">a</span> ~ 0 + sport</span>
+<span id="cb22-5"><a href=""></a>         <span class="ex">b</span> ~ 0 + type</span>
+<span id="cb22-6"><a href=""></a>   <span class="ex">Data:</span> d_binomial <span class="er">(</span><span class="ex">Number</span> of observations: 9<span class="kw">)</span> </span>
+<span id="cb22-7"><a href=""></a>  <span class="ex">Draws:</span> 4 chains, each with iter = 2000<span class="kw">;</span> <span class="ex">warmup</span> = 1000<span class="kw">;</span> <span class="ex">thin</span> = 1<span class="kw">;</span></span>
+<span id="cb22-8"><a href=""></a>         <span class="ex">total</span> post-warmup draws = 4000</span>
+<span id="cb22-9"><a href=""></a></span>
+<span id="cb22-10"><a href=""></a><span class="ex">Regression</span> Coefficients:</span>
+<span id="cb22-11"><a href=""></a>                  <span class="ex">Estimate</span> Est.Error l-95% CI u-95% CI Rhat</span>
+<span id="cb22-12"><a href=""></a><span class="ex">a_sportathletics</span>     <span class="at">-0.70</span>      0.62    <span class="at">-1.89</span>     0.48 1.00</span>
+<span id="cb22-13"><a href=""></a><span class="ex">a_sportbasketball</span>    <span class="at">-2.00</span>      0.69    <span class="at">-3.38</span>    <span class="at">-0.68</span> 1.00</span>
+<span id="cb22-14"><a href=""></a><span class="ex">a_sportcricket</span>       <span class="at">-1.94</span>      0.68    <span class="at">-3.32</span>    <span class="at">-0.61</span> 1.00</span>
+<span id="cb22-15"><a href=""></a><span class="ex">a_sportfootball</span>      <span class="at">-2.10</span>      0.57    <span class="at">-3.20</span>    <span class="at">-0.99</span> 1.00</span>
+<span id="cb22-16"><a href=""></a><span class="ex">a_sportgym</span>           <span class="at">-2.01</span>      0.82    <span class="at">-3.63</span>    <span class="at">-0.48</span> 1.00</span>
+<span id="cb22-17"><a href=""></a><span class="ex">a_sporthockey</span>        <span class="at">-1.70</span>      0.59    <span class="at">-2.90</span>    <span class="at">-0.57</span> 1.00</span>
+<span id="cb22-18"><a href=""></a><span class="ex">a_sportnetball</span>       <span class="at">-3.12</span>      0.73    <span class="at">-4.61</span>    <span class="at">-1.74</span> 1.00</span>
+<span id="cb22-19"><a href=""></a><span class="ex">a_sportother</span>         <span class="at">-3.01</span>      0.71    <span class="at">-4.42</span>    <span class="at">-1.62</span> 1.00</span>
+<span id="cb22-20"><a href=""></a><span class="ex">a_sportrugby</span>         <span class="at">-1.08</span>      0.50    <span class="at">-2.04</span>    <span class="at">-0.06</span> 1.00</span>
+<span id="cb22-21"><a href=""></a><span class="ex">b_typeIndividual</span>      0.25      0.58    <span class="at">-0.89</span>     1.38 1.00</span>
+<span id="cb22-22"><a href=""></a><span class="ex">b_typeTeam</span>            0.06      0.43    <span class="at">-0.86</span>     0.92 1.00</span>
+<span id="cb22-23"><a href=""></a>                  <span class="ex">Bulk_ESS</span> Tail_ESS</span>
+<span id="cb22-24"><a href=""></a><span class="ex">a_sportathletics</span>      2410     2992</span>
+<span id="cb22-25"><a href=""></a><span class="ex">a_sportbasketball</span>     3635     3187</span>
+<span id="cb22-26"><a href=""></a><span class="ex">a_sportcricket</span>        3541     2951</span>
+<span id="cb22-27"><a href=""></a><span class="ex">a_sportfootball</span>       3014     2968</span>
+<span id="cb22-28"><a href=""></a><span class="ex">a_sportgym</span>            3942     3086</span>
+<span id="cb22-29"><a href=""></a><span class="ex">a_sporthockey</span>         2891     2573</span>
+<span id="cb22-30"><a href=""></a><span class="ex">a_sportnetball</span>        3969     3066</span>
+<span id="cb22-31"><a href=""></a><span class="ex">a_sportother</span>          3295     3216</span>
+<span id="cb22-32"><a href=""></a><span class="ex">a_sportrugby</span>          2486     2794</span>
+<span id="cb22-33"><a href=""></a><span class="ex">b_typeIndividual</span>      2379     2589</span>
+<span id="cb22-34"><a href=""></a><span class="ex">b_typeTeam</span>            2056     2600</span>
+<span id="cb22-35"><a href=""></a></span>
+<span id="cb22-36"><a href=""></a><span class="ex">Draws</span> were sampled using sampling<span class="er">(</span><span class="ex">NUTS</span><span class="kw">)</span><span class="bu">.</span> For each parameter, Bulk_ESS</span>
+<span id="cb22-37"><a href=""></a><span class="ex">and</span> Tail_ESS are effective sample size measures, and Rhat is the potential</span>
+<span id="cb22-38"><a href=""></a><span class="ex">scale</span> reduction factor on split chains <span class="er">(</span><span class="ex">at</span> convergence, Rhat = 1<span class="kw">)</span><span class="bu">.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
 <section id="binomial-models-4" class="slide level2">
 <h2>Binomial Models</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">conditional_effects</span>(inj_mod, <span class="at">method =</span> <span class="st">"posterior_epred"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">conditional_effects</span>(inj_mod, <span class="at">method =</span> <span class="st">"posterior_epred"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -632,7 +648,7 @@ PSYC 7940
 <section id="activity" class="slide level2 scrollable">
 <h2>Activity</h2>
 <ol type="1">
-<li><p>Use the <code>d_bernoulli</code> data athat we defined earlier <code>family = bernoulli(link = "logit")</code> approach to fit the same model that we just fit using the binomial link. Compare the numeric and visual output from the two models.</p></li>
+<li><p>Use the <code>d_bernoulli</code> data that we defined earlier <code>family = bernoulli(link = "logit")</code> approach to fit the same model that we just fit using the binomial link. Compare the numeric and visual output from the two models.</p></li>
 <li><p>In lecture we also learned about multinomial logistic regression. Using the code shown in the lecture slides as a reference, use the (unaggregated) <code>injury</code> data to predict <code>sport</code> from any other variables in the data set (e.g., training hours, stiffness). As time allows, try to also conduct prior predictive simulation. What do you find?</p></li>
 <li><p>For the <code>conditional_effects()</code> function, the arguments <code>method = posterior_predict</code> and <code>method = posterior_linpred</code> function differently than <code>method = posterior_epred</code>. Test out these other arguments for the models that we fit today. What information does each plot convey?</p></li>
 </ol>

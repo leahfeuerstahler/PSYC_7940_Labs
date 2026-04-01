@@ -200,7 +200,7 @@ brm(outcome ~ predictors, family = bernoulli(link = "logit"))
     - `trials()` is special syntax in `brms`, not a variable in your data
 
 ```{}
-brm(nsuccesses | trials(ntrials) ~ predictors, family = bernoulli(link = "logit"))
+brm(nsuccesses | trials(ntrials) ~ predictors, family = binomial(link = "logit"))
 ```
 
 
@@ -264,7 +264,7 @@ conditional_effects(inj_mod, method = "posterior_epred")
 ## Activity
 
 
-1. Use the `d_bernoulli` data athat we defined earlier `family = bernoulli(link = "logit")` approach to fit the same model that we just fit using the binomial link. Compare the numeric and visual output from the two models.
+1. Use the `d_bernoulli` data that we defined earlier `family = bernoulli(link = "logit")` approach to fit the same model that we just fit using the binomial link. Compare the numeric and visual output from the two models.
 
 2. In lecture we also learned about multinomial logistic regression. Using the code shown in the lecture slides as a reference, use the (unaggregated) `injury` data to predict `sport` from any other variables in the data set (e.g., training hours, stiffness). As time allows, try to also conduct prior predictive simulation. What do you find?
 
