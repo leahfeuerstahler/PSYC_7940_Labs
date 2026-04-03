@@ -2,3 +2,411 @@
 title: "Lab 11: Generalized Linear Models II"
 date: April 15, 2026
 ---
+
+
+## Review
+
+-   Last time we learned abou the Bernoulli and Binomial GLMs with with logit link function.
+
+-   Today we will learn more about some more GLMs:
+
+    -   Posisson
+    -   Negative Binomial
+    -   Zero-inflated
+    -   Ordered categorical
+
+## Poisson and Negative Binomial
+
+
+-   The Poisson distribution can represent the distribution of non-negative integers. For example, when $\lambda = 3$:
+
+```{r echo = F}
+barplot(dpois(c(0:10), 3), xlab = "count", names.arg = c(0:10))
+```
+
+-   We first encountered Poisson as a way to model the number of meteors in a specific time interval (Lecture/Lab 2).
+
+## Poisson and Negative Binomial
+
+Recall that the Poisson distribution has one parameter $\lambda > 0$. The "log" link is appropriate for poisson regression because it transforms a non-negative value to the entire real number line. This ensures that $\hat{\lambda$ is a positive value.
+
+\begin{align*}
+y_i & \sim Pois(\lambda_i) \\
+\log(\lambda_i) & = {\sf linear\,\,combination\,\,of\,\,predictors}
+\end{align*}
+
+To use the Poisson distribution with a log link in `brms`, we set:
+
+```{r eval = F}
+family(poisson(link = "log"))
+```
+
+## Poisson and Negative Binomial
+
+However, the Poisson distribution is restrictive and may not be a good fit to overdispersed data, that is, data that are more variable than the model (e.g., the Poisson) expects.
+
+The negative binomial distribution allows more variability than the Poisson distribution does.
+
+## Poisson and Negative Binomial
+
+The expected value and variance of the negative binomial value is
+
+$$E(X) = \mu$$
+$$var(X) = \mu + \frac{\mu^2}{\phi}$$ 
+
+By estimating a second parameter $\phi$, we can flexibly account for overdispersion.
+
+
+## Poisson and Negative Binomial
+
+In R's `dnbinom` function, the `size` argument corresponds to $\phi$.
+
+```{r echo = T}
+barplot(dnbinom(c(0:5), size = 3, mu = 3))
+```
+
+## Poisson and Negative Binomial
+
+As with the Poisson distribution, we typically use a log link for $\mu$.
+
+\begin{align*}
+y_i & \sim NegBin(\mu_i, \phi) \\
+\log(\mu) & = {\sf linear\,\,combination\,\,of\,\,predictors} \\
+\phi & \sim \_\_
+\end{align*}
+
+To use the negative binomial distribution with a log link in `brms`, we set:
+
+```{r eval = FALSE}
+family(negbinomial(link = "log"))
+```
+
+## Example Data
+
+In business, an **interlock** occurs when an individual sits on the executive board or holds an executive position for **more than one company at the same time**.
+
+The `Ornstein` data in the `carData` package provides the number of interlocks for 248 Canadian businesses in the 1970s. 
+
+* Today, we will predict the number of interlocks from each business's `assets`
+
+* `assets` is in millions of dollars and highly skewed. We will have a more stable model (i.e., better fit, better MCMC convergence) if we log-transform `assets` as a predictor.
+
+
+## Example Data
+
+```{r results = "hide"}
+library(tidyverse)
+library(brms)
+data(Ornstein, package = "carData")
+```
+
+```{r}
+#| class-output: "nowrap-code"
+Ornstein %>% mutate(log_assets = log(assets)) %>% summary
+```
+
+## Poisson
+
+First, let us look at the prior setup for the Poisson model:
+
+```{r}
+get_prior(interlocks ~ log(assets),  Ornstein,
+          family = poisson(link = "log"))
+```
+## Poisson
+
+\begin{align*}
+{\sf interlock}_i & \sim Pois(\lambda_i) \\
+\log(\lambda_i) & = a + b $\times \ln({\sf assets})
+\end{align*}
+
+* $\lambda$ is both the mean and variance of the outcome variable
+
+We may have no idea where to start with prior predictive simulation. Why not start with $N(0, 1)$ on both the intercept and the slope?
+
+```{r cache = TRUE, results = "hide"}
+prior1 <- prior("normal(0, 1)", class = "Intercept") + 
+          prior("normal(0, 1)", class = "b")
+ppsim1 <- brm(interlocks ~ log(assets),  Ornstein,
+          family = poisson(link = "log"),
+          prior = prior1, sample_prior = "only")
+```
+
+
+## Poisson and Negative Binomial
+
+These priors lead to a few draws with very high predictions (max # of interlocks is 107 in the data)
+
+::: {.panel-tabset}
+
+## No y axis limits
+
+```{r}
+conditional_effects(ppsim1, spaghetti = TRUE, ndraws = 100)
+```
+
+
+## Adding y axis limits
+
+```{r}
+plot(conditional_effects(ppsim1, spaghetti = TRUE, ndraws = 100), plot = FALSE)[[1]] + 
+  lims(y = c(0, 107))
+```
+
+:::
+
+## Poisson
+
+Although these priors make some silly predictions, they may be okay for our purposes. The limited $y$ axis plot shows many plausible mean predictions.
+
+
+The full model is:
+
+\begin{align*}
+{\sf interlock}_i & \sim Pois(\lambda_i) \\
+\log(\lambda_i) & = a + b $\times \ln({\sf assets}) \\
+a & \sim N(0, 1) \\
+b & \sim N(0, 1)
+\end{align*}
+
+
+## Poisson
+
+Let's fit the model!
+
+```{r cache = TRUE, results = "hide"}
+m1 <- brm(interlocks ~ log(assets), Ornstein, 
+          family = poisson(link = "log"), prior = prior1)
+```
+
+
+## Poisson
+
+It looks like our standard normal priors weren't too far off from the final estimates.
+
+```{r}
+summary(m1)
+```
+
+## Poisson
+
+The Poisson model does an okay job at predicting the mean, but misses much of the variability in the data.
+
+```{r}
+plot(conditional_effects(m1), points = TRUE)
+```
+
+## Negative Binomial
+
+The negative binomial allows for overdispersion in the data and may do a better job than the Poisson at predicting points. 
+
+```{r}
+get_prior(interlocks ~ log(assets), Ornstein, family = negbinomial(link = "log"))
+```
+
+* The negative binomial is similar to the Poisson except that it now includes the "shape" parameter $\phi$. **Smaller** values of $\phi$ will give **more variable** predictions relative to the Poisson.
+
+
+## Negative Binomial
+
+Let's try $\phi \sim Exponential(10)$. This roughly means that the expected variance is  10x as large as that for the Poisson.
+
+```{r cache = TRUE, results = "hide"}
+prior2 <- prior("normal(0, 1)", class = "Intercept") + 
+          prior("normal(0, 1)", class = "b") + 
+          prior("exponential(10)", class = "shape")
+ppsim2 <- brm(interlocks ~ log(assets), Ornstein, family = negbinomial(link = "log"),
+              prior = prior2, sample_prior = "only")
+```
+
+
+## Negative Binomial
+
+Although these priors make some very large predictions, this may be an appropriately skeptical prior.
+
+```{r}
+conditional_effects(ppsim2, method = "posterior_predict")
+```
+
+
+## Negative Binomial
+
+```{r cache = TRUE, results = "hide"}
+m2 <- brm(interlocks ~ log(assets), Ornstein, 
+          family = negbinomial(link = "log"), prior = prior2)
+```
+
+## Negative Binomial
+
+```{r}
+summary(m2)
+```
+
+
+## Negative Binomial
+
+The negative binomial does a better job at capturing values for companies with high assets, but not as good a job for companies with fewer assets.
+
+```{r}
+plot(conditional_effects(m2), points = TRUE)
+```
+
+
+## Zero Inflation
+
+Perhaps we should take into account **zero-inflation**, the fact that several companies have **no** interlocks.
+
+```{r}
+#| class-output: "nowrap-code"
+get_prior(interlocks ~ log(assets), Ornstein, family = zero_inflated_negbinomial("log"))
+```
+
+Now we have one more parameter `zi` which represents the **proportion of zeroes**.
+
+
+## Zero Inflation
+
+The Beta distribution is an appropriate prior for `zi` since it bounded between 0 and 1. We might expect that fewer than half of companies have no interlocks, so maybe a Beta(1, 5) prior is appropriate?
+
+```{r}
+curve(dbeta(x, 1, 5))
+```
+
+```{r results = "hide", cache = TRUE}
+prior3 <- prior2 + prior("beta(1, 5)", class = "zi")
+
+m3 <- brm(interlocks ~ log(assets), Ornstein, 
+          family = zero_inflated_negbinomial(link = "log"),
+          prior = prior3)
+```
+
+
+## Zero Inflation
+
+```{r}
+summary(m3)
+```
+
+## Zero Inflation
+
+```{r}
+plot(conditional_effects(m3), points = TRUE)
+```
+
+## Activity 1
+
+Does accounting for zero inflation improve our model? Use the `loo` to compare the three models that we fit. Which provides the best tradeoff between complexity and fit?
+
+
+
+
+## Ordered Categorical Variables
+
+We have learned how to outcome variables that are both continuous and categorical. In addition to those, ordered categorical variables are often used in psychology in the form of Likert scales.
+
+When we use Likert scale (or other ordered categorical variable) as our outcome, we need to specify the family as:
+
+```{r eval = F}
+family = cumulative(link = "logit")
+```
+
+## Ordered Categorical Variables
+
+The `WVS` dataset includes information surveyed from the 1995-1997 World Values Survey.
+
+We are interested in predicting responses to `poverty`: "Do you think that what the government is doing for people in poverty in this country is..." (1) "Too Little", (2) "About Right", (3) "Too Much"
+
+```{r}
+#| class-output: "nowrap-code"
+data(WVS, package = "carData")
+WVS %>% summary
+```
+
+
+## Ordered Categorical Variables
+
+
+-   $logit[P({\sf too\,little})] = Q_1 = a_1 + b_1 * {\sf predictor}$
+
+-   $logit[P({\sf too\,little}) + P({\sf about\,right})] = Q_2 = a_2 + b * \sf{predictor}$
+
+-   $P({\sf too\,much}) = 1 - P({\sf about\,right}) - P({\sf too\,little})$
+
+## Ordered Categorical Variables
+
+We want to predict `poverty` (already an ordered categorical variable) from `country` (Australia, Norway, Sweden, USA). For ordered categorical outcomes, `brms` does not allow us to use the index variable approach. Instead, it looks as if Australia is the default category and that the `b` coefficients correspond to the differences between each country and Australia.
+
+```{r}
+get_prior(poverty ~ country, WVS,
+          family = cumulative(link = "logit"))
+```
+
+## Ordered Categorical Variables
+
+Let's try using standard normal priors for all intercepts and slopes.
+
+```{r cache = TRUE, results = "hide"}
+prior4 <- prior("normal(0, 1)", class = "b") + 
+          prior("normal(0, 1)", class = "Intercept")
+
+ppsim4 <- brm(poverty ~ country, WVS,
+          family = cumulative(link = "logit"),
+          prior = prior4, sample_prior = "only")
+```
+
+## Ordered Categorical Variables
+
+These priors give mean predictions at the middle response value. Unfortunately, they're a bit narrower for Australia than the other countries, but not by much.
+
+```{r}
+conditional_effects(ppsim4, method = "posterior_epred")
+```
+
+## Ordered Categorical Variables
+
+Predictions of actual responses span the available range and are the same for each country.
+
+```{r}
+conditional_effects(ppsim4, method = "posterior_predict")
+```
+
+
+## Ordered Categorical Variables
+
+Let's fit the model!
+
+```{r cache = TRUE, results = "hide"}
+m4 <- brm(poverty ~ country, WVS,
+          family = cumulative(link = "logit"),
+          prior = prior4)
+```
+
+
+## Ordered Categorical Variables
+
+```{r}
+#| class-output: "nowrap-code"
+summary(m4)
+```
+
+## Ordered Categorical Variables
+
+`categorical = TRUE` allows us to see the actual posterior distribution of predictions. Do these results surprise you?
+
+```{r}
+conditional_effects(m4, categorical = TRUE)
+```
+
+
+## Activity 2
+
+1. Choose one of the models that we fit in today's lecture. Select one or two other variables available in that data set to add to your model as predictors.
+
+2. What prior will you choose for the new predictor(s)? Consider whether it is advisable to rescale the variable(s).
+
+3. Fit the model and interpret the numeric/visual output.
+
+4. Compare the model fit to that of the original model. Can you improve fit over the previous model?
+
+Bonus. Explore different ways of visualizing your model results. Look at the options available in `conditional_effects` and/or consult the internet.
+
