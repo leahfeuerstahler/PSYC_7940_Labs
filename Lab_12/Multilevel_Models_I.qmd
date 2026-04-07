@@ -2,3 +2,305 @@
 title: "Lab 12: Multilevel Models I"
 date: April 22, 2026
 ---
+
+
+```{r echo = FALSE, message = FALSE, cache= FALSE, include = FALSE}
+library(tidyverse)
+library(brms)
+library(ggplot2)
+library(loo)
+library(knitr)
+```
+
+## Overview
+
+-   Today we will learn how to fit multilevel models in `brms`.
+
+-   In previous labs, each parameter applied to everyone included in the model. However, this method ignores within-person variation. 
+
+-   To allow for individual differences, we can use multilevel modeling.
+
+-   Instead of using a separate intercept for each observation, the multilevel approach uses teh method of partial pooling to model a distribution of intercepts. 
+
+## Multilevel Models
+
+To illustrate, let's load in the `TDF.csv` data, along with the `tidyverse` and `brms` packages. 
+
+```{r}
+library(tidyverse); library(brms)
+d1 <- read_csv("TDF.csv")
+```
+
+::: columns
+:::: column
+
+Previously:
+
+$$\omega_i \sim Normal (\mu_i, \sigma)$$
+
+$$\mu_i = a + b \times hc_i$$
+
+$a \sim N(66.5, 2)$
+
+$b \sim N(1, .5)$
+
+$\sigma \sim Exp(.25)$
+
+::::
+:::: column
+
+Now: 
+
+$$\omega_i \sim Normal (\mu_i, \sigma)$$
+
+$$\mu_i = a + b \times hc_i$$
+$a \sim N(\bar{a}, \sigma_a)$
+
+$\bar{a} \sim N(66.5, 2)$
+
+$\sigma_a \sim ???$
+
+$b \sim N(1, .5)$
+
+$\sigma \sim Exp(.25)$
+
+::::
+:::
+
+
+
+## Multilevel Models
+
+We can allow for random intercepts using the `(1 | ID)` syntax, where `ID` is the clustering variable. 
+
+* This is the same syntax used by `lmer` and `glmer` for multilevel models.
+
+For our height and weight example, our formula looks like this: 
+
+```{r}
+brm_form1 <- Weight ~ HeightC + (1 | Name) 
+```
+
+## Priors
+
+Use `get_prior` to see how parameters are represented.
+
+
+```{r}
+get_prior(brm_form1, d1, 
+          family = gaussian(link = "identity"))
+```
+
+
+## Priors
+
+As we see in the `class` column, we have a new parameter class labelled `sd`. This is the prior for the standard deviation of intercepts.
+
+* Recall: intercept = predicted weight for average height
+
+* We may expect some individual variability. We will try an `Exponential(.5)`. 
+
+```{r}
+prior1 <- prior(normal(66.5, 2), class = "Intercept") +
+          prior(exponential(.5), class = "sd") +
+          prior(normal(1, .5), class = "b") +
+          prior(exponential(.25), class = "sigma")
+```
+
+## Prior Predictive Simulation
+
+```{r cache = TRUE, results = "hide"}
+predict1 <- brm(brm_form1, d1,
+                family = gaussian(link = "identity"),
+                prior = prior1, cores = 4, sample_prior = "only")
+```
+
+## Prior Predictive Simulation
+
+Our choice of `sd` prior affects the width of the band of predicted observations, so we want to make sure this makes sense.
+
+* `method = "posterior_predict"`: plot the distribution of predicted observations
+
+* `re_formula = NULL`: include all cluster effects
+
+```{r}
+conditional_effects(predict1, method = "posterior_predict", re_formula = NULL)
+```
+
+
+
+## Model Fitting
+
+```{r cache = TRUE, echo = TRUE, results = 'hide'}
+m1 <- brm(brm_form1, d1,
+          family = gaussian(link = "identity"),
+          prior = prior1, cores = 4)
+```
+
+## Model Results
+
+Notice that even for this relatively simple multilevel model, estimation is not as efficient as with other models. We need to be cautious to run enough iterations for the inferences we want.
+
+```{r warning = FALSE}
+summary(m1)
+```
+
+
+## Model Results
+
+* $\bar{a}$ is the overall mean intercept.
+
+* The **random effects** (`ranef`) are individuals' deviations from the mean intercept.
+
+```{r}
+individual_intercepts <- ranef(m1)$Name[,"Estimate",]
+ggplot() + geom_density(aes(x = individual_intercepts))
+```
+
+## Another Example
+
+
+Let's now look at the more complicated `langauge.csv` example from lecture. 
+
+```{r}
+d2 <- read_csv("language.csv")
+```
+
+We want to estimate index variables for both task type and learning group type, and we want individuals to have random intercepts.
+
+```{r}
+brm_form2 <- bf(sumscore|trials(nitems) ~ a + b + c,
+                a ~ 0 + factor(tasktype),
+                b ~ 0 + factor(group),
+                c ~ (1|ID), nl = TRUE)
+```
+
+## Priors
+
+Remember that we fit a multilevel binomial model for these data.
+
+```{r}
+get_prior(brm_form2, d2,
+          family = binomial (link = "logit"))
+```
+
+
+## Priors
+
+It is a long list, but we can simplify matters by specifying the same priors for each set of index variables. There is no need to specify priors for each `coef` (unless you want to!). Here, we use the priors from lecture.
+
+```{r}
+prior2 <- prior(normal(3, .5), class = "b", coef = "Intercept", nlpar = "c") +
+          prior(normal(0, .5), class = "b", nlpar = "a") +
+          prior(normal(0, .5), class = "b", nlpar = "b") +
+          prior(exponential(2), class = "sd", nlpar = "c")
+```
+
+## Model Fitting & Results
+
+```{r comp_pool_brms, cache = TRUE, echo = TRUE, results = 'hide', messsage = TRUE}
+m2 <- brm(brm_form2, d2,
+          family = binomial (link = "logit"),
+          prior = prior2)
+```
+
+```{r}
+#| class-output: "nowrap-code"
+summary(m2)
+```
+
+
+## Model Results
+
+Extracting "fixed effects" give the index variable values and the mean intercept.
+
+```{r}
+#| class-output: "nowrap-code"
+summary(m2)$fixed
+```
+
+## Model Results
+
+"Random effects" gives the standard deviation of the random intercepts.
+
+```{r}
+summary(m2)$random
+```
+
+## Adding On
+
+We can set multiple types of random effects. For example, we could consider the random effects of both persons and items.
+
+For example:
+
+```{r}
+d3 <- read.csv("language item.csv")
+brm_form3 <- bf(response ~ a + b + c + d,
+                    a ~ 0 + tasktype,
+                    b ~ 0 + group,
+                    c ~ (1 | ID),
+                    d ~ 0 + (1 | item), nl = TRUE)
+```
+
+## Priors
+
+Now, we can set separate `sd` parameters for two different `group` values: `ID` and `item`:
+
+```{r}
+get_prior(brm_form3, d3, 
+          family = bernoulli(link = "logit"))
+```
+
+## Priors
+
+Again, we'll use the same priors that we did in lecture.
+
+```{r}
+prior3 <- prior(normal(0, .5), class = "b", nlpar = "a") +
+  prior(normal(0, .5), class = "b", nlpar = "b") +
+  prior(exponential(1), class = "sd", nlpar = "c") +
+  prior(normal(3, .5), class = "b", coef = "Intercept", nlpar = "c") +
+  prior(exponential(2), class = "sd", nlpar = "d")
+```
+
+The following model takes **much** longer to run: **BE WARNED**!!!
+
+```{r cache = TRUE, results = "hide", message = FALSE}
+m3 <- brm(brm_form3, d3,
+          family = bernoulli(link = "logit"),
+          prior = prior3, cores = 4)
+```
+
+## Model Results
+
+```{r}
+#| class-output: "nowrap-code"
+summary(m3)$fixed
+```
+
+
+## Model Results
+
+```{r}
+#| class-output: "nowrap-code"
+summary(m3)$random
+```
+
+## Model Results
+
+As we can see, the variation of items is much larger than the variation of individuals!
+
+```{r}
+mean_ind3 <- ranef(m3)$ID[, "Estimate", ]
+mean_item3 <- ranef(m3)$item[, "Estimate", ]
+
+ggplot()+
+  geom_density(aes(x = mean_ind3), color = "red")+
+  geom_density(aes(x = mean_item3), color = "blue")
+```
+
+## Activity
+
+1. Modify `m3` so that items are treated as a fixed effect rather than a random effect. Compare the output to that of `m3`. 
+
+2. Modify `m2` so that `tasktype` is a random effect rather than a fixed effect. How does this affect model run time and convergence? How does this affect the interpretations that you make?
