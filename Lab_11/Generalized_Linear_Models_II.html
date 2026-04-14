@@ -382,7 +382,7 @@ y_i &amp; \sim NegBin(\mu_i, \phi) \\
 <p>The full model is:</p>
 <p><span class="math display">\[\begin{align*}
 {\sf interlock}_i &amp; \sim Pois(\lambda_i) \\
-\log(\lambda_i) &amp; = a + b $\times \ln({\sf assets}) \\
+\log(\lambda_i) &amp; = a + b \times \ln({\sf assets}) \\
 a &amp; \sim N(0, 1) \\
 b &amp; \sim N(0, 1)
 \end{align*}\]</span></p>
@@ -410,8 +410,8 @@ Formula: interlocks ~ log(assets)
 
 Regression Coefficients:
           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-Intercept    -1.04      0.09    -1.21    -0.86 1.00     1358     1845
-logassets     0.46      0.01     0.44     0.48 1.00     1494     2239
+Intercept    -1.05      0.09    -1.22    -0.86 1.00     1437     1968
+logassets     0.46      0.01     0.44     0.48 1.00     1690     1921
 
 Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -489,12 +489,12 @@ Formula: interlocks ~ log(assets)
 
 Regression Coefficients:
           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-Intercept    -1.07      0.34    -1.74    -0.41 1.00     3800     3016
-logassets     0.46      0.04     0.37     0.55 1.00     3948     3225
+Intercept    -1.06      0.34    -1.71    -0.40 1.00     4575     2836
+logassets     0.46      0.04     0.37     0.55 1.00     4623     3103
 
 Further Distributional Parameters:
       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-shape     1.14      0.12     0.92     1.39 1.00     4752     2833
+shape     1.14      0.12     0.93     1.38 1.00     4560     3214
 
 Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -561,13 +561,13 @@ Formula: interlocks ~ log(assets)
 
 Regression Coefficients:
           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-Intercept    -0.95      0.33    -1.61    -0.30 1.00     3277     2464
-logassets     0.45      0.04     0.37     0.53 1.00     3434     2602
+Intercept    -0.96      0.34    -1.64    -0.33 1.00     2729     2893
+logassets     0.45      0.04     0.37     0.54 1.00     2905     3062
 
 Further Distributional Parameters:
       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-shape     1.26      0.16     0.99     1.60 1.00     2551     2370
-zi        0.03      0.02     0.00     0.08 1.00     1718     1190
+shape     1.25      0.15     0.99     1.57 1.00     2640     2589
+zi        0.03      0.02     0.00     0.08 1.00     1797     1234
 
 Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -704,11 +704,11 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <span id="cb41-7"><a href=""></a></span>
 <span id="cb41-8"><a href=""></a>Regression Coefficients:</span>
 <span id="cb41-9"><a href=""></a>              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
-<span id="cb41-10"><a href=""></a>Intercept[1]     -0.00      0.04    -0.09     0.08 1.00     3188     2707</span>
-<span id="cb41-11"><a href=""></a>Intercept[2]      1.78      0.05     1.68     1.88 1.00     3681     2825</span>
-<span id="cb41-12"><a href=""></a>countryNorway    -0.28      0.07    -0.42    -0.14 1.00     3317     2967</span>
-<span id="cb41-13"><a href=""></a>countrySweden    -0.53      0.08    -0.68    -0.38 1.00     3663     2913</span>
-<span id="cb41-14"><a href=""></a>countryUSA        0.68      0.07     0.54     0.82 1.00     3367     2664</span>
+<span id="cb41-10"><a href=""></a>Intercept[1]     -0.01      0.05    -0.10     0.08 1.00     3059     2550</span>
+<span id="cb41-11"><a href=""></a>Intercept[2]      1.78      0.05     1.67     1.88 1.00     3526     3019</span>
+<span id="cb41-12"><a href=""></a>countryNorway    -0.28      0.07    -0.43    -0.14 1.00     3448     3186</span>
+<span id="cb41-13"><a href=""></a>countrySweden    -0.53      0.08    -0.68    -0.38 1.00     3406     2889</span>
+<span id="cb41-14"><a href=""></a>countryUSA        0.68      0.07     0.54     0.82 1.00     3267     2979</span>
 <span id="cb41-15"><a href=""></a></span>
 <span id="cb41-16"><a href=""></a>Further Distributional Parameters:</span>
 <span id="cb41-17"><a href=""></a>     Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>

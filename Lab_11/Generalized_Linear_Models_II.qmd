@@ -164,7 +164,7 @@ The full model is:
 
 \begin{align*}
 {\sf interlock}_i & \sim Pois(\lambda_i) \\
-\log(\lambda_i) & = a + b $\times \ln({\sf assets}) \\
+\log(\lambda_i) & = a + b \times \ln({\sf assets}) \\
 a & \sim N(0, 1) \\
 b & \sim N(0, 1)
 \end{align*}
