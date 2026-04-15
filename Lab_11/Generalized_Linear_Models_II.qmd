@@ -6,7 +6,7 @@ date: April 15, 2026
 
 ## Review
 
--   Last time we learned abou the Bernoulli and Binomial GLMs with with logit link function.
+-   Last time we learned abou the Bernoulli and Binomial GLMs with logit link function.
 
 -   Today we will learn more about some more GLMs:
 
@@ -117,7 +117,7 @@ get_prior(interlocks ~ log(assets),  Ornstein,
 
 \begin{align*}
 {\sf interlock}_i & \sim Pois(\lambda_i) \\
-\log(\lambda_i) & = a + b $\times \ln({\sf assets})
+\log(\lambda_i) & = a + b \times \ln({\sf assets})
 \end{align*}
 
 * $\lambda$ is both the mean and variance of the outcome variable
@@ -302,7 +302,7 @@ Does accounting for zero inflation improve our model? Use the `loo` to compare t
 
 ## Ordered Categorical Variables
 
-We have learned how to outcome variables that are both continuous and categorical. In addition to those, ordered categorical variables are often used in psychology in the form of Likert scales.
+We have learned how to model outcome variables that are both continuous and categorical. In addition to those, ordered categorical variables are often used in psychology in the form of Likert scales.
 
 When we use Likert scale (or other ordered categorical variable) as our outcome, we need to specify the family as:
 

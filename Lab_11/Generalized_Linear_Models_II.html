@@ -212,7 +212,7 @@ PSYC 7940
 <section id="review" class="slide level2">
 <h2>Review</h2>
 <ul>
-<li><p>Last time we learned abou the Bernoulli and Binomial GLMs with with logit link function.</p></li>
+<li><p>Last time we learned abou the Bernoulli and Binomial GLMs with logit link function.</p></li>
 <li><p>Today we will learn more about some more GLMs:</p>
 <ul>
 <li>Posisson</li>
@@ -328,7 +328,7 @@ y_i &amp; \sim NegBin(\mu_i, \phi) \\
 <h2>Poisson</h2>
 <p><span class="math display">\[\begin{align*}
 {\sf interlock}_i &amp; \sim Pois(\lambda_i) \\
-\log(\lambda_i) &amp; = a + b $\times \ln({\sf assets})
+\log(\lambda_i) &amp; = a + b \times \ln({\sf assets})
 \end{align*}\]</span></p>
 <ul>
 <li><span class="math inline">\(\lambda\)</span> is both the mean and variance of the outcome variable</li>
@@ -588,7 +588,7 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 </section>
 <section id="ordered-categorical-variables" class="slide level2">
 <h2>Ordered Categorical Variables</h2>
-<p>We have learned how to outcome variables that are both continuous and categorical. In addition to those, ordered categorical variables are often used in psychology in the form of Likert scales.</p>
+<p>We have learned how to model outcome variables that are both continuous and categorical. In addition to those, ordered categorical variables are often used in psychology in the form of Likert scales.</p>
 <p>When we use Likert scale (or other ordered categorical variable) as our outcome, we need to specify the family as:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>family <span class="ot">=</span> <span class="fu">cumulative</span>(<span class="at">link =</span> <span class="st">"logit"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
