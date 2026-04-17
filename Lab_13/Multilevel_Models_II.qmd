@@ -2,3 +2,397 @@
 title: "Lab 13: Multilevel Models II"
 date: April 29, 2026
 ---
+
+## Example Data
+
+Today, we'll work with sleep study data available in the `lme4` package. This study looks at how sleep deprivation affects reaction time.
+
+* Also load in our other usual packages:
+
+```{r message = FALSE}
+library(tidyverse)
+library(brms)
+data("sleepstudy", package = "lme4")
+```
+## Example Data
+
+```{r}
+#| class-output: "nowrap-code"
+sleepstudy %>% glimpse
+```
+
+* `Reaction`: average reaction time in milliseconds
+
+* `Days`: days of the study: days 0 and 1 are training, 2 is baseline, and sleep deprivation begins on day 3
+
+* `Subject`: indexes different individuals
+
+We only want to study the effects of sleep deprivation, so we exclude days 0 and 1 and rescale so that `Days` indicates the number of sleep-deprived days:
+
+```{r}
+sleepstudy <- sleepstudy %>% filter(Days >= 2) %>% mutate(Days = Days - 2)
+```
+
+## Example Data
+
+We have data for 8 days each of 18 subjects. Notice that reaction times range from 203.0 ms to 466.4 ms.
+
+```{r}
+summary(sleepstudy)
+```
+
+
+
+## Review: Varying Intercepts
+
+We want to predict reaction times ($R$) from the number of days ($D$) of sleep deprivation.
+
+* To account for individual differences in reaction times, we will specify a random intercept associated with subjects.
+
+\begin{align*}
+R & \sim N(\mu_i, \sigma) \\
+\mu & = a_i + bD_i \\
+a_i & \sim N(\bar{a}, \sigma_a) \\
+b & \sim ??? \\
+\bar{a} & \sim ??? \\
+\sigma_a & \sim ??? \\
+\sigma & \sim ???
+\end{align*}
+
+Now we need to specify priors for $b$, $\bar{a}$, $\sigma_a$, and $\sigma$.
+
+## Prior Predictive Simulation: Varying Intercepts
+
+Remember that reaction times range from 203.0 to 466.4 on days 0-7.
+
+* $\bar{a}$ is the average reaction time on day 0 (no sleep deprivation), so may be quicker than average
+
+    * Try $N(250, 20)$
+
+* $b$ is the predicted increase in reaction time for each additional day of sleep deprivation, likely positive
+
+    * Try $N(20, 10)$
+    
+* $\sigma_a$ is the standard deviation of individual reaction times
+    
+    * Try $Exponential(.05)$: average 20 ms of individual differences
+    
+* $\sigma$ is the standard deviation of residuals
+
+    * Try $Exponential(.1)$: hopefully our predictions are less variable than our subjects!
+
+## Prior Predictive Simulation: Varying Intercepts
+
+```{r}
+#| class-output: "nowrap-code"
+get_prior(Reaction ~ Days + (1 | Subject), sleepstudy,
+          family = gaussian(link = "identity"))
+```
+
+
+```{r results = "hide", cache = TRUE}
+vi_pps <- brm(Reaction ~ Days + (1 | Subject), sleepstudy,
+              family = gaussian(link = "identity"),
+              prior = prior("normal(20, 10)", class = "b") + 
+                      prior("normal(250, 20)", class = "Intercept") + 
+                      prior("exponential(.05)", class = "sd") + 
+                      prior("exponential(.1)", class = "sigma"),
+              sample_prior = "only")
+```
+
+## Prior Predictive Simulation: Varying Intercepts
+
+::: {.panel-tabset}
+
+## Predict Mean Line
+
+```{r}
+conditional_effects(vi_pps, method = "posterior_linpred", 
+                    spaghetti = TRUE, ndraws = 100)
+```
+
+## Predict Individual Variability
+
+```{r}
+conditional_effects(vi_pps, method = "posterior_predict")
+```
+
+## Conclusion 
+
+I think that predictions are a little bit lower than I would like. To adjust, I will increase my prior on the intercept $\bar{a}$ to $N(280, 20)$. 
+
+:::
+
+
+
+## Varying Intercepts
+
+
+```{r results = "hide", cache = TRUE}
+vi_mod <- brm(Reaction ~ Days + (1 | Subject), sleepstudy,
+              family = gaussian(link = "identity"),
+              prior = prior("normal(20, 10)", class = "b") + 
+                      prior("normal(280, 20)", class = "Intercept") + 
+                      prior("exponential(.05)", class = "sd") + 
+                      prior("exponential(.1)", class = "sigma"))
+```
+
+## Varying Intercepts
+
+As a class, let's interpret (a) model convergence, (b) the interpretation of each parameter. 
+
+```{r}
+#| class-output: "nowrap-code"
+summary(vi_mod)
+```
+
+
+## Varying Intercepts
+
+We can plot the cluster-specific slopes by setting `re_formula = NULL`. 
+
+
+
+```{r eval = FALSE}
+plot(conditional_effects(vi_mod, method = "posterior_predict",
+                         re_formula = NULL,
+                         conditions = make_conditions(vi_mod, "Subject")),
+     points = TRUE)
+```
+
+The plot is shown on the next slide so that we can see it better.
+
+## Varying Intercepts
+
+Notice that all slopes are parallel to each other but that the intercepts are adjusted to the individual.
+
+```{r echo = FALSE}
+plot(conditional_effects(vi_mod, method = "posterior_predict",
+                         re_formula = NULL,
+                         conditions = make_conditions(vi_mod, "Subject")),
+     points = TRUE)
+```
+
+
+## Varying Slopes
+
+What if we wanted not only the **intercept** but the **slope** to vary across subjects? 
+  
+  
+  
+  \begin{align*}
+R & \sim N(\mu_i, \sigma) \\
+\mu & = a_i + b_iD_i \\
+a_i & \sim N(\bar{a}, \sigma_a) \\
+b_i & \sim N(\bar{b}, \sigma_b) \\
+  \begin{bmatrix}a_i \\ b_i\end{bmatrix} & \sim MVN\left(\begin{bmatrix} \bar{a} \\ \bar{b} \end{bmatrix},\pmb{S}\right) \\
+  \bar{a} & \sim ??? \\
+  \bar{b} & \sim ??? \\
+  \pmb{S} & \sim ??? \\
+  \end{align*}
+
+
+Through the Cholesky decomposition, the covariance matrix $\pmb{S}$ can be used such that we need to specify priors on $\sigma_a$, $\sigma_b$, and $r_{ab}$.
+
+## Varying Slopes
+
+We can use the same priors as before on $\bar{a}$,  $\sigma_a$, $\sigma$
+  
+  * We can use the same prior on $\bar{b}$ as we previously used on $b$
+  
+  * Need a prior on $\sigma_b$, the standard deviation of slopes: try $Exponential(.1)$
+  
+  * Need a prior on $r_{ab}$, the correlation between varying slopes and intercepts: try $LKJ(1)$
+  
+  
+  
+## Prior Predictive Simulation: Varying Slopes
+  
+```{r}
+#| class-output: "nowrap-code"
+get_prior(Reaction ~ Days + (Days | Subject), sleepstudy,
+          family = gaussian(link = "identity"))
+```
+
+
+```{r results = "hide", cache = TRUE}
+vs_pps <- brm(Reaction ~ Days + (Days | Subject), sleepstudy,
+              family = gaussian(link = "identity"),
+              prior = prior("normal(20, 10)", class = "b") + 
+                prior("normal(280, 20)", class = "Intercept") + 
+                prior("exponential(.05)", class = "sd", coef = "Intercept", group = "Subject") + 
+                prior("exponential(.1)", class = "sd", coef = "Days", group = "Subject") + 
+                prior("exponential(.1)", class = "sigma") + 
+                prior("lkj(1)", class = "cor"),
+              sample_prior = "only")
+```
+
+
+## Prior Predictive Simulation: Varying Slopes
+
+::: {.panel-tabset}
+
+## Predict Mean Line
+
+```{r}
+conditional_effects(vs_pps, method = "posterior_linpred", 
+                    spaghetti = TRUE, ndraws = 100)
+```
+
+## Predict Individual Variability
+
+```{r}
+conditional_effects(vs_pps, method = "posterior_predict")
+```
+
+## Conclusion 
+
+These are quite similar to the varying slope predictions. This should make some sense. The major change that we made was to allow indiviudals to have their own slopes rather than a big change in what the slope actually would be.
+
+:::
+  
+  
+  
+## Varying Slopes
+  
+```{r results = "hide", cache = TRUE}
+vs_mod <- brm(Reaction ~ Days + (Days | Subject), sleepstudy,
+              family = gaussian(link = "identity"),
+              prior = prior("normal(20, 10)", class = "b") + 
+                prior("normal(280, 20)", class = "Intercept") + 
+                prior("exponential(.05)", class = "sd", coef = "Intercept", group = "Subject") + 
+                prior("exponential(.1)", class = "sd", coef = "Days", group = "Subject") + 
+                prior("exponential(.1)", class = "sigma") + 
+                prior("lkj(1)", class = "cor"))
+```
+
+## Varying Slopes
+
+Again, let's interpret (a) model convergence, (b) the interpretation of each parameter. 
+
+```{r}
+#| class-output: "nowrap-code"
+summary(vs_mod)
+```
+
+
+## Varying Slopes
+
+
+Again this figure is shown on the next slide for clarity.
+
+
+```{r eval = FALSE}
+plot(conditional_effects(vs_mod, method = "posterior_predict",
+                         re_formula = NULL,
+                         conditions = make_conditions(vs_mod, "Subject")),
+                         points = TRUE)
+```
+
+
+## Varying Slopes
+
+What do you notice about the individual slopes?
+
+```{r echo = FALSE}
+plot(conditional_effects(vs_mod, method = "posterior_predict",
+                         re_formula = NULL,
+                         conditions = make_conditions(vs_mod, "Subject")),
+                         points = TRUE)
+```
+
+
+## Activity
+
+In this lab, we treated `Day` as a continuous variable, but there may be nonlinear or inconsistent effects of time. Using the techniques we learned about in the 2nd GLM lecture/lab, specify `Days` as an ordered categorical variable. We will now specify varying slopes on that ordered categorical variable.
+
+1. Conduct prior predictive simulation to select appropriate priors. 
+
+2. Fit the model and evaluate convergence.
+
+3. Plot your results. Do you find that any particular day leads to particularly high increases in reaction time? Do reaction times "level out" after a certain number of deprivation days?
+
+4. Compare the fit of this model to the two models that we fit during lab, paying attention to any warnings that you find. Interpret the fit results.
+
+
+```{r include = FALSE, eval = FALSE}
+get_prior(Reaction ~ mo(Days) + (mo(Days) | Subject), sleepstudy,
+          family = gaussian(link = "identity"))
+
+vsmo_pp <- brm(Reaction ~ mo(Days) + (mo(Days) | Subject), sleepstudy,
+              family = gaussian(link = "identity"),
+              prior = prior("normal(20, 10)", class = "b") +
+                prior("normal(280, 20)", class = "Intercept") + 
+                prior("exponential(.05)", class = "sd", coef = "Intercept", group = "Subject") + 
+                prior("exponential(.1)", class = "sd", coef = "moDays", group = "Subject") +
+                prior("exponential(.1)", class = "sigma") + 
+                prior("dirichlet(1)", class = "simo", coef = "moDays1"),
+              sample_prior = "only")
+
+plot(conditional_effects(vsmo_pp, method = "posterior_linpred", spaghetti = TRUE, ndraws = 100))
+
+plot(conditional_effects(vsmo_pp, method = "posterior_predict"))
+```
+
+
+```{r include = FALSE, eval = FALSE}
+vsmo_mod <- brm(Reaction ~ mo(Days) + (mo(Days) | Subject), sleepstudy,
+              family = gaussian(link = "identity"),
+              prior = prior("normal(20, 10)", class = "b") +
+                prior("normal(280, 20)", class = "Intercept") + 
+                prior("exponential(.05)", class = "sd", coef = "Intercept", group = "Subject") + 
+                prior("exponential(.1)", class = "sd", coef = "moDays", group = "Subject") +
+                prior("exponential(.1)", class = "sigma") + 
+                prior("dirichlet(1)", class = "simo", coef = "moDays1"),
+              save_pars = save_pars(all = TRUE))
+
+summary(vsmo_mod)
+```
+
+
+```{r include = FALSE, eval = FALSE}
+plot(conditional_effects(vsmo_mod, method = "posterior_linpred"))
+```
+
+
+```{r include = FALSE, eval = FALSE}
+plot(conditional_effects(vsmo_mod, method = "posterior_predict",
+                         conditions = make_conditions(vsmo_mod, "Subject")),
+     points = TRUE)
+```
+
+
+```{r include = FALSE, eval = FALSE}
+# refit models, saving all pars for moment matching
+vi_mod <- brm(Reaction ~ Days + (1 | Subject), sleepstudy,
+              family = gaussian(link = "identity"),
+              prior = prior("normal(20, 10)", class = "b") + 
+                      prior("normal(280, 20)", class = "Intercept") + 
+                      prior("exponential(.05)", class = "sd") + 
+                      prior("exponential(.1)", class = "sigma"),
+              save_pars = save_pars(all = TRUE))
+
+vs_mod <- brm(Reaction ~ Days + (Days | Subject), sleepstudy,
+              family = gaussian(link = "identity"),
+              prior = prior("normal(20, 10)", class = "b") + 
+                prior("normal(280, 20)", class = "Intercept") + 
+                prior("exponential(.05)", class = "sd", coef = "Intercept", group = "Subject") + 
+                prior("exponential(.1)", class = "sd", coef = "Days", group = "Subject") + 
+                prior("exponential(.1)", class = "sigma"),
+              save_pars = save_pars(all = TRUE))
+
+```
+
+
+
+```{r include = FALSE, eval = FALSE}
+# model comparisons
+
+vi_mod <- add_criterion(vi_mod, "loo", moment_match = TRUE)
+vs_mod <- add_criterion(vs_mod, "loo", moment_match = TRUE)
+vsmo_mod <- add_criterion(vsmo_mod, "loo", moment_match = TRUE, reloo = TRUE) # reloo is recommended due to high pareto k
+
+loo_compare(vi_mod, vs_mod, vsmo_mod) # varying slopes recommended, but not much advantage of the ordinal 
+
+```
+
