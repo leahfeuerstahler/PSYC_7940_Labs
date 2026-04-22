@@ -215,7 +215,7 @@ PSYC 7940
 <li><p>Today we will learn how to fit multilevel models in <code>brms</code>.</p></li>
 <li><p>In previous labs, each parameter applied to everyone included in the model. However, this method ignores within-person variation.</p></li>
 <li><p>To allow for individual differences, we can use multilevel modeling.</p></li>
-<li><p>Instead of using a separate intercept for each observation, the multilevel approach uses teh method of partial pooling to model a distribution of intercepts.</p></li>
+<li><p>Instead of using a separate intercept for each observation, the multilevel approach uses the method of partial pooling to model a distribution of intercepts.</p></li>
 </ul>
 </section>
 <section id="multilevel-models" class="slide level2">
@@ -338,16 +338,16 @@ Formula: Weight ~ HeightC + (1 | Name)
 Multilevel Hyperparameters:
 ~Name (Number of levels: 179) 
               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-sd(Intercept)     1.60      1.20     0.05     4.24 1.06      103       79
+sd(Intercept)     1.32      0.99     0.03     3.61 1.05       71       32
 
 Regression Coefficients:
           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-Intercept    69.31      0.35    68.62    70.00 1.00     2459     2011
-HeightC       0.78      0.05     0.67     0.89 1.00     2900     2628
+Intercept    69.29      0.36    68.58    70.00 1.00     1823     2296
+HeightC       0.78      0.05     0.68     0.89 1.00     2153     1578
 
 Further Distributional Parameters:
       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-sigma     4.38      0.71     2.37     5.25 1.06      108       73
+sigma     4.56      0.46     3.36     5.27 1.05       75       26
 
 Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -456,29 +456,29 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <span id="cb19-11"><a href=""></a>Multilevel Hyperparameters:</span>
 <span id="cb19-12"><a href=""></a>~ID (Number of levels: 135) </span>
 <span id="cb19-13"><a href=""></a>                Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS</span>
-<span id="cb19-14"><a href=""></a>sd(c_Intercept)     0.57      0.04     0.49     0.66 1.00     1258     2067</span>
+<span id="cb19-14"><a href=""></a>sd(c_Intercept)     0.57      0.04     0.49     0.66 1.00     1085     1947</span>
 <span id="cb19-15"><a href=""></a></span>
 <span id="cb19-16"><a href=""></a>Regression Coefficients:</span>
 <span id="cb19-17"><a href=""></a>                       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS</span>
-<span id="cb19-18"><a href=""></a>a_factortasktypePSTps      0.82      0.21     0.43     1.25 1.00      892</span>
-<span id="cb19-19"><a href=""></a>a_factortasktypesGJTG     -0.36      0.21    -0.77     0.06 1.00      902</span>
-<span id="cb19-20"><a href=""></a>a_factortasktypesGJTU     -0.94      0.21    -1.34    -0.52 1.00      906</span>
-<span id="cb19-21"><a href=""></a>a_factortasktypewGJTG      0.83      0.21     0.42     1.24 1.00      914</span>
-<span id="cb19-22"><a href=""></a>a_factortasktypewGJTU     -0.65      0.21    -1.05    -0.23 1.00      915</span>
-<span id="cb19-23"><a href=""></a>b_factorgroupclassroom    -0.47      0.27    -1.00     0.05 1.00     1123</span>
-<span id="cb19-24"><a href=""></a>b_factorgroupimmersion    -0.36      0.27    -0.88     0.17 1.00     1220</span>
-<span id="cb19-25"><a href=""></a>b_factorgroupnative        0.57      0.27     0.05     1.11 1.00     1376</span>
-<span id="cb19-26"><a href=""></a>c_Intercept                2.72      0.30     2.14     3.30 1.00     1176</span>
+<span id="cb19-18"><a href=""></a>a_factortasktypePSTps      0.83      0.21     0.42     1.23 1.01      943</span>
+<span id="cb19-19"><a href=""></a>a_factortasktypesGJTG     -0.36      0.21    -0.76     0.05 1.01      946</span>
+<span id="cb19-20"><a href=""></a>a_factortasktypesGJTU     -0.93      0.21    -1.34    -0.53 1.01      937</span>
+<span id="cb19-21"><a href=""></a>a_factortasktypewGJTG      0.83      0.22     0.41     1.25 1.01      940</span>
+<span id="cb19-22"><a href=""></a>a_factortasktypewGJTU     -0.65      0.21    -1.05    -0.24 1.01      923</span>
+<span id="cb19-23"><a href=""></a>b_factorgroupclassroom    -0.48      0.26    -1.00     0.04 1.00     1506</span>
+<span id="cb19-24"><a href=""></a>b_factorgroupimmersion    -0.38      0.26    -0.91     0.12 1.00     1474</span>
+<span id="cb19-25"><a href=""></a>b_factorgroupnative        0.55      0.27     0.01     1.08 1.01     1412</span>
+<span id="cb19-26"><a href=""></a>c_Intercept                2.74      0.29     2.18     3.31 1.01     1381</span>
 <span id="cb19-27"><a href=""></a>                       Tail_ESS</span>
-<span id="cb19-28"><a href=""></a>a_factortasktypePSTps      1477</span>
-<span id="cb19-29"><a href=""></a>a_factortasktypesGJTG      1488</span>
-<span id="cb19-30"><a href=""></a>a_factortasktypesGJTU      1543</span>
-<span id="cb19-31"><a href=""></a>a_factortasktypewGJTG      1634</span>
-<span id="cb19-32"><a href=""></a>a_factortasktypewGJTU      1560</span>
-<span id="cb19-33"><a href=""></a>b_factorgroupclassroom     2070</span>
-<span id="cb19-34"><a href=""></a>b_factorgroupimmersion     2083</span>
-<span id="cb19-35"><a href=""></a>b_factorgroupnative        2137</span>
-<span id="cb19-36"><a href=""></a>c_Intercept                2077</span>
+<span id="cb19-28"><a href=""></a>a_factortasktypePSTps      1602</span>
+<span id="cb19-29"><a href=""></a>a_factortasktypesGJTG      1720</span>
+<span id="cb19-30"><a href=""></a>a_factortasktypesGJTU      1647</span>
+<span id="cb19-31"><a href=""></a>a_factortasktypewGJTG      1741</span>
+<span id="cb19-32"><a href=""></a>a_factortasktypewGJTU      1305</span>
+<span id="cb19-33"><a href=""></a>b_factorgroupclassroom     2196</span>
+<span id="cb19-34"><a href=""></a>b_factorgroupimmersion     2251</span>
+<span id="cb19-35"><a href=""></a>b_factorgroupnative        2134</span>
+<span id="cb19-36"><a href=""></a>c_Intercept                1757</span>
 <span id="cb19-37"><a href=""></a></span>
 <span id="cb19-38"><a href=""></a>Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS</span>
 <span id="cb19-39"><a href=""></a>and Tail_ESS are effective sample size measures, and Rhat is the potential</span>
@@ -492,26 +492,26 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">summary</span>(m2)<span class="sc">$</span>fixed</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource nowrap-code number-lines code-with-copy"><code class="sourceCode"><span id="cb21-1"><a href=""></a>                         Estimate Est.Error    l-95% CI    u-95% CI     Rhat</span>
-<span id="cb21-2"><a href=""></a>a_factortasktypePSTps   0.8248510 0.2105227  0.42651859  1.24507633 1.002714</span>
-<span id="cb21-3"><a href=""></a>a_factortasktypesGJTG  -0.3597669 0.2100723 -0.76599839  0.06188839 1.003343</span>
-<span id="cb21-4"><a href=""></a>a_factortasktypesGJTU  -0.9351852 0.2078960 -1.33581482 -0.51846720 1.001721</span>
-<span id="cb21-5"><a href=""></a>a_factortasktypewGJTG   0.8333881 0.2133679  0.41754674  1.24393686 1.003012</span>
-<span id="cb21-6"><a href=""></a>a_factortasktypewGJTU  -0.6511101 0.2096881 -1.04657847 -0.22571218 1.003068</span>
-<span id="cb21-7"><a href=""></a>b_factorgroupclassroom -0.4749283 0.2679497 -1.00193283  0.04929519 1.002504</span>
-<span id="cb21-8"><a href=""></a>b_factorgroupimmersion -0.3638056 0.2689497 -0.87823943  0.16656626 1.004076</span>
-<span id="cb21-9"><a href=""></a>b_factorgroupnative     0.5656191 0.2699531  0.04513435  1.10751054 1.004396</span>
-<span id="cb21-10"><a href=""></a>c_Intercept             2.7237308 0.2951156  2.14365917  3.29553734 1.001424</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource nowrap-code number-lines code-with-copy"><code class="sourceCode"><span id="cb21-1"><a href=""></a>                         Estimate Est.Error     l-95% CI    u-95% CI     Rhat</span>
+<span id="cb21-2"><a href=""></a>a_factortasktypePSTps   0.8273592 0.2133156  0.416038485  1.23317679 1.005767</span>
+<span id="cb21-3"><a href=""></a>a_factortasktypesGJTG  -0.3569223 0.2122366 -0.759365967  0.05443398 1.005682</span>
+<span id="cb21-4"><a href=""></a>a_factortasktypesGJTU  -0.9337774 0.2121041 -1.335773294 -0.52662121 1.005944</span>
+<span id="cb21-5"><a href=""></a>a_factortasktypewGJTG   0.8336337 0.2161935  0.412506390  1.25016447 1.005562</span>
+<span id="cb21-6"><a href=""></a>a_factortasktypewGJTU  -0.6472950 0.2124010 -1.054419648 -0.23874083 1.005756</span>
+<span id="cb21-7"><a href=""></a>b_factorgroupclassroom -0.4775356 0.2641204 -1.001250184  0.03564102 1.001764</span>
+<span id="cb21-8"><a href=""></a>b_factorgroupimmersion -0.3811829 0.2649734 -0.913519447  0.12146036 1.002147</span>
+<span id="cb21-9"><a href=""></a>b_factorgroupnative     0.5509881 0.2687100  0.007598725  1.08424068 1.005012</span>
+<span id="cb21-10"><a href=""></a>c_Intercept             2.7373258 0.2924177  2.177130887  3.31002980 1.005448</span>
 <span id="cb21-11"><a href=""></a>                        Bulk_ESS Tail_ESS</span>
-<span id="cb21-12"><a href=""></a>a_factortasktypePSTps   891.5321 1476.954</span>
-<span id="cb21-13"><a href=""></a>a_factortasktypesGJTG   901.6317 1488.241</span>
-<span id="cb21-14"><a href=""></a>a_factortasktypesGJTU   906.0604 1543.274</span>
-<span id="cb21-15"><a href=""></a>a_factortasktypewGJTG   913.7975 1633.695</span>
-<span id="cb21-16"><a href=""></a>a_factortasktypewGJTU   914.8988 1560.054</span>
-<span id="cb21-17"><a href=""></a>b_factorgroupclassroom 1122.9252 2069.552</span>
-<span id="cb21-18"><a href=""></a>b_factorgroupimmersion 1219.5048 2083.424</span>
-<span id="cb21-19"><a href=""></a>b_factorgroupnative    1376.0904 2136.550</span>
-<span id="cb21-20"><a href=""></a>c_Intercept            1176.4691 2077.206</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb21-12"><a href=""></a>a_factortasktypePSTps   943.1134 1602.491</span>
+<span id="cb21-13"><a href=""></a>a_factortasktypesGJTG   945.5393 1719.553</span>
+<span id="cb21-14"><a href=""></a>a_factortasktypesGJTU   936.5631 1646.777</span>
+<span id="cb21-15"><a href=""></a>a_factortasktypewGJTG   940.3324 1740.788</span>
+<span id="cb21-16"><a href=""></a>a_factortasktypewGJTU   923.3061 1305.032</span>
+<span id="cb21-17"><a href=""></a>b_factorgroupclassroom 1506.1447 2196.315</span>
+<span id="cb21-18"><a href=""></a>b_factorgroupimmersion 1474.4888 2250.586</span>
+<span id="cb21-19"><a href=""></a>b_factorgroupnative    1411.6226 2134.182</span>
+<span id="cb21-20"><a href=""></a>c_Intercept            1381.3190 1756.626</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -522,10 +522,10 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">summary</span>(m2)<span class="sc">$</span>random</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$ID
-                 Estimate  Est.Error l-95% CI  u-95% CI     Rhat Bulk_ESS
-sd(c_Intercept) 0.5722099 0.04203355   0.4937 0.6588981 1.000478 1257.742
+                 Estimate  Est.Error  l-95% CI  u-95% CI     Rhat Bulk_ESS
+sd(c_Intercept) 0.5687298 0.04327678 0.4896202 0.6586102 1.000712 1084.905
                 Tail_ESS
-sd(c_Intercept) 2067.208</code></pre>
+sd(c_Intercept) 1947.465</code></pre>
 </div>
 </div>
 </section>
@@ -609,21 +609,21 @@ sd(c_Intercept) 2067.208</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">summary</span>(m3)<span class="sc">$</span>fixed</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource nowrap-code number-lines code-with-copy"><code class="sourceCode"><span id="cb30-1"><a href=""></a>                   Estimate Est.Error   l-95% CI   u-95% CI     Rhat  Bulk_ESS</span>
-<span id="cb30-2"><a href=""></a>a_tasktypePST     0.8905764 0.2864310  0.3347916  1.4485608 1.000841 1032.1072</span>
-<span id="cb30-3"><a href=""></a>a_tasktypesGJT   -0.7799037 0.2792972 -1.3228651 -0.2268620 1.004901  798.0612</span>
-<span id="cb30-4"><a href=""></a>a_tasktypewGJT   -0.1834278 0.2805797 -0.7330884  0.3735645 1.004465  809.4352</span>
-<span id="cb30-5"><a href=""></a>b_groupclassroom -0.3887892 0.2691449 -0.9066137  0.1326564 1.000826 1077.1807</span>
-<span id="cb30-6"><a href=""></a>b_groupimmersion -0.2902237 0.2691611 -0.8097091  0.2479520 1.002052 1132.0841</span>
-<span id="cb30-7"><a href=""></a>b_groupnative     0.6625639 0.2726513  0.1327727  1.1950388 1.001842 1060.2219</span>
-<span id="cb30-8"><a href=""></a>c_Intercept       2.9591896 0.3368576  2.3023243  3.6300196 1.000969 1000.2321</span>
+<span id="cb30-2"><a href=""></a>a_tasktypePST     0.8951641 0.2855012  0.3514294  1.4574956 1.001545  918.2094</span>
+<span id="cb30-3"><a href=""></a>a_tasktypesGJT   -0.7608174 0.2713616 -1.2734321 -0.2325683 1.001637 1068.6132</span>
+<span id="cb30-4"><a href=""></a>a_tasktypewGJT   -0.1655757 0.2710358 -0.6819681  0.3690380 1.002021 1062.3832</span>
+<span id="cb30-5"><a href=""></a>b_groupclassroom -0.4006487 0.2721992 -0.9437418  0.1461100 1.002057  972.9028</span>
+<span id="cb30-6"><a href=""></a>b_groupimmersion -0.2932988 0.2774942 -0.8314684  0.2636392 1.003976  993.6550</span>
+<span id="cb30-7"><a href=""></a>b_groupnative     0.6551979 0.2721356  0.1152191  1.1940233 1.002936 1102.0320</span>
+<span id="cb30-8"><a href=""></a>c_Intercept       2.9650694 0.3336365  2.3247430  3.6222295 1.002058 1085.2117</span>
 <span id="cb30-9"><a href=""></a>                 Tail_ESS</span>
-<span id="cb30-10"><a href=""></a>a_tasktypePST    1892.626</span>
-<span id="cb30-11"><a href=""></a>a_tasktypesGJT   1445.545</span>
-<span id="cb30-12"><a href=""></a>a_tasktypewGJT   1460.532</span>
-<span id="cb30-13"><a href=""></a>b_groupclassroom 1870.530</span>
-<span id="cb30-14"><a href=""></a>b_groupimmersion 1559.505</span>
-<span id="cb30-15"><a href=""></a>b_groupnative    1662.193</span>
-<span id="cb30-16"><a href=""></a>c_Intercept      1819.200</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb30-10"><a href=""></a>a_tasktypePST    1672.248</span>
+<span id="cb30-11"><a href=""></a>a_tasktypesGJT   1958.611</span>
+<span id="cb30-12"><a href=""></a>a_tasktypewGJT   2020.982</span>
+<span id="cb30-13"><a href=""></a>b_groupclassroom 1676.706</span>
+<span id="cb30-14"><a href=""></a>b_groupimmersion 1766.733</span>
+<span id="cb30-15"><a href=""></a>b_groupnative    1763.795</span>
+<span id="cb30-16"><a href=""></a>c_Intercept      1987.187</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -634,15 +634,15 @@ sd(c_Intercept) 2067.208</code></pre>
 <div class="cell-output cell-output-stdout">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource nowrap-code number-lines code-with-copy"><code class="sourceCode"><span id="cb32-1"><a href=""></a>$ID</span>
 <span id="cb32-2"><a href=""></a>                 Estimate  Est.Error  l-95% CI  u-95% CI     Rhat Bulk_ESS</span>
-<span id="cb32-3"><a href=""></a>sd(c_Intercept) 0.5913394 0.04585747 0.5061146 0.6846673 1.002078 731.7302</span>
+<span id="cb32-3"><a href=""></a>sd(c_Intercept) 0.5916929 0.04530542 0.5085156 0.6825005 1.003104 761.9798</span>
 <span id="cb32-4"><a href=""></a>                Tail_ESS</span>
-<span id="cb32-5"><a href=""></a>sd(c_Intercept) 1182.367</span>
+<span id="cb32-5"><a href=""></a>sd(c_Intercept) 1715.152</span>
 <span id="cb32-6"><a href=""></a></span>
 <span id="cb32-7"><a href=""></a>$item</span>
-<span id="cb32-8"><a href=""></a>                 Estimate  Est.Error  l-95% CI u-95% CI    Rhat Bulk_ESS</span>
-<span id="cb32-9"><a href=""></a>sd(d_Intercept) 0.9089113 0.08004416 0.7651827 1.082432 1.00535 442.3937</span>
+<span id="cb32-8"><a href=""></a>                 Estimate  Est.Error  l-95% CI u-95% CI     Rhat Bulk_ESS</span>
+<span id="cb32-9"><a href=""></a>sd(d_Intercept) 0.9076495 0.08069758 0.7643069 1.068791 1.004582   568.17</span>
 <span id="cb32-10"><a href=""></a>                Tail_ESS</span>
-<span id="cb32-11"><a href=""></a>sd(d_Intercept) 1212.093</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb32-11"><a href=""></a>sd(d_Intercept) 1335.764</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>

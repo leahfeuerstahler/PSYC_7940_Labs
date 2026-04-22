@@ -20,7 +20,7 @@ library(knitr)
 
 -   To allow for individual differences, we can use multilevel modeling.
 
--   Instead of using a separate intercept for each observation, the multilevel approach uses teh method of partial pooling to model a distribution of intercepts. 
+-   Instead of using a separate intercept for each observation, the multilevel approach uses the method of partial pooling to model a distribution of intercepts. 
 
 ## Multilevel Models
 
